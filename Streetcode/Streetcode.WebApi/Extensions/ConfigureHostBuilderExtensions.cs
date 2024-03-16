@@ -4,6 +4,11 @@ using Streetcode.BLL.Services.BlobStorageService;
 using Streetcode.BLL.Services.Instagram;
 using Streetcode.BLL.Services.Payment;
 using Serilog.Sinks.SystemConsole.Themes;
+using Streetcode.DAL.Entities.AdditionalContent.Email;
+using Hangfire;
+using Microsoft.EntityFrameworkCore;
+using static Streetcode.WebApi.Extensions.ServiceCollectionExtensions;
+using Streetcode.DAL.Persistence;
 
 namespace Streetcode.WebApi.Extensions;
 
@@ -21,7 +26,16 @@ public static class ConfigureHostBuilderExtensions
 
     public static void ConfigureBlob(this IServiceCollection services, WebApplicationBuilder builder)
     {
-        services.Configure<BlobEnvironmentVariables>(builder.Configuration.GetSection("Blob"));
+        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Local";
+
+        if (environment == "IntegrationTests")
+        {
+            services.Configure<BlobEnvironmentVariables>(builder.Configuration.GetSection(environment).GetSection("Blob"));
+        }
+        else
+        {
+            services.Configure<BlobEnvironmentVariables>(builder.Configuration.GetSection("Blob"));
+        }
     }
 
     public static void ConfigurePayment(this IServiceCollection services, WebApplicationBuilder builder)
