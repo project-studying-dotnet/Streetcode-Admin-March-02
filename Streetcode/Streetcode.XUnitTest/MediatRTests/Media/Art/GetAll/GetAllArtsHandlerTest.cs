@@ -19,13 +19,13 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Art.GetAll
 {
     //TESTED SUCCESSFULLY
     //BLL -> MediatR -> Media -> Art -> GetAll
-    public class GetAllHandlerTest
+    public class GetAllArtsHandlerTest
     {
         private readonly IMapper _mapper;
         private readonly Mock<IRepositoryWrapper> _mockRepository;
         private readonly Mock<ILoggerService> _mockLogger;
 
-        public GetAllHandlerTest()
+        public GetAllArtsHandlerTest()
         {
             _mockRepository = RepositoryMocker.GetArtRepositoryMock();
 
