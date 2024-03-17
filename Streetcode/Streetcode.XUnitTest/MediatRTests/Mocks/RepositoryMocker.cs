@@ -3,6 +3,7 @@ using Moq;
 using Repositories.Interfaces;
 using Streetcode.BLL.DTO.Media.Art;
 using Streetcode.DAL.Entities.Media.Images;
+using Streetcode.DAL.Entities.Team;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using Streetcode.DAL.Repositories.Realizations.Base;
 using System;
@@ -33,6 +34,26 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
 
             mockRepo.Setup(x => x.ArtRepository.GetAllAsync(It.IsAny<Expression<Func<Art, bool>>>(), It.IsAny<Func<IQueryable<Art>, IIncludableQueryable<Art, object>>>()))
                 .ReturnsAsync(arts);
+
+            return mockRepo;
+        }
+
+        public static Mock<IRepositoryWrapper> GetTeamRepositoryMock()
+        {
+            var members = new List<TeamMember>()
+            {
+                new TeamMember(),
+                new TeamMember(),
+                new TeamMember(),
+                new TeamMember(),
+                new TeamMember(),
+                new TeamMember(),
+            };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(x => x.TeamRepository.GetAllAsync(It.IsAny<Expression<Func<TeamMember, bool>>>(), It.IsAny<Func<IQueryable<TeamMember>, IIncludableQueryable<TeamMember, object>>>()))
+                .ReturnsAsync(members);
 
             return mockRepo;
         }
