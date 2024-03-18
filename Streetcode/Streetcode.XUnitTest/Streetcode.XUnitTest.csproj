@@ -47,8 +47,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="MediatRTests\Media\Audio\Create\" />
-	  <Folder Include="MediatRTests\Media\Audio\Delete\" />
 	  <Folder Include="MediatRTests\Media\Audio\GetByStreetcodeId\" />
 	</ItemGroup>
 
