@@ -2,6 +2,7 @@
 using FluentAssertions;
 using Moq;
 using Streetcode.BLL.DTO.Media.Art;
+using Streetcode.BLL.DTO.Media.Audio;
 using Streetcode.BLL.Interfaces.BlobStorage;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.Mapping.Media;
@@ -18,8 +19,8 @@ using Xunit;
 
 namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.GetBaseAudio
 {
-    //WILL BE TESTED IN FUTURE
-    //BLL -> MediatR -> Media -> Audio -> GetAll
+    // TESTED SUCCESSFULLY
+    // BLL -> MediatR -> Media -> Audio -> GetAll
     public class GetAllAudiousHandlerTest
     {
         private readonly IMapper _mapper;
@@ -29,7 +30,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.GetBaseAudio
 
         public GetAllAudiousHandlerTest()
         {
-            _mockRepository = RepositoryMocker.GetArtRepositoryMock();
+            _mockRepository = RepositoryMocker.GetAudiosRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
@@ -79,7 +80,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.GetBaseAudio
             var result = await handler.Handle(new GetAllAudiosQuery(), CancellationToken.None);
 
             //Assert        
-            result.Value.Should().BeOfType<List<ArtDTO>>();
+            result.Value.Should().BeOfType<List<AudioDTO>>();
         }
     }
 }
