@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿namespace Streetcode.XUnitTest.MediatRTests.Team;
+
+using AutoMapper;
 using FluentAssertions;
 using Moq;
 using Streetcode.BLL.DTO.Team;
@@ -9,65 +11,62 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 using Streetcode.XUnitTest.MediatRTests.Mocks;
 using Xunit;
 
-namespace Streetcode.XUnitTest.MediatRTests.Team
+public class GetAllHandlerTest
 {
-    public class GetAllHandlerTest
+    private readonly IMapper _mapper;
+    private readonly Mock<IRepositoryWrapper> _mockRepository;
+    private readonly Mock<ILoggerService> _mockLogger;
+
+    public GetAllHandlerTest()
     {
-        private readonly IMapper _mapper;
-        private readonly Mock<IRepositoryWrapper> _mockRepository;
-        private readonly Mock<ILoggerService> _mockLogger;
+        _mockRepository = RepositoryMocker.GetTeamRepositoryMockGorGetAll();
 
-        public GetAllHandlerTest()
+        var mapperConfig = new MapperConfiguration(c =>
         {
-            _mockRepository = RepositoryMocker.GetTeamRepositoryMock();
+            c.AddProfile<TeamProfile>();
+        });
 
-            var mapperConfig = new MapperConfiguration(c =>
-            {
-                c.AddProfile<TeamProfile>();
-            });
+        _mapper = mapperConfig.CreateMapper();
 
-            _mapper = mapperConfig.CreateMapper();
+        _mockLogger = new Mock<ILoggerService>();
+    }
 
-            _mockLogger = new Mock<ILoggerService>();
-        }
+    [Fact]
+    public async Task GetAll_ReturnsNotNullOrEmpty()
+    {
+        // Arrange
+        var handler = new GetAllTeamHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
-        [Fact]
-        public async Task GetAll_ReturnsNotNullOrEmpty()
-        {
-            // Arrange
-            var handler = new GetAllTeamHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
+        // Act
+        var result = await handler.Handle(new GetAllTeamQuery(), CancellationToken.None);
 
-            // Act
-            var result = await handler.Handle(new GetAllTeamQuery(), CancellationToken.None);
+        // Assert
+        result.Value.Should().NotBeNullOrEmpty();
+    }
 
-            // Assert
-            result.Value.Should().NotBeNullOrEmpty();
-        }
+    [Fact]
+    public async Task GetAll_ReturnsTypeOfTeamMemberDTO()
+    {
+        // Arrange
+        var handler = new GetAllTeamHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
-        [Fact]
-        public async Task GetAll_ReturnsTypeOfTeamMemberDTO()
-        {
-            // Arrange
-            var handler = new GetAllTeamHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
+        // Act
+        var result = await handler.Handle(new GetAllTeamQuery(), CancellationToken.None);
 
-            // Act
-            var result = await handler.Handle(new GetAllTeamQuery(), CancellationToken.None);
+        // Assert
+        result.Value.Should().BeOfType<List<TeamMemberDTO>>();
+    }
 
-            // Assert
-            result.Value.Should().BeOfType<List<TeamMemberDTO>>();
-        }
+    [Fact]
+    public async Task GetAll_CountShouldBeSix()
+    {
+        // Arrange
+        var handler = new GetAllTeamHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
-        [Fact]
-        public async Task GetAll_CountShouldBeSix()
-        {
-            // Arrange
-            var handler = new GetAllTeamHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
+        // Act
+        var result = await handler.Handle(new GetAllTeamQuery(), CancellationToken.None);
 
-            // Act
-            var result = await handler.Handle(new GetAllTeamQuery(), CancellationToken.None);
-
-            // Assert
-            result.Value.Count().Should().Be(6);
-        }
+        // Assert
+        result.Value.Count().Should().Be(6);
     }
 }

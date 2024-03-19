@@ -38,7 +38,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
             return mockRepo;
         }
 
-        public static Mock<IRepositoryWrapper> GetTeamRepositoryMock()
+        public static Mock<IRepositoryWrapper> GetTeamRepositoryMockGorGetAll()
         {
             var members = new List<TeamMember>()
             {
@@ -52,8 +52,26 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
 
             var mockRepo = new Mock<IRepositoryWrapper>();
 
-            mockRepo.Setup(x => x.TeamRepository.GetAllAsync(It.IsAny<Expression<Func<TeamMember, bool>>>(), It.IsAny<Func<IQueryable<TeamMember>, IIncludableQueryable<TeamMember, object>>>()))
+            mockRepo.Setup(x => x.TeamRepository
+                .GetAllAsync(
+                    It.IsAny<Expression<Func<TeamMember, bool>>>(),
+                    It.IsAny<Func<IQueryable<TeamMember>, IIncludableQueryable<TeamMember, object>>>()))
                 .ReturnsAsync(members);
+
+            return mockRepo;
+        }
+
+        public static Mock<IRepositoryWrapper> GetTeamRepositoryMockForGetById()
+        {
+            var member = new TeamMember { Id = 2 };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(x => x.TeamRepository
+                .GetSingleOrDefaultAsync(
+                    It.IsAny<Expression<Func<TeamMember, bool>>>(),
+                    It.IsAny<Func<IQueryable<TeamMember>, IIncludableQueryable<TeamMember, object>>>()))
+                .ReturnsAsync(member);
 
             return mockRepo;
         }
