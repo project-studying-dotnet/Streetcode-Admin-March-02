@@ -12,6 +12,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
     using Moq;
     using Streetcode.DAL.Entities.Media;
     using Streetcode.DAL.Entities.Media.Images;
+    using Streetcode.DAL.Entities.Streetcode;
     using Streetcode.DAL.Repositories.Interfaces.Base;
 
     /// <summary>
@@ -117,7 +118,6 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                 Base64 = "First base 64",
                 BlobName = "First image blob name",
                 MimeType = "First image mime type",
-                ImageDetails = new ImageDetails() { Id = 1, ImageId = 1, Title = "First image info title", Alt = "First image info alt"},
             },
             new Image
             {
@@ -125,7 +125,6 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                 Base64 = "Second base 64",
                 BlobName = "Second image blob name",
                 MimeType = "Second image mime type",
-                ImageDetails = new ImageDetails() { Id = 2, ImageId = 2, Title = "Second image info title", Alt = "Second image info alt"},
             },
             new Image
             {
@@ -133,7 +132,6 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                 Base64 = "Third base 64",
                 BlobName = "Third image blob name",
                 MimeType = "Third image mime type",
-                ImageDetails = new ImageDetails() { Id = 3, ImageId = 3, Title = "Third image info title", Alt = "Third image info alt"},
             },
             new Image
             {
@@ -141,7 +139,6 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                 Base64 = "Fourth base 64",
                 BlobName = "Fourth image blob name",
                 MimeType = "Fourth image mime type",
-                ImageDetails = new ImageDetails() { Id = 4, ImageId = 4, Title = "Fourth image info title", Alt = "Fourth image info alt"},
             },
             };
 
@@ -154,6 +151,62 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                 .ReturnsAsync((Expression<Func<Image, bool>> predicate, Func<IQueryable<Image>, IIncludableQueryable<Image, object>> include) =>
                 {
                     return images.FirstOrDefault(predicate.Compile());
+                });
+
+            return mockRepo;
+        }
+
+        /// <summary>
+        /// Mocks streetcode repository.
+        /// </summary>
+        /// <returns>Returns mocked repository. </returns>
+        public static Mock<IRepositoryWrapper> GetStreetcodeRepositoryMock()
+        {
+            var streetCodes = new List<StreetcodeContent>
+            {
+                new StreetcodeContent() { Id = 1, Title = "First streetcode content title" },
+                new StreetcodeContent() { Id = 2, Title = "Second streetcode content title" },
+                new StreetcodeContent() { Id = 3, Title = "Third streetcode content title" },
+                new StreetcodeContent() { Id = 4, Title = "Fourth streetcode content title" },
+            };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(x => x.StreetcodeRepository.GetAllAsync(It.IsAny<Expression<Func<StreetcodeContent, bool>>>(), It.IsAny<Func<IQueryable<StreetcodeContent>, IIncludableQueryable<StreetcodeContent, object>>>()))
+                .ReturnsAsync(streetCodes);
+
+            mockRepo.Setup(x => x.StreetcodeRepository.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<StreetcodeContent, bool>>>(), It.IsAny<Func<IQueryable<StreetcodeContent>, IIncludableQueryable<StreetcodeContent, object>>>()))
+                .ReturnsAsync((Expression<Func<StreetcodeContent, bool>> predicate, Func<IQueryable<StreetcodeContent>, IIncludableQueryable<StreetcodeContent, object>> include) =>
+                {
+                    return streetCodes.FirstOrDefault(predicate.Compile());
+                });
+
+            return mockRepo;
+        }
+
+        /// <summary>
+        /// Mocks streetcode art repository.
+        /// </summary>
+        /// <returns>Returns mocked repository. </returns>
+        public static Mock<IRepositoryWrapper> GetStreetcodeArtRepositoryMock()
+        {
+            var streetcodeArts = new List<StreetcodeArt>
+            {
+                new StreetcodeArt() { Index = 1, StreetcodeId = 1, ArtId = 1 },
+                new StreetcodeArt() { Index = 2, StreetcodeId = 2, ArtId = 2 },
+                new StreetcodeArt() { Index = 3, StreetcodeId = 3, ArtId = 3 },
+                new StreetcodeArt() { Index = 4, StreetcodeId = 4, ArtId = 4 },
+            };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(x => x.StreetcodeArtRepository.GetAllAsync(It.IsAny<Expression<Func<StreetcodeArt, bool>>>(), It.IsAny<Func<IQueryable<StreetcodeArt>, IIncludableQueryable<StreetcodeArt, object>>>()))
+                .ReturnsAsync(streetcodeArts);
+
+            mockRepo.Setup(x => x.StreetcodeArtRepository.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<StreetcodeArt, bool>>>(), It.IsAny<Func<IQueryable<StreetcodeArt>, IIncludableQueryable<StreetcodeArt, object>>>()))
+                .ReturnsAsync((Expression<Func<StreetcodeArt, bool>> predicate, Func<IQueryable<StreetcodeArt>, IIncludableQueryable<StreetcodeArt, object>> include) =>
+                {
+                    return streetcodeArts.FirstOrDefault(predicate.Compile());
                 });
 
             return mockRepo;

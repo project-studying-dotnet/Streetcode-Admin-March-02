@@ -1,34 +1,35 @@
-﻿// <copyright file="DeleteAudioHandlerTest.cs" company="PlaceholderCompany">
+﻿// <copyright file="GetBaseImageHandlerTest.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.Delete
+namespace Streetcode.XUnitTest.MediatRTests.Media.Images.GetBaseImage
 {
     using System.Threading.Tasks;
     using FluentAssertions;
     using Moq;
+    using Streetcode.BLL.DTO.Media.Images;
     using Streetcode.BLL.Interfaces.BlobStorage;
     using Streetcode.BLL.Interfaces.Logging;
-    using Streetcode.BLL.MediatR.Media.Audio.Delete;
+    using Streetcode.BLL.MediatR.Media.Image.GetBaseImage;
     using Streetcode.DAL.Repositories.Interfaces.Base;
     using Streetcode.XUnitTest.MediatRTests.Mocks;
     using Xunit;
 
     /// <summary>
-    /// CAN NOT TEST.
+    /// Can not test.
     /// </summary>
-    public class DeleteAudioHandlerTest
+    public class GetBaseImageHandlerTest
     {
         private readonly Mock<IRepositoryWrapper> mockRepository;
         private readonly Mock<ILoggerService> mockLogger;
         private readonly Mock<IBlobService> mockBlob;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DeleteAudioHandlerTest"/> class.
+        /// Initializes a new instance of the <see cref="GetBaseImageHandlerTest"/> class.
         /// </summary>
-        public DeleteAudioHandlerTest()
+        public GetBaseImageHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetAudiosRepositoryMock();
+            this.mockRepository = RepositoryMocker.GetImagesRepositoryMock();
 
             this.mockLogger = new Mock<ILoggerService>();
 
@@ -36,20 +37,20 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.Delete
         }
 
         /// <summary>
-        /// Delete item with first id result should not be null test.
+        /// Get by id not null test.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task DeleteWithFirstIdShouldNotBeNull()
+        public async Task GetByIdNotNullTest()
         {
             // Arrange
-            var handler = new DeleteAudioHandler(this.mockRepository.Object, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new GetBaseImageHandler(this.mockBlob.Object, this.mockRepository.Object, this.mockLogger.Object);
 
             // Act
-            var result = await handler.Handle(new DeleteAudioCommand(1), CancellationToken.None);
+            var result = await handler.Handle(new GetBaseImageQuery(1), CancellationToken.None);
 
             // Assert
             result.Value.Should().NotBeNull();
-        }
+        }    
     }
 }

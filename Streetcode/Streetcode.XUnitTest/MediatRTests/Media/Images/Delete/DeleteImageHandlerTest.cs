@@ -1,34 +1,33 @@
-﻿// <copyright file="DeleteAudioHandlerTest.cs" company="PlaceholderCompany">
+﻿// <copyright file="DeleteImageHandlerTest.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.Delete
+namespace Streetcode.XUnitTest.MediatRTests.Media.Images.Delete
 {
-    using System.Threading.Tasks;
     using FluentAssertions;
     using Moq;
     using Streetcode.BLL.Interfaces.BlobStorage;
     using Streetcode.BLL.Interfaces.Logging;
-    using Streetcode.BLL.MediatR.Media.Audio.Delete;
+    using Streetcode.BLL.MediatR.Media.Image.Delete;
     using Streetcode.DAL.Repositories.Interfaces.Base;
     using Streetcode.XUnitTest.MediatRTests.Mocks;
     using Xunit;
 
     /// <summary>
-    /// CAN NOT TEST.
+    /// Can not test.
     /// </summary>
-    public class DeleteAudioHandlerTest
+    public class DeleteImageHandlerTest
     {
         private readonly Mock<IRepositoryWrapper> mockRepository;
         private readonly Mock<ILoggerService> mockLogger;
         private readonly Mock<IBlobService> mockBlob;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DeleteAudioHandlerTest"/> class.
+        /// Initializes a new instance of the <see cref="DeleteImageHandlerTest"/> class.
         /// </summary>
-        public DeleteAudioHandlerTest()
+        public DeleteImageHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetAudiosRepositoryMock();
+            this.mockRepository = RepositoryMocker.GetImagesRepositoryMock();
 
             this.mockLogger = new Mock<ILoggerService>();
 
@@ -43,10 +42,10 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.Delete
         public async Task DeleteWithFirstIdShouldNotBeNull()
         {
             // Arrange
-            var handler = new DeleteAudioHandler(this.mockRepository.Object, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new DeleteImageHandler(this.mockRepository.Object, this.mockBlob.Object, this.mockLogger.Object);
 
             // Act
-            var result = await handler.Handle(new DeleteAudioCommand(1), CancellationToken.None);
+            var result = await handler.Handle(new DeleteImageCommand(1), CancellationToken.None);
 
             // Assert
             result.Value.Should().NotBeNull();

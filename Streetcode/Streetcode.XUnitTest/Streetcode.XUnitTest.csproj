@@ -46,14 +46,4 @@
 		<ProjectReference Include="..\Streetcode.DAL\Streetcode.DAL.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="MediatRTests\Media\Image\Create\" />
-	  <Folder Include="MediatRTests\Media\Image\Delete\" />
-	  <Folder Include="MediatRTests\Media\Image\GetAll\" />
-	  <Folder Include="MediatRTests\Media\Image\GetBaseImage\" />
-	  <Folder Include="MediatRTests\Media\Image\GetById\" />
-	  <Folder Include="MediatRTests\Media\Image\GetByStreetcodeId\" />
-	  <Folder Include="MediatRTests\Media\StreetcodeArt\" />
-	</ItemGroup>
-
 </Project>

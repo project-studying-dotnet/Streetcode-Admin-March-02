@@ -1,24 +1,22 @@
-﻿// <copyright file="GetAudioByStreetcodeIdHandlerTest.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
-
-namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.GetByStreetcodeId
+﻿namespace Streetcode.XUnitTest.MediatRTests.Media.Images.GetByStreetcodeId
 {
+    using System.Threading.Tasks;
     using AutoMapper;
     using FluentAssertions;
     using Moq;
     using Streetcode.BLL.Interfaces.BlobStorage;
     using Streetcode.BLL.Interfaces.Logging;
-    using Streetcode.BLL.Mapping.Media;
+    using Streetcode.BLL.Mapping.Media.Images;
     using Streetcode.BLL.MediatR.Media.Audio.GetByStreetcodeId;
+    using Streetcode.BLL.MediatR.Media.Image.GetByStreetcodeId;
     using Streetcode.DAL.Repositories.Interfaces.Base;
     using Streetcode.XUnitTest.MediatRTests.Mocks;
     using Xunit;
 
     /// <summary>
-    ///  Can not test.
+    /// 
     /// </summary>
-    public class GetAudioByStreetcodeIdHandlerTest
+    public class GetImageByStreetcodeIdHandlerTest
     {
         private readonly IMapper mapper;
         private readonly Mock<IRepositoryWrapper> mockRepository;
@@ -26,15 +24,15 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.GetByStreetcodeId
         private readonly Mock<IBlobService> mockBlob;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetAudioByStreetcodeIdHandlerTest"/> class.
+        /// Initializes a new instance of the <see cref="GetImageByStreetcodeIdHandlerTest"/> class.
         /// </summary>
-        public GetAudioByStreetcodeIdHandlerTest()
+        public GetImageByStreetcodeIdHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetAudiosRepositoryMock();
+            this.mockRepository = RepositoryMocker.GetImagesRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
-                c.AddProfile<AudioProfile>();
+                c.AddProfile<ImageProfile>();
             });
 
             this.mapper = mapperConfig.CreateMapper();
@@ -52,30 +50,30 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.GetByStreetcodeId
         public async Task GetByIdNotNullTest()
         {
             // Arrange
-            var handler = new GetAudioByStreetcodeIdQueryHandler(this.mockRepository.Object, this.mapper, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new GetImageByStreetcodeIdHandler(this.mockRepository.Object, this.mapper, this.mockBlob.Object, this.mockLogger.Object);
 
             // Act
-            var result = await handler.Handle(new GetAudioByStreetcodeIdQuery(1), CancellationToken.None);
+            var result = await handler.Handle(new GetImageByStreetcodeIdQuery(1), CancellationToken.None);
 
             // Assert
             result.Value.Should().NotBeNull();
         }
 
         /// <summary>
-        /// Get by id second item description length should not be zero.
+        /// Get by id second item blob name should be second blob name.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task GetByIdSecondLengthShouldNotBeZero()
+        public async Task GetByIdSecondBlobNameShouldBeSecond()
         {
             // Arrange
-            var handler = new GetAudioByStreetcodeIdQueryHandler(this.mockRepository.Object, this.mapper, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new GetImageByStreetcodeIdHandler(this.mockRepository.Object, this.mapper, this.mockBlob.Object, this.mockLogger.Object);
 
             // Act
-            var result = await handler.Handle(new GetAudioByStreetcodeIdQuery(1), CancellationToken.None);
+            var result = await handler.Handle(new GetImageByStreetcodeIdQuery(1), CancellationToken.None);
 
             // Assert
-            result.Value.Description?.Length.Should().NotBe(0);
+            result.Value.ElementAt(1).BlobName.Should().Be("Second image blob name");
         }
     }
 }
