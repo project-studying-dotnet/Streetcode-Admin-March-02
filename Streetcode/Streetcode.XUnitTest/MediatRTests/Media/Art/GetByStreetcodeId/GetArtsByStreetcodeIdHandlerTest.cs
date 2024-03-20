@@ -5,7 +5,7 @@
 namespace Streetcode.XUnitTest.MediatRTests.Media.Art.GetByStreetcodeId
 {
     /// <summary>
-    ///  Will be test in future.
+    ///  Will be test in future
     /// </summary>
     public class GetArtsByStreetcodeIdHandlerTest
     {
