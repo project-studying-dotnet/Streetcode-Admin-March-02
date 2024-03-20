@@ -28,18 +28,10 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
     using Streetcode.BLL.DTO.Timeline;
     using Streetcode.DAL.Entities.Timeline;
     using Streetcode.DAL.Enums;
-    using System.Linq.Expressions;
-    using Microsoft.EntityFrameworkCore.Query;
-    using Moq;
     using Streetcode.DAL.Entities.Media;
-    using Streetcode.DAL.Entities.Media.Images;
     using Streetcode.DAL.Entities.Streetcode;
     using Streetcode.DAL.Entities.Toponyms;
-    using Streetcode.DAL.Repositories.Interfaces.Base;
     using Streetcode.DAL.Entities.Team;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Repository mocker.
