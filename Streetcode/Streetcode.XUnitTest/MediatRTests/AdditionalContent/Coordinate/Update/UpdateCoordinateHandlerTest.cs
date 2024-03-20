@@ -25,7 +25,7 @@ namespace Streetcode.XUnitTest.MediatRTests.AdditionalContent.Coordinate.Update
 
         public UpdateCoordinateHandlerTest()
         {
-            _mockRepository = RepositoryMocker.UpdateCoordinateRepositoryMock();
+            _mockRepository = RepositoryMocker.GetCoordinateRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {

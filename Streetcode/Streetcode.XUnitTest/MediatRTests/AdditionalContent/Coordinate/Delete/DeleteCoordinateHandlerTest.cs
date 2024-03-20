@@ -26,7 +26,7 @@ namespace Streetcode.XUnitTest.MediatRTests.AdditionalContent.Coordinate.Delete
 
         public DeleteCoordinateHandlerTest()
         {
-            _mockRepository = RepositoryMocker.DeleteCoordinateRepositoryMock();
+            _mockRepository = RepositoryMocker.GetCoordinateRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {

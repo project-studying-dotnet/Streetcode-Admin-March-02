@@ -17,6 +17,8 @@ using Streetcode.DAL.Entities.Streetcode;
 using Streetcode.DAL.Entities.Analytics;
 using static System.Net.Mime.MediaTypeNames;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Streetcode.DAL.Entities.AdditionalContent;
+using Streetcode.DAL.Entities.Media;
 
 namespace Streetcode.XUnitTest.MediatRTests.Mocks
 {
@@ -43,51 +45,33 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
             return mockRepo;
         }
 
-        public static Mock<IRepositoryWrapper> CreateCoordinateRepositoryMock()
+        public static Mock<IRepositoryWrapper> GetCoordinateRepositoryMock()
         {
-            var statisticRecord = new StatisticRecord() { Id = 1 };
-            var streetCodeContent = new StreetcodeContent() { Id = 1 };
-
             var coordinate = new StreetcodeCoordinate()
             {
                 Id = 1,
-                Latitude = 1,
-                Longtitude = 1,
-                StatisticRecord = statisticRecord,
-                Streetcode = streetCodeContent,
                 StreetcodeId = 1,
             };
 
-            statisticRecord.StreetcodeCoordinate = coordinate;
+            List<StreetcodeCoordinate> coordinates = new List<StreetcodeCoordinate>
+            {
+                new StreetcodeCoordinate
+                {
+                    Id = 1,
+                    StreetcodeId = 1,
+                },
+                new StreetcodeCoordinate
+                {
+                    Id = 2,
+                    StreetcodeId = 1,
+                },
+            };
 
             var mockRepo = new Mock<IRepositoryWrapper>();
 
             mockRepo.Setup(x => x.StreetcodeCoordinateRepository.Create(It.IsAny<StreetcodeCoordinate>()))
                 .Returns(coordinate);
 
-            mockRepo.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
-
-            return mockRepo;
-        }
-
-        public static Mock<IRepositoryWrapper> DeleteCoordinateRepositoryMock()
-        {
-            var mockRepo = new Mock<IRepositoryWrapper>();
-
-            List<StreetcodeCoordinate> coordinates = new List<StreetcodeCoordinate>
-            {
-                new StreetcodeCoordinate
-                {
-                    Id = 1,
-                    StreetcodeId = 1,
-                },
-                new StreetcodeCoordinate
-                {
-                    Id = 2,
-                    StreetcodeId = 1,
-                },
-            };
-
             mockRepo.Setup(x => x.StreetcodeCoordinateRepository.GetFirstOrDefaultAsync(
                 It.IsAny<Expression<Func<StreetcodeCoordinate, bool>>>(),
                 It.IsAny<Func<IQueryable<StreetcodeCoordinate>, IIncludableQueryable<StreetcodeCoordinate, object>>>()))
@@ -97,41 +81,58 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                     return coordinates.FirstOrDefault(predicate.Compile());
                 });
 
-            mockRepo.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
-
-            return mockRepo;
-        }
-
-        public static Mock<IRepositoryWrapper> UpdateCoordinateRepositoryMock()
-        {
-            List<StreetcodeCoordinate> coordinates = new List<StreetcodeCoordinate>
-            {
-                new StreetcodeCoordinate
-                {
-                    Id = 1,
-                    StreetcodeId = 1,
-                },
-                new StreetcodeCoordinate
-                {
-                    Id = 2,
-                    StreetcodeId = 1,
-                },
-            };
-
-            var mockRepo = new Mock<IRepositoryWrapper>();
-
-            mockRepo.Setup(x => x.StreetcodeCoordinateRepository.GetFirstOrDefaultAsync(
+            mockRepo.Setup(x => x.StreetcodeCoordinateRepository.GetAllAsync(
                 It.IsAny<Expression<Func<StreetcodeCoordinate, bool>>>(),
                 It.IsAny<Func<IQueryable<StreetcodeCoordinate>, IIncludableQueryable<StreetcodeCoordinate, object>>>()))
-                .ReturnsAsync((Expression<Func<StreetcodeCoordinate, bool>> predicate, Func<IQueryable<StreetcodeCoordinate>,
-                IIncludableQueryable<StreetcodeCoordinate, object>> include) =>
-                {
-                    return coordinates.FirstOrDefault(predicate.Compile());
-                });
+                .ReturnsAsync(coordinates);
 
             mockRepo.Setup(repo => repo.StreetcodeCoordinateRepository.Update(It.IsAny<StreetcodeCoordinate>()));
 
             mockRepo.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
+
+            return mockRepo;
+        }
+
+        public static Mock<IRepositoryWrapper> GetSubtitleRepositoryMock()
+        {
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            var subtitles = new List<Subtitle>()
+            {
+                new Subtitle
+                {
+                    StreetcodeId = 1,
+                    Id = 1,
+                    SubtitleText = "Test",
+                },
+                new Subtitle
+                {
+                    StreetcodeId = 1,
+                    Id = 2,
+                    SubtitleText = "Test",
+                },
+                new Subtitle
+                {
+                    StreetcodeId = 1,
+                    Id = 3,
+                    SubtitleText = "Test",
+                },
+            };
+
+            mockRepo.Setup(x => x.SubtitleRepository.GetAllAsync(
+                It.IsAny<Expression<Func<Subtitle, bool>>>(),
+                It.IsAny<Func<IQueryable<Subtitle>, IIncludableQueryable<Subtitle, object>>>()))
+                .ReturnsAsync(subtitles);
+
+            mockRepo.Setup(x => x.SubtitleRepository.GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<Subtitle, bool>>>(),
+                It.IsAny<Func<IQueryable<Subtitle>, IIncludableQueryable<Subtitle, object>>>()))
+                .ReturnsAsync((Expression<Func<Subtitle, bool>> predicate,
+                Func<IQueryable<Subtitle>,
+                IIncludableQueryable<Subtitle, object>> include) =>
+                {
+                    return subtitles.FirstOrDefault(predicate.Compile());
+                });
 
             return mockRepo;
         }

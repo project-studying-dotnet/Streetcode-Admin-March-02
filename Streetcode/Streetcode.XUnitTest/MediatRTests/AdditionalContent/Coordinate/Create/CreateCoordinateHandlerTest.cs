@@ -30,11 +30,11 @@
 
         public CreateCoordinateHandlerTest()
         {
-            _mockRepository = RepositoryMocker.CreateCoordinateRepositoryMock();
+            _mockRepository = RepositoryMocker.GetCoordinateRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
-                c.AddProfile<StreetcodeCoordinateProfile>();
+                c.AddProfile<BLL.Mapping.AdditionalContent.Coordinates.StreetcodeCoordinateProfile>();
             });
 
             _mapper = mapperConfig.CreateMapper();
@@ -43,7 +43,7 @@
         }
 
         [Fact]
-        public async Task CreateCoordinate_CoordinateDTOIsNull_IsFaildeShouldBeTrue()
+        public async Task CreateCoordinate_CoordinateDTOIsNull_IsFailedShouldBeTrue()
         {
             // Arrange
             var handler = new CreateCoordinateHandler(_mockRepository.Object, _mapper);
