@@ -7,19 +7,16 @@ namespace Streetcode.XUnitTest.MediatRTests.Toponyms.GetAll
     using AutoMapper;
     using FluentAssertions;
     using Moq;
-    using Streetcode.BLL.DTO.Media.Art;
     using Streetcode.BLL.DTO.Toponyms;
     using Streetcode.BLL.Interfaces.Logging;
     using Streetcode.BLL.Mapping.Toponyms;
-    using Streetcode.BLL.MediatR.Media.Art.GetAll;
     using Streetcode.BLL.MediatR.Toponyms.GetAll;
-    using Streetcode.DAL.Entities.Toponyms;
     using Streetcode.DAL.Repositories.Interfaces.Base;
     using Streetcode.XUnitTest.MediatRTests.Mocks;
     using Xunit;
 
     /// <summary>
-    /// Tested successfully.
+    /// Can not test.
     /// </summary>
     public class GetAllToponymsHandlerTest
     {

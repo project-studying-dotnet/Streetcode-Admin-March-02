@@ -52,7 +52,6 @@
 	  <Folder Include="MediatRTests\Media\Audio\GetAll\" />
 	  <Folder Include="MediatRTests\Media\Audio\GetById\" />
 	  <Folder Include="MediatRTests\Media\Audio\GetByStreetcodeId\" />
-	  <Folder Include="MediatRTests\Toponyms\GetById\" />
 	  <Folder Include="MediatRTests\Toponyms\GetByStreetcodeId\" />
 	</ItemGroup>
 
