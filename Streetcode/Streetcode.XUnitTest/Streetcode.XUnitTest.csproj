@@ -46,8 +46,6 @@
 		<ProjectReference Include="..\Streetcode.DAL\Streetcode.DAL.csproj" />
 	</ItemGroup>
 
-<<<<<<< HEAD
-=======
 	<ItemGroup>
 	  <Folder Include="MediatRTests\Media\Audio\Create\" />
 	  <Folder Include="MediatRTests\Media\Audio\Delete\" />
@@ -56,5 +54,4 @@
 	  <Folder Include="MediatRTests\Media\Audio\GetByStreetcodeId\" />
 	</ItemGroup>
 
->>>>>>> f2bda5e06c2000983237b488a290114777f19fcc
 </Project>

@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-﻿// <copyright file="RepositoryMocker.cs" company="PlaceholderCompany">
+// <copyright file="RepositoryMocker.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
 namespace Streetcode.XUnitTest.MediatRTests.Mocks
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Linq.Expressions;
     using Microsoft.EntityFrameworkCore.Query;
     using Moq;
@@ -25,30 +21,6 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
         /// Mocks art repository.
         /// </summary>
         /// <returns>Returns mocked repository. </returns>
-=======
-﻿using Microsoft.EntityFrameworkCore.Query;
-using Microsoft.Extensions.Options;
-using Moq;
-using Repositories.Interfaces;
-using Streetcode.BLL.DTO.Media.Art;
-using Streetcode.BLL.Interfaces.BlobStorage;
-using Streetcode.BLL.Services.BlobStorageService;
-using Streetcode.DAL.Entities.Media;
-using Streetcode.DAL.Entities.Media.Images;
-using Streetcode.DAL.Repositories.Interfaces.Base;
-using Streetcode.DAL.Repositories.Realizations.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Streetcode.XUnitTest.MediatRTests.Mocks
-{
-    internal class RepositoryMocker
-    {
->>>>>>> f2bda5e06c2000983237b488a290114777f19fcc
         public static Mock<IRepositoryWrapper> GetArtRepositoryMock()
         {
             var arts = new List<Art>()
@@ -59,10 +31,6 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                 new Art { Id = 4, Description = "Fourth description", Title = "Fourth title", ImageId = 4, Image = null },
             };
 
-<<<<<<< HEAD
-=======
-
->>>>>>> f2bda5e06c2000983237b488a290114777f19fcc
             var mockRepo = new Mock<IRepositoryWrapper>();
 
             mockRepo.Setup(x => x.ArtRepository.GetAllAsync(It.IsAny<Expression<Func<Art, bool>>>(), It.IsAny<Func<IQueryable<Art>, IIncludableQueryable<Art, object>>>()))
@@ -74,7 +42,6 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                     return arts.FirstOrDefault(predicate.Compile());
                 });
 
-<<<<<<< HEAD
             return mockRepo;
         }
 
@@ -82,12 +49,6 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
         /// Mocks audio repository.
         /// </summary>
         /// <returns>Returns mocked repository. </returns>
-=======
-
-            return mockRepo;
-        }
-
->>>>>>> f2bda5e06c2000983237b488a290114777f19fcc
         public static Mock<IRepositoryWrapper> GetAudiosRepositoryMock()
         {
             var audios = new List<Audio>()
@@ -98,10 +59,6 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                new Audio { Id = 4, Title = "Fourth audio", BlobName = "Fourth blob name", MimeType = "Fourth mime type", Base64 = "Fourth base 64", Streetcode = null },
             };
 
-<<<<<<< HEAD
-=======
-
->>>>>>> f2bda5e06c2000983237b488a290114777f19fcc
             var mockRepo = new Mock<IRepositoryWrapper>();
 
             mockRepo.Setup(x => x.AudioRepository.GetAllAsync(It.IsAny<Expression<Func<Audio, bool>>>(), It.IsAny<Func<IQueryable<Audio>, IIncludableQueryable<Audio, object>>>()))
@@ -113,7 +70,6 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                     return audios.FirstOrDefault(predicate.Compile());
                 });
 
-<<<<<<< HEAD
             return mockRepo;
         }
 
@@ -249,8 +205,6 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                 {
                     return streetcodeArts.FirstOrDefault(predicate.Compile());
                 });
-=======
->>>>>>> f2bda5e06c2000983237b488a290114777f19fcc
 
             return mockRepo;
         }
