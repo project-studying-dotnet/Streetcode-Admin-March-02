@@ -30,10 +30,9 @@ public class GetByIdHandlerTest
     }
 
     [Fact]
-    public async Task GetById_ExistingId_ReturnsNotNull()
+    public async Task WithExistingId_ShouldReturnNotNull()
     {
         // Arrange
-
         var handler = new GetByIdTeamHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
         // Act

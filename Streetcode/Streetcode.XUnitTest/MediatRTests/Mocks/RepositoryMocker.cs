@@ -42,12 +42,12 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
         {
             var members = new List<TeamMember>()
             {
-                new TeamMember { IsMain = true},
-                new TeamMember { IsMain = true},
-                new TeamMember { IsMain = false},
-                new TeamMember { IsMain = false},
-                new TeamMember { IsMain = false},
-                new TeamMember { IsMain = false},
+                new TeamMember { IsMain = true },
+                new TeamMember { IsMain = true },
+                new TeamMember { IsMain = false },
+                new TeamMember { IsMain = false },
+                new TeamMember { IsMain = false },
+                new TeamMember { IsMain = false },
             };
 
             var mockRepo = new Mock<IRepositoryWrapper>();

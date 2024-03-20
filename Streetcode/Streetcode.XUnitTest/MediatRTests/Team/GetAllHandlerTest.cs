@@ -32,7 +32,7 @@ public class GetAllHandlerTest
     }
 
     [Fact]
-    public async Task GetAll_ReturnsNotNullOrEmpty()
+    public async Task ShouldReturnNotNullOrEmpty()
     {
         // Arrange
         var handler = new GetAllTeamHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
@@ -45,7 +45,7 @@ public class GetAllHandlerTest
     }
 
     [Fact]
-    public async Task GetAll_ReturnsTypeOfTeamMemberDTO()
+    public async Task ShouldReturnTypeOfTeamMemberDTO()
     {
         // Arrange
         var handler = new GetAllTeamHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
@@ -58,7 +58,7 @@ public class GetAllHandlerTest
     }
 
     [Fact]
-    public async Task GetAll_CountShouldBeSix()
+    public async Task CountShouldBeSix()
     {
         // Arrange
         var handler = new GetAllTeamHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
