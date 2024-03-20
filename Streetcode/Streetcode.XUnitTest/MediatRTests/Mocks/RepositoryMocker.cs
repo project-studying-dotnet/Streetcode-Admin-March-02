@@ -44,7 +44,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
         public static Mock<IRepositoryWrapper> CreateCoordinateRepositoryMock()
         {
             var statisticRecord = new StatisticRecord() { Id = 1 };
-            var streetCodeContent = new StreetcodeContent() { Id = 1};
+            var streetCodeContent = new StreetcodeContent() { Id = 1 };
 
             var coordinate = new StreetcodeCoordinate()
             {
