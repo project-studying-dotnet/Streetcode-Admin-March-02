@@ -1,4 +1,4 @@
-﻿namespace Streetcode.XUnitTest.MediatRTests.Team.Position;
+﻿namespace Streetcode.XUnitTest.MediatRTests.Team.TeamMemberLinks;
 
 using AutoMapper;
 using FluentAssertions;
@@ -6,9 +6,7 @@ using Moq;
 using Streetcode.BLL.DTO.Team;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.Mapping.Team;
-using Streetcode.BLL.MediatR.Team.GetAll;
-using Streetcode.BLL.MediatR.Team.Position.GetAll;
-using Streetcode.DAL.Entities.Team;
+using Streetcode.BLL.MediatR.Team.TeamMembersLinks.GetAll;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using Streetcode.XUnitTest.MediatRTests.Mocks;
 using Xunit;
@@ -21,11 +19,11 @@ public class GetAllHandlerTest
 
     public GetAllHandlerTest()
     {
-        _mockRepository = RepositoryMocker.GetTeamPositionRepositoryMock();
+        _mockRepository = RepositoryMocker.GetTeamLinksRepositoryMock();
 
         var mapperConfig = new MapperConfiguration(c =>
         {
-            c.AddProfile<PositionProfile>();
+            c.AddProfile<TeamLinkProfile>();
         });
 
         _mapper = mapperConfig.CreateMapper();
@@ -37,10 +35,10 @@ public class GetAllHandlerTest
     public async Task ShouldReturnNotNullOrEmpty()
     {
         // Arrange
-        var handler = new GetAllPositionsHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
+        var handler = new GetAllTeamLinkHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
         // Act
-        var result = await handler.Handle(new GetAllPositionsQuery(), CancellationToken.None);
+        var result = await handler.Handle(new GetAllTeamLinkQuery(), CancellationToken.None);
 
         // Assert
         result.Value.Should().NotBeNullOrEmpty();
@@ -50,25 +48,25 @@ public class GetAllHandlerTest
     public async Task ShouldReturnTypeOfPositionDTO()
     {
         // Arrange
-        var handler = new GetAllPositionsHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
+        var handler = new GetAllTeamLinkHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
         // Act
-        var result = await handler.Handle(new GetAllPositionsQuery(), CancellationToken.None);
+        var result = await handler.Handle(new GetAllTeamLinkQuery(), CancellationToken.None);
 
         // Assert
-        result.Value.Should().BeOfType<List<PositionDTO>>();
+        result.Value.Should().BeOfType<List<TeamMemberLinkDTO>>();
     }
 
     [Fact]
-    public async Task CountShouldBeThree()
+    public async Task CountShouldBeFour()
     {
         // Arrange
-        var handler = new GetAllPositionsHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
+        var handler = new GetAllTeamLinkHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
         // Act
-        var result = await handler.Handle(new GetAllPositionsQuery(), CancellationToken.None);
+        var result = await handler.Handle(new GetAllTeamLinkQuery(), CancellationToken.None);
 
         // Assert
-        result.Value.Count().Should().Be(3);
+        result.Value.Count().Should().Be(4);
     }
 }
