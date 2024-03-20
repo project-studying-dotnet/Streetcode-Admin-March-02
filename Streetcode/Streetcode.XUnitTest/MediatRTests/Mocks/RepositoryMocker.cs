@@ -2,7 +2,9 @@
 using Moq;
 using Repositories.Interfaces;
 using Streetcode.BLL.DTO.Media.Art;
+using Streetcode.BLL.DTO.Sources;
 using Streetcode.DAL.Entities.Media.Images;
+using Streetcode.DAL.Entities.Sources;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using Streetcode.DAL.Repositories.Realizations.Base;
 using System;
@@ -33,6 +35,24 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
 
             mockRepo.Setup(x => x.ArtRepository.GetAllAsync(It.IsAny<Expression<Func<Art, bool>>>(), It.IsAny<Func<IQueryable<Art>, IIncludableQueryable<Art, object>>>()))
                 .ReturnsAsync(arts);
+
+            return mockRepo;
+        }
+
+        public static Mock<IRepositoryWrapper> GetSourceRepositoryMock()
+        {
+            var sources = new List<SourceLinkCategory>()
+            {
+                new SourceLinkCategory { Id = 1, Title = "First title", ImageId = 1, Image = null },
+                new SourceLinkCategory { Id = 2, Title = "Second title", ImageId = 2, Image = null },
+                new SourceLinkCategory { Id = 3, Title = "Third title", ImageId = 3, Image = null },
+                new SourceLinkCategory { Id = 4, Title = "Fourth title", ImageId = 4, Image = null },
+            };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(x => x.SourceCategoryRepository.GetAllAsync(It.IsAny<Expression<Func<SourceLinkCategory, bool>>>(), It.IsAny<Func<IQueryable<SourceLinkCategory>, IIncludableQueryable<SourceLinkCategory, object>>>()))
+                .ReturnsAsync(sources);
 
             return mockRepo;
         }
