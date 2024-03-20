@@ -1,10 +1,9 @@
-﻿// <copyright file="GetAllArtsHandlerTest.cs" company="PlaceholderCompany">
+// <copyright file="GetAllArtsHandlerTest.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
 namespace Streetcode.XUnitTest.MediatRTests.Media.Art.GetAll
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
@@ -20,13 +19,13 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Art.GetAll
 
     /// <summary>
     /// TESTED SUCCESSFULLY
-    /// BLL -> MediatR -> Media -> Art -> GetAll.
+    /// BLL -> MediatR -> Media -> Art -> GetAll
     /// </summary>
     public class GetAllArtsHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly IMapper? mapper;
+        private readonly Mock<IRepositoryWrapper>? mockRepository;
+        private readonly Mock<ILoggerService>? mockLogger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetAllArtsHandlerTest"/> class.
