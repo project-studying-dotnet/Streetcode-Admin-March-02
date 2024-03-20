@@ -16,6 +16,7 @@ using Streetcode.DAL.Entities.AdditionalContent.Coordinates.Types;
 using Streetcode.DAL.Entities.Streetcode;
 using Streetcode.DAL.Entities.Analytics;
 using static System.Net.Mime.MediaTypeNames;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Streetcode.XUnitTest.MediatRTests.Mocks
 {
@@ -95,6 +96,40 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                 {
                     return coordinates.FirstOrDefault(predicate.Compile());
                 });
+
+            mockRepo.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
+
+            return mockRepo;
+        }
+
+        public static Mock<IRepositoryWrapper> UpdateCoordinateRepositoryMock()
+        {
+            List<StreetcodeCoordinate> coordinates = new List<StreetcodeCoordinate>
+            {
+                new StreetcodeCoordinate
+                {
+                    Id = 1,
+                    StreetcodeId = 1,
+                },
+                new StreetcodeCoordinate
+                {
+                    Id = 2,
+                    StreetcodeId = 1,
+                },
+            };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(x => x.StreetcodeCoordinateRepository.GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<StreetcodeCoordinate, bool>>>(),
+                It.IsAny<Func<IQueryable<StreetcodeCoordinate>, IIncludableQueryable<StreetcodeCoordinate, object>>>()))
+                .ReturnsAsync((Expression<Func<StreetcodeCoordinate, bool>> predicate, Func<IQueryable<StreetcodeCoordinate>,
+                IIncludableQueryable<StreetcodeCoordinate, object>> include) =>
+                {
+                    return coordinates.FirstOrDefault(predicate.Compile());
+                });
+
+            mockRepo.Setup(repo => repo.StreetcodeCoordinateRepository.Update(It.IsAny<StreetcodeCoordinate>()));
 
             mockRepo.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
 
