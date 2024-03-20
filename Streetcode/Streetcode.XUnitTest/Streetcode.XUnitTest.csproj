@@ -49,6 +49,22 @@
 	<ItemGroup>
 	  <Folder Include="MediatRTests\Media\Art\GetById\" />
 	  <Folder Include="MediatRTests\Media\Art\GetByStreetcodeId\" />
+	  <Folder Include="MediatRTests\Timeline\" />
+	  <Folder Include="MediatRTests\Timeline\Timelineitem\" />
+	  <Folder Include="MediatRTests\Timeline\Timelineitem\GetAll\" />
+	  <Folder Include="MediatRTests\Timeline\Timelineitem\GetById\" />
+	  <Folder Include="MediatRTests\Timeline\Timelineitem\GetByStreetCodeId\" />
+	  <Folder Include="MediatRTests\Timeline\HistoricalContext\" />
+	  <Folder Include="MediatRTests\Timeline\HistoricalContext\GetAll\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Remove="MediatRTests\Timeline\" />
+	  <None Remove="MediatRTests\Timeline\Timelineitem\" />
+	  <None Remove="MediatRTests\Timeline\Timelineitem\GetAll\" />
+	  <None Remove="MediatRTests\Timeline\Timelineitem\GetById\" />
+	  <None Remove="MediatRTests\Timeline\Timelineitem\GetByStreetCodeId\" />
+	  <None Remove="MediatRTests\Timeline\HistoricalContext\" />
+	  <None Remove="MediatRTests\Timeline\HistoricalContext\GetAll\" />
+	</ItemGroup>
 </Project>
