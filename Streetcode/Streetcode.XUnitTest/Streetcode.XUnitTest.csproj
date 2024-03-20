@@ -47,8 +47,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="MediatRTests\Media\Art\GetById\" />
-	  <Folder Include="MediatRTests\Media\Art\GetByStreetcodeId\" />
+	  <Folder Include="MediatRTests\Media\Audio\Create\" />
+	  <Folder Include="MediatRTests\Media\Audio\Delete\" />
+	  <Folder Include="MediatRTests\Media\Audio\GetAll\" />
+	  <Folder Include="MediatRTests\Media\Audio\GetById\" />
+	  <Folder Include="MediatRTests\Media\Audio\GetByStreetcodeId\" />
+	  <Folder Include="MediatRTests\Toponyms\GetByStreetcodeId\" />
 	</ItemGroup>
 
 </Project>
