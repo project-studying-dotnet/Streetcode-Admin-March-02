@@ -19,7 +19,7 @@ public class GetAllMainHandlerTest
 
     public GetAllMainHandlerTest()
     {
-        _mockRepository = RepositoryMocker.GetTeamRepositoryMockGorGetAll();
+        _mockRepository = RepositoryMocker.GetTeamRepositoryMock();
 
         var mapperConfig = new MapperConfiguration(c =>
         {
@@ -58,7 +58,7 @@ public class GetAllMainHandlerTest
     }
 
     [Fact]
-    public async Task CountShouldBeTwo()
+    public async Task CountShouldBe2()
     {
         // Arrange
         var handler = new GetAllMainTeamHandler(_mockRepository.Object, _mapper, _mockLogger.Object);

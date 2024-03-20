@@ -18,7 +18,7 @@ public class GetByIdHandlerTest
 
     public GetByIdHandlerTest()
     {
-        _mockRepository = RepositoryMocker.GetTeamRepositoryMockForGetById();
+        _mockRepository = RepositoryMocker.GetTeamRepositoryMock();
 
         var mapperConfig = new MapperConfiguration(c =>
         {
@@ -30,7 +30,7 @@ public class GetByIdHandlerTest
     }
 
     [Fact]
-    public async Task WithExistingId_ShouldReturnNotNull()
+    public async Task WithExistingId2_ShouldReturnDtoWithName2()
     {
         // Arrange
         var handler = new GetByIdTeamHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
@@ -40,5 +40,19 @@ public class GetByIdHandlerTest
 
         // Assert
         result.Value.Should().NotBeNull();
+        result.Value.FirstName.Should().BeEquivalentTo("2");
+    }
+
+    [Fact]
+    public async Task WithNotExistingId7_ShouldReturnNull()
+    {
+        // Arrange
+        var handler = new GetByIdTeamHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
+
+        // Act
+        var result = await handler.Handle(new GetByIdTeamQuery(7), CancellationToken.None);
+
+        // Assert
+        result.IsFailed.Should().BeTrue();
     }
 }

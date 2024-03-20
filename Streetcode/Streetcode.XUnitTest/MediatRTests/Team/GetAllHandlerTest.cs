@@ -19,7 +19,7 @@ public class GetAllHandlerTest
 
     public GetAllHandlerTest()
     {
-        _mockRepository = RepositoryMocker.GetTeamRepositoryMockGorGetAll();
+        _mockRepository = RepositoryMocker.GetTeamRepositoryMock();
 
         var mapperConfig = new MapperConfiguration(c =>
         {
@@ -58,7 +58,7 @@ public class GetAllHandlerTest
     }
 
     [Fact]
-    public async Task CountShouldBeSix()
+    public async Task CountShouldBe6()
     {
         // Arrange
         var handler = new GetAllTeamHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
