@@ -19,7 +19,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
     using System.Linq;
 
     /// <summary>
-    /// Repository mocker.
+    /// Repository mocker
     /// </summary>
     internal class RepositoryMocker
     {
