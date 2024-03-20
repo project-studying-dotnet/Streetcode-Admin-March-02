@@ -1,6 +1,3 @@
-// <copyright file="RepositoryMocker.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
 
 namespace Streetcode.XUnitTest.MediatRTests.Mocks
 {
@@ -28,6 +25,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
     using Streetcode.BLL.DTO.Timeline;
     using Streetcode.DAL.Entities.Timeline;
     using Streetcode.DAL.Enums;
+    using Streetcode.DAL.Entities.Instagram;
     using Streetcode.DAL.Entities.Media;
     using Streetcode.DAL.Entities.Streetcode;
     using Streetcode.DAL.Entities.Toponyms;
@@ -424,6 +422,25 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
 
             mockRepo.Setup(x => x.SourceCategoryRepository.GetAllAsync(It.IsAny<Expression<Func<SourceLinkCategory, bool>>>(), It.IsAny<Func<IQueryable<SourceLinkCategory>, IIncludableQueryable<SourceLinkCategory, object>>>()))
                 .ReturnsAsync(sources);
+
+            return mockRepo;
+        }
+
+
+        public static Mock<IInstagramService> GetInstagramPostsMock()
+        {
+            var posts = new List<InstagramPost>()
+            {
+                new InstagramPost{ Id = "1", Caption = "1Caption", IsPinned = true, MediaType = "Image", MediaUrl = "1url", Permalink = "1permalink", ThumbnailUrl = "1thumbnailurl" },
+                new InstagramPost{ Id = "2", Caption = "2Caption", IsPinned = true, MediaType = "Image", MediaUrl = "2url", Permalink = "2permalink", ThumbnailUrl = "2thumbnailurl" },
+                new InstagramPost{ Id = "3", Caption = "3Caption", IsPinned = true, MediaType = "Image", MediaUrl = "3url", Permalink = "3permalink", ThumbnailUrl = "3thumbnailurl" },
+                new InstagramPost{ Id = "4", Caption = "4Caption", IsPinned = true, MediaType = "Image", MediaUrl = "4url", Permalink = "4permalink", ThumbnailUrl = "4thumbnailurl" },
+            };
+
+            var mockRepo = new Mock<IInstagramService>();
+
+            mockRepo.Setup(x => x.GetPostsAsync())
+                .ReturnsAsync(posts);
 
             return mockRepo;
         }
