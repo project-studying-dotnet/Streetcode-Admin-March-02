@@ -23,12 +23,12 @@ public class GetAllToponymsHandler : IRequestHandler<GetAllToponymsQuery,
     }
 
     public async Task<Result<GetAllToponymsResponseDTO>> Handle(GetAllToponymsQuery query, CancellationToken cancellationToken)
-    {     
+    {
         var filterRequest = query.request;
 
         var toponyms = _repositoryWrapper.ToponymRepository
              .FindAll();
-        
+
         if (filterRequest.Title is not null)
         {
             FindStreetcodesWithMatchTitle(ref toponyms, filterRequest.Title);
