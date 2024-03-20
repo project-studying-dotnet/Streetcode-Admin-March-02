@@ -32,6 +32,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
     using Streetcode.DAL.Entities.Streetcode;
     using Streetcode.DAL.Entities.Toponyms;
     using Streetcode.DAL.Entities.Team;
+    using Streetcode.DAL.Entities.Sources;
 
     /// <summary>
     /// Repository mocker.
@@ -409,5 +410,22 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
             return mockRepo;
         }
 
+        public static Mock<IRepositoryWrapper> GetSourceRepositoryMock()
+        {
+            var sources = new List<SourceLinkCategory>()
+            {
+                new SourceLinkCategory { Id = 1, Title = "First title", ImageId = 1, Image = null },
+                new SourceLinkCategory { Id = 2, Title = "Second title", ImageId = 2, Image = null },
+                new SourceLinkCategory { Id = 3, Title = "Third title", ImageId = 3, Image = null },
+                new SourceLinkCategory { Id = 4, Title = "Fourth title", ImageId = 4, Image = null },
+            };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(x => x.SourceCategoryRepository.GetAllAsync(It.IsAny<Expression<Func<SourceLinkCategory, bool>>>(), It.IsAny<Func<IQueryable<SourceLinkCategory>, IIncludableQueryable<SourceLinkCategory, object>>>()))
+                .ReturnsAsync(sources);
+
+            return mockRepo;
+        }
     }
 }
