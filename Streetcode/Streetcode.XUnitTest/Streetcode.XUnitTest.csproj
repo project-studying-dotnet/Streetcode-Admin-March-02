@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
@@ -47,8 +47,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="MediatRTests\Media\Art\GetById\" />
-	  <Folder Include="MediatRTests\Media\Art\GetByStreetcodeId\" />
+	  <Folder Include="MediatRTests\Media\Audio\Create\" />
+	  <Folder Include="MediatRTests\Media\Audio\Delete\" />
+	  <Folder Include="MediatRTests\Media\Audio\GetAll\" />
+	  <Folder Include="MediatRTests\Media\Audio\GetById\" />
+	  <Folder Include="MediatRTests\Media\Audio\GetByStreetcodeId\" />
+	  <Folder Include="MediatRTests\Toponyms\GetByStreetcodeId\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Remove="MediatRTests\Timeline\" />
+	  <None Remove="MediatRTests\Timeline\Timelineitem\" />
+	  <None Remove="MediatRTests\Timeline\Timelineitem\GetAll\" />
+	  <None Remove="MediatRTests\Timeline\Timelineitem\GetById\" />
+	  <None Remove="MediatRTests\Timeline\Timelineitem\GetByStreetCodeId\" />
+	  <None Remove="MediatRTests\Timeline\HistoricalContext\" />
+	  <None Remove="MediatRTests\Timeline\HistoricalContext\GetAll\" />
+	</ItemGroup>
 </Project>
