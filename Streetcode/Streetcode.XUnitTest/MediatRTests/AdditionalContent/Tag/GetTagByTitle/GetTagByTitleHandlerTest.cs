@@ -3,9 +3,9 @@ using FluentAssertions;
 using Moq;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.Mapping.AdditionalContent;
-using Streetcode.BLL.MediatR.AdditionalContent.GetById;
-using Streetcode.BLL.MediatR.AdditionalContent.Subtitle.GetById;
 using Streetcode.BLL.MediatR.AdditionalContent.Tag.GetById;
+using Streetcode.BLL.MediatR.AdditionalContent.Tag.GetByStreetcodeId;
+using Streetcode.BLL.MediatR.AdditionalContent.Tag.GetTagByTitle;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using Streetcode.XUnitTest.MediatRTests.Mocks;
 using System;
@@ -15,15 +15,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Streetcode.XUnitTest.MediatRTests.AdditionalContent.Tag.GetById
+namespace Streetcode.XUnitTest.MediatRTests.AdditionalContent.Tag.GetTagByTitle
 {
-    public class GetTagByIdHandlerTest
+    public class GetTagByTitleHandlerTest
     {
         private readonly IMapper mapper;
         private readonly Mock<IRepositoryWrapper> mockRepository;
         private readonly Mock<ILoggerService> mockLogger;
 
-        public GetTagByIdHandlerTest()
+        public GetTagByTitleHandlerTest()
         {
             this.mockRepository = RepositoryMocker.GetTagRepositoryMock();
 
@@ -38,12 +38,12 @@ namespace Streetcode.XUnitTest.MediatRTests.AdditionalContent.Tag.GetById
         }
 
         [Fact]
-        public async Task Handler_GetTagByValidId_GetByIdResultShouldBeNotNull()
+        public async Task Handler_GetTagByValidTitle_GetByIdResultShouldBeNotNull()
         {
             // Arrange
-            var handler = new GetTagByIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
-            int validId = 1;
-            var request = new GetTagByIdQuery(validId);
+            var handler = new GetTagByTitleHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            string validTitle = "Test";
+            var request = new GetTagByTitleQuery(validTitle);
 
             // Act
             var result = await handler.Handle(request, CancellationToken.None);
@@ -53,12 +53,12 @@ namespace Streetcode.XUnitTest.MediatRTests.AdditionalContent.Tag.GetById
         }
 
         [Fact]
-        public async Task Handler_GetTagByInvalidId_IsFailedShouldBeTrue()
+        public async Task Handler_GetTagByInvalidTitle_IsFailedShouldBeTrue()
         {
             // Arrange
-            var handler = new GetTagByIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
-            int invalidId = 10;
-            var request = new GetTagByIdQuery(invalidId);
+            var handler = new GetTagByTitleHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            string invalidTitle = "Title doesn't exist";
+            var request = new GetTagByTitleQuery(invalidTitle);
 
             // Act
             var result = await handler.Handle(request, CancellationToken.None);
