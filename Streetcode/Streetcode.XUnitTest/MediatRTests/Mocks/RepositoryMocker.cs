@@ -159,6 +159,12 @@
                 },
             };
 
+            var tagIndeces = new List<StreetcodeTagIndex>
+            {
+                new StreetcodeTagIndex { TagId = 1, StreetcodeId = 1, Tag = new Tag { Id = 1, Title = "Test" }, Index = 1 },
+                new StreetcodeTagIndex { TagId = 2, StreetcodeId = 1, Tag = new Tag { Id = 2, Title = "Test" }, Index = 2 },
+            };
+
             var mockRepo = new Mock<IRepositoryWrapper>();
 
             mockRepo.Setup(x => x.TagRepository.CreateAsync(It.IsAny<Tag>()))
@@ -177,6 +183,12 @@
                 It.IsAny<Expression<Func<Tag, bool>>>(),
                 It.IsAny<Func<IQueryable<Tag>, IIncludableQueryable<Tag, object>>>()))
                 .ReturnsAsync(tags);
+
+            mockRepo.Setup(x => x.StreetcodeTagIndexRepository.GetAllAsync(
+               It.IsAny<Expression<Func<StreetcodeTagIndex, bool>>>(),
+               It.IsAny<Func<IQueryable<StreetcodeTagIndex>,
+               IIncludableQueryable<StreetcodeTagIndex, object>>>()))
+               .Returns(Task.FromResult<IEnumerable<StreetcodeTagIndex>>(tagIndeces));
 
             mockRepo.Setup(repo => repo.TagRepository.Update(It.IsAny<Tag>()));
 
@@ -207,6 +219,12 @@
                 },
             };
 
+            var tagIndeces = new List<StreetcodeTagIndex>
+            {
+                new StreetcodeTagIndex { TagId = 1, StreetcodeId = 1, Tag = new Tag { Id = 1, Title = "Test" }, Index = 1 },
+                new StreetcodeTagIndex { TagId = 2, StreetcodeId = 1, Tag = new Tag { Id = 2, Title = "Test" }, Index = 2 },
+            };
+
             var mockRepo = new Mock<IRepositoryWrapper>();
 
             mockRepo.Setup(x => x.TagRepository.CreateAsync(It.IsAny<Tag>()))
@@ -223,10 +241,13 @@
 
             mockRepo.Setup(x => x.TagRepository.GetAllAsync(
                 It.IsAny<Expression<Func<Tag, bool>>>(),
-                It.IsAny<Func<IQueryable<Tag>, IIncludableQueryable<Tag, object>>>()))
+                It.IsAny<Func<IQueryable<Tag>,
+                IIncludableQueryable<Tag, object>>>()))
                 .ReturnsAsync(tags);
 
-            mockRepo.Setup(repo => repo.TagRepository.Update(It.IsAny<Tag>()));
+           
+
+            mockRepo.Setup(x => x.TagRepository.Update(It.IsAny<Tag>()));
 
             mockRepo.Setup(x => x.SaveChanges()).Throws(new InvalidOperationException("Failed to create tag"));
 
