@@ -492,7 +492,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                     Id = 2,
                     StreetcodeId = 1,
                 },
-            }
+            };
 
             var mockRepo = new Mock<IRepositoryWrapper>();
 
