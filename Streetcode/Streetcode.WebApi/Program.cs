@@ -50,6 +50,3 @@ if (app.Environment.EnvironmentName != "Local")
 app.MapControllers();
 
 app.Run();
-public partial class Program
-{
-}
