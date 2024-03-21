@@ -136,5 +136,101 @@
 
             return mockRepo;
         }
+
+        public static Mock<IRepositoryWrapper> GetTagRepositoryMock()
+        {
+            var tag = new Tag()
+            {
+                Id = 1,
+                Title = "Test",
+            };
+
+            List<Tag> tags = new List<Tag>
+            {
+                new Tag
+                {
+                    Id = 1,
+                    Title = "Test",
+                },
+                new Tag
+                {
+                    Id = 2,
+                    Title = "Test",
+                },
+            };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(x => x.TagRepository.CreateAsync(It.IsAny<Tag>()))
+                .ReturnsAsync(tag);
+
+            mockRepo.Setup(x => x.TagRepository.GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<Tag, bool>>>(),
+                It.IsAny<Func<IQueryable<Tag>, IIncludableQueryable<Tag, object>>>()))
+                .ReturnsAsync((Expression<Func<Tag, bool>> predicate, Func<IQueryable<Tag>,
+                IIncludableQueryable<Tag, object>> include) =>
+                {
+                    return tags.FirstOrDefault(predicate.Compile());
+                });
+
+            mockRepo.Setup(x => x.TagRepository.GetAllAsync(
+                It.IsAny<Expression<Func<Tag, bool>>>(),
+                It.IsAny<Func<IQueryable<Tag>, IIncludableQueryable<Tag, object>>>()))
+                .ReturnsAsync(tags);
+
+            mockRepo.Setup(repo => repo.TagRepository.Update(It.IsAny<Tag>()));
+
+            mockRepo.Setup(x => x.SaveChanges()).Returns(1);
+
+            return mockRepo;
+        }
+
+        public static Mock<IRepositoryWrapper> GetTagRepositoryMockWithSettingException()
+        {
+            var tag = new Tag()
+            {
+                Id = 1,
+                Title = "Test",
+            };
+
+            List<Tag> tags = new List<Tag>
+            {
+                new Tag
+                {
+                    Id = 1,
+                    Title = "Test",
+                },
+                new Tag
+                {
+                    Id = 2,
+                    Title = "Test",
+                },
+            };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(x => x.TagRepository.CreateAsync(It.IsAny<Tag>()))
+                .ReturnsAsync(tag);
+
+            mockRepo.Setup(x => x.TagRepository.GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<Tag, bool>>>(),
+                It.IsAny<Func<IQueryable<Tag>, IIncludableQueryable<Tag, object>>>()))
+                .ReturnsAsync((Expression<Func<Tag, bool>> predicate, Func<IQueryable<Tag>,
+                IIncludableQueryable<Tag, object>> include) =>
+                {
+                    return tags.FirstOrDefault(predicate.Compile());
+                });
+
+            mockRepo.Setup(x => x.TagRepository.GetAllAsync(
+                It.IsAny<Expression<Func<Tag, bool>>>(),
+                It.IsAny<Func<IQueryable<Tag>, IIncludableQueryable<Tag, object>>>()))
+                .ReturnsAsync(tags);
+
+            mockRepo.Setup(repo => repo.TagRepository.Update(It.IsAny<Tag>()));
+
+            mockRepo.Setup(x => x.SaveChanges()).Throws(new InvalidOperationException("Failed to create tag"));
+
+            return mockRepo;
+        }
     }
 }
