@@ -21,29 +21,29 @@
 
     public class GetAllSubtitleHandlerTest
     {
-        private readonly IMapper _mapper;
-        private readonly Mock<IRepositoryWrapper> _mockRepository;
-        private readonly Mock<ILoggerService> _mockLogger;
+        private readonly IMapper mapper;
+        private readonly Mock<IRepositoryWrapper> mockRepository;
+        private readonly Mock<ILoggerService> mockLogger;
 
         public GetAllSubtitleHandlerTest()
         {
-            _mockRepository = RepositoryMocker.GetSubtitleRepositoryMock();
+            this.mockRepository = RepositoryMocker.GetSubtitleRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<SubtitleProfile>();
             });
 
-            _mapper = mapperConfig.CreateMapper();
+            this.mapper = mapperConfig.CreateMapper();
 
-            _mockLogger = new Mock<ILoggerService>();
+            this.mockLogger = new Mock<ILoggerService>();
         }
 
         [Fact]
         public async Task Handler_GetAll_ResultShouldNotBeNullOrEmpty()
         {
             // Arrange
-            var handler = new GetAllSubtitlesHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
+            var handler = new GetAllSubtitlesHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
             var request = new GetAllSubtitlesQuery();
 
             // Act
@@ -57,7 +57,7 @@
         public async Task Handler_GetAll_ResultShouldBeOfTypeSubtitleDTO()
         {
             // Arrange
-            var handler = new GetAllSubtitlesHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
+            var handler = new GetAllSubtitlesHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
             var request = new GetAllSubtitlesQuery();
 
             // Act
@@ -71,7 +71,7 @@
         public async Task Handler_GetAll_CountShouldBeThree()
         {
             // Arrange
-            var handler = new GetAllSubtitlesHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
+            var handler = new GetAllSubtitlesHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
             var request = new GetAllSubtitlesQuery();
 
             // Act

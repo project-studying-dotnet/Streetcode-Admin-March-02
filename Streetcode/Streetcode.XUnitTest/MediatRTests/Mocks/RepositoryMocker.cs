@@ -127,7 +127,7 @@
             mockRepo.Setup(x => x.SubtitleRepository.GetFirstOrDefaultAsync(
                 It.IsAny<Expression<Func<Subtitle, bool>>>(),
                 It.IsAny<Func<IQueryable<Subtitle>, IIncludableQueryable<Subtitle, object>>>()))
-                .ReturnsAsync((Expression<Func<Subtitle, bool>> predicate,
+            .ReturnsAsync((Expression<Func<Subtitle, bool>> predicate,
                 Func<IQueryable<Subtitle>,
                 IIncludableQueryable<Subtitle, object>> include) =>
                 {
@@ -244,8 +244,6 @@
                 It.IsAny<Func<IQueryable<Tag>,
                 IIncludableQueryable<Tag, object>>>()))
                 .ReturnsAsync(tags);
-
-           
 
             mockRepo.Setup(x => x.TagRepository.Update(It.IsAny<Tag>()));
 

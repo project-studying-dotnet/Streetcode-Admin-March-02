@@ -22,27 +22,27 @@
     {
         private readonly IMapper _mapper;
         private readonly Mock<IRepositoryWrapper> _mockRepository;
-        private readonly Mock<ILoggerService> _mockLogger;
+        private readonly Mock<ILoggerService> mockLogger;
 
         public DeleteCoordinateHandlerTest()
         {
-            _mockRepository = RepositoryMocker.GetCoordinateRepositoryMock();
+            this._mockRepository = RepositoryMocker.GetCoordinateRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<StreetcodeCoordinateProfile>();
             });
 
-            _mapper = mapperConfig.CreateMapper();
+            this._mapper = mapperConfig.CreateMapper();
 
-            _mockLogger = new Mock<ILoggerService>();
+            this.mockLogger = new Mock<ILoggerService>();
         }
 
         [Fact]
         public async Task Handler_WrongId_IsFailedShouldBeTrue()
         {
             // Arrange
-            var handler = new DeleteCoordinateHandler(_mockRepository.Object);
+            var handler = new DeleteCoordinateHandler(this._mockRepository.Object);
 
             int wrongId = 10;
             DeleteCoordinateCommand request = new DeleteCoordinateCommand(wrongId);
@@ -58,7 +58,7 @@
         public async Task Handler_CorrectId_IsSuccessShouldBeTrue()
         {
             // Arrange
-            var handler = new DeleteCoordinateHandler(_mockRepository.Object);
+            var handler = new DeleteCoordinateHandler(this._mockRepository.Object);
 
             int correctId = 1;
             DeleteCoordinateCommand request = new DeleteCoordinateCommand(correctId);
