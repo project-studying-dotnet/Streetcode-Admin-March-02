@@ -1,28 +1,15 @@
-
 namespace Streetcode.XUnitTest.MediatRTests.Mocks
 {
     using Microsoft.EntityFrameworkCore.Query;
     using Moq;
-    using Repositories.Interfaces;
-    using Streetcode.BLL.DTO.Media.Art;
     using Streetcode.DAL.Entities.Media.Images;
-    using Streetcode.BLL.Interfaces.Email;
     using Streetcode.DAL.Repositories.Interfaces.Base;
-    using Streetcode.DAL.Repositories.Realizations.Base;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Text;
     using System.Threading.Tasks;
-    using Streetcode.BLL.Interfaces.Logging;
-    using Microsoft.Extensions.Hosting;
     using Streetcode.BLL.Interfaces.Instagram;
-    using Streetcode.BLL.Services.Payment;
-    using Microsoft.Extensions.Options;
-    using Microsoft.Extensions.Localization;
-    using Moq.Protected;
-    using Streetcode.BLL.DTO.Timeline;
     using Streetcode.DAL.Entities.Timeline;
     using Streetcode.DAL.Enums;
     using Streetcode.DAL.Entities.Instagram;
@@ -31,6 +18,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
     using Streetcode.DAL.Entities.Toponyms;
     using Streetcode.DAL.Entities.Team;
     using Streetcode.DAL.Entities.Sources;
+    using Streetcode.DAL.Entities.Partners;
 
     /// <summary>
     /// Repository mocker.
