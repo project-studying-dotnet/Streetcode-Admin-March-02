@@ -83,5 +83,25 @@
             // Assert
             result.Value.Count().Should().Be(expectedCount);
         }
+
+        [Fact]
+        public async Task Handler_TagRepositoryIsEmpty_IsFailedShouldBeTrue()
+        {
+            // Arrange
+            this.mockRepository.Setup(x => x.TagRepository.GetAllAsync(
+                It.IsAny<Expression<Func<Tag, bool>>>(),
+                It.IsAny<Func<IQueryable<Tag>,
+                IIncludableQueryable<Tag, object>>>()))
+                .Returns(Task.FromResult<IEnumerable<Tag>>(null));
+
+            var handler = new GetAllTagsHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var request = new GetAllTagsQuery();
+
+            // Act
+            var result = await handler.Handle(request, CancellationToken.None);
+
+            // Assert
+            result.IsFailed.Should().BeTrue();
+        }
     }
 }
