@@ -1,22 +1,22 @@
-﻿using AutoMapper;
-using FluentAssertions;
-using Moq;
-using Streetcode.BLL.DTO.AdditionalContent.Coordinates.Types;
-using Streetcode.BLL.Interfaces.Logging;
-using Streetcode.BLL.Mapping.AdditionalContent.Coordinates;
-using Streetcode.BLL.MediatR.AdditionalContent.Coordinate.Create;
-using Streetcode.BLL.MediatR.AdditionalContent.Coordinate.Update;
-using Streetcode.DAL.Repositories.Interfaces.Base;
-using Streetcode.XUnitTest.MediatRTests.Mocks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace Streetcode.XUnitTest.MediatRTests.AdditionalContent.Coordinate.Update
+﻿namespace Streetcode.XUnitTest.MediatRTests.AdditionalContent.Coordinate.Update
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using AutoMapper;
+    using FluentAssertions;
+    using Moq;
+    using Streetcode.BLL.DTO.AdditionalContent.Coordinates.Types;
+    using Streetcode.BLL.Interfaces.Logging;
+    using Streetcode.BLL.Mapping.AdditionalContent.Coordinates;
+    using Streetcode.BLL.MediatR.AdditionalContent.Coordinate.Create;
+    using Streetcode.BLL.MediatR.AdditionalContent.Coordinate.Update;
+    using Streetcode.DAL.Repositories.Interfaces.Base;
+    using Streetcode.XUnitTest.MediatRTests.Mocks;
+    using Xunit;
+
     public class UpdateCoordinateHandlerTest
     {
         private readonly IMapper _mapper;

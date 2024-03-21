@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using AutoMapper.Configuration.Conventions;
-using FluentAssertions;
-using Moq;
-using Streetcode.BLL.Interfaces.Logging;
-using Streetcode.BLL.Mapping.AdditionalContent.Coordinates;
-using Streetcode.BLL.MediatR.AdditionalContent.Coordinate.Create;
-using Streetcode.BLL.MediatR.AdditionalContent.Coordinate.Delete;
-using Streetcode.DAL.Entities.AdditionalContent.Coordinates.Types;
-using Streetcode.DAL.Repositories.Interfaces.Base;
-using Streetcode.XUnitTest.MediatRTests.Mocks;
-using Xunit;
-
-namespace Streetcode.XUnitTest.MediatRTests.AdditionalContent.Coordinate.Delete
+﻿namespace Streetcode.XUnitTest.MediatRTests.AdditionalContent.Coordinate.Delete
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using AutoMapper;
+    using AutoMapper.Configuration.Conventions;
+    using FluentAssertions;
+    using Moq;
+    using Streetcode.BLL.Interfaces.Logging;
+    using Streetcode.BLL.Mapping.AdditionalContent.Coordinates;
+    using Streetcode.BLL.MediatR.AdditionalContent.Coordinate.Create;
+    using Streetcode.BLL.MediatR.AdditionalContent.Coordinate.Delete;
+    using Streetcode.DAL.Entities.AdditionalContent.Coordinates.Types;
+    using Streetcode.DAL.Repositories.Interfaces.Base;
+    using Streetcode.XUnitTest.MediatRTests.Mocks;
+    using Xunit;
+
     public class DeleteCoordinateHandlerTest
     {
         private readonly IMapper _mapper;

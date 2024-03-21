@@ -1,26 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using FluentAssertions;
-using Microsoft.EntityFrameworkCore.Query;
-using Moq;
-using Streetcode.BLL.DTO.AdditionalContent.Coordinates.Types;
-using Streetcode.BLL.Interfaces.Logging;
-using Streetcode.BLL.Mapping.AdditionalContent.Coordinates;
-using Streetcode.BLL.MediatR.AdditionalContent.Coordinate.GetByStreetcodeId;
-using Streetcode.DAL.Entities.AdditionalContent.Coordinates;
-using Streetcode.DAL.Entities.AdditionalContent.Coordinates.Types;
-using Streetcode.DAL.Entities.Streetcode;
-using Streetcode.DAL.Repositories.Interfaces.Base;
-using Streetcode.XUnitTest.MediatRTests.Mocks;
-using Xunit;
-
-namespace Streetcode.XUnitTest.MediatRTests.AdditionalContent.Coordinate.GetByStreetcoordinateId
+﻿namespace Streetcode.XUnitTest.MediatRTests.AdditionalContent.Coordinate.GetByStreetcoordinateId
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Text;
+    using System.Threading.Tasks;
+    using AutoMapper;
+    using FluentAssertions;
+    using Microsoft.EntityFrameworkCore.Query;
+    using Moq;
+    using Streetcode.BLL.DTO.AdditionalContent.Coordinates.Types;
+    using Streetcode.BLL.Interfaces.Logging;
+    using Streetcode.BLL.Mapping.AdditionalContent.Coordinates;
+    using Streetcode.BLL.MediatR.AdditionalContent.Coordinate.GetByStreetcodeId;
+    using Streetcode.DAL.Entities.AdditionalContent.Coordinates;
+    using Streetcode.DAL.Entities.AdditionalContent.Coordinates.Types;
+    using Streetcode.DAL.Entities.Streetcode;
+    using Streetcode.DAL.Repositories.Interfaces.Base;
+    using Streetcode.XUnitTest.MediatRTests.Mocks;
+    using Xunit;
+
     public class GetByStreetcoordinateIdHandlerTest
     {
         private readonly IMapper _mapper;
