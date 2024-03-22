@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using FluentAssertions;
 using Moq;
-using Streetcode.BLL.DTO.Media.Art;
-using Streetcode.BLL.DTO.Media.Audio;
+using Streetcode.BLL.Dto.Media.Art;
+using Streetcode.BLL.Dto.Media.Audio;
 using Streetcode.BLL.Interfaces.BlobStorage;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.Mapping.Media;
@@ -80,7 +80,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.GetBaseAudio
             var result = await handler.Handle(new GetAllAudiosQuery(), CancellationToken.None);
 
             //Assert        
-            result.Value.Should().BeOfType<List<AudioDTO>>();
+            result.Value.Should().BeOfType<List<AudioDto>>();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using Moq;
-using Streetcode.BLL.DTO.Timeline;
+using Streetcode.BLL.Dto.Timeline;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.Mapping.Timeline;
 using Streetcode.BLL.MediatR.Timeline.TimelineItem.GetAll;
@@ -70,7 +70,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Timeline.HistoricalContext.GetAll
             var result = await handler.Handle(new GetAllHistoricalContextQuery(), CancellationToken.None);
 
             //Assert        
-            result.Value.Should().BeOfType<List<HistoricalContextDTO>>();
+            result.Value.Should().BeOfType<List<HistoricalContextDto>>();
         }
     }
 

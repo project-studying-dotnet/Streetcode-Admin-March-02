@@ -8,7 +8,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.Create
     using AutoMapper;
     using FluentAssertions;
     using Moq;
-    using Streetcode.BLL.DTO.Media.Audio;
+    using Streetcode.BLL.Dto.Media.Audio;
     using Streetcode.BLL.Interfaces.BlobStorage;
     using Streetcode.BLL.Interfaces.Logging;
     using Streetcode.BLL.Mapping.Media;
@@ -60,7 +60,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.Create
 
             // Act
             var result = await handler.Handle(
-                new CreateAudioCommand(new AudioFileBaseCreateDTO()
+                new CreateAudioCommand(new AudioFileBaseCreateDto()
             {
                 Description = "Created audio",
                 Title = "Created title",

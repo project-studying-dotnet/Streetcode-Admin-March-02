@@ -3,7 +3,7 @@
 using AutoMapper;
 using FluentAssertions;
 using Moq;
-using Streetcode.BLL.DTO.Team;
+using Streetcode.BLL.Dto.Team;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.Mapping.Team;
 using Streetcode.BLL.MediatR.Team.TeamMembersLinks.GetAll;
@@ -54,7 +54,7 @@ public class GetAllHandlerTest
         var result = await handler.Handle(new GetAllTeamLinkQuery(), CancellationToken.None);
 
         // Assert
-        result.Value.Should().BeOfType<List<TeamMemberLinkDTO>>();
+        result.Value.Should().BeOfType<List<TeamMemberLinkDto>>();
     }
 
     [Fact]
