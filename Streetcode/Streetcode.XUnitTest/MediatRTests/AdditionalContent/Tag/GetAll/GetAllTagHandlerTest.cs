@@ -4,17 +4,14 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Text;
     using System.Threading.Tasks;
     using AutoMapper;
     using FluentAssertions;
     using Microsoft.EntityFrameworkCore.Query;
     using Moq;
-    using Streetcode.BLL.DTO.AdditionalContent;
-    using Streetcode.BLL.DTO.AdditionalContent.Subtitles;
+    using Streetcode.BLL.Dto.AdditionalContent;
     using Streetcode.BLL.Interfaces.Logging;
     using Streetcode.BLL.Mapping.AdditionalContent;
-    using Streetcode.BLL.MediatR.AdditionalContent.Subtitle.GetAll;
     using Streetcode.BLL.MediatR.AdditionalContent.Tag.GetAll;
     using Streetcode.DAL.Entities.AdditionalContent;
     using Streetcode.DAL.Repositories.Interfaces.Base;
@@ -56,7 +53,7 @@
         }
 
         [Fact]
-        public async Task Handler_GetAll_ResultShouldBeOfTypeSubtitleDTO()
+        public async Task Handler_GetAll_ResultShouldBeOfTypeSubtitleDto()
         {
             // Arrange
             var handler = new GetAllTagsHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
@@ -66,7 +63,7 @@
             var result = await handler.Handle(request, CancellationToken.None);
 
             // Assert
-            result.Value.Should().BeOfType<List<TagDTO>>();
+            result.Value.Should().BeOfType<List<TagDto>>();
         }
 
         [Fact]
