@@ -10,9 +10,9 @@ namespace Streetcode.BLL.Services.Payment
 {
     public class PaymentService : IPaymentService
     {
-        private readonly PaymentEnvirovmentVariables _paymentEnvirovment;
+        private readonly PaymentEnvironmentVariables _paymentEnvirovment;
         private readonly HttpClient _httpClient;
-        public PaymentService(IOptions<PaymentEnvirovmentVariables> paymentEnvirovment)
+        public PaymentService(IOptions<PaymentEnvironmentVariables> paymentEnvirovment)
         {
             _paymentEnvirovment = paymentEnvirovment.Value;
             _httpClient = new HttpClient();

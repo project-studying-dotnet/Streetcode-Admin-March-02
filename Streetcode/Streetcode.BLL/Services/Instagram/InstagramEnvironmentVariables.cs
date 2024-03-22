@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Streetcode.BLL.Services.Instagram;
 
-    public class InstagramEnvirovmentVariables
+    public class InstagramEnvironmentVariables
     {
          public string InstagramID { get; set; }
          public string InstagramToken { get; set; }

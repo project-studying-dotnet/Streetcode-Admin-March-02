@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Streetcode.BLL.Dto.Users
 {
-    public class RefreshTokenResponce
+    public class RefreshTokenResponse
     {
         public string Token { get; set; }
         public DateTime ExpireAt { get; set; }
