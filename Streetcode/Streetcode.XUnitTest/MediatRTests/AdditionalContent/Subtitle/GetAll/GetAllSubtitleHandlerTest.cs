@@ -8,13 +8,10 @@
     using AutoMapper;
     using FluentAssertions;
     using Moq;
-    using Streetcode.BLL.DTO.AdditionalContent.Subtitles;
-    using Streetcode.BLL.DTO.Media.Art;
+    using Streetcode.BLL.Dto.AdditionalContent.Subtitles;
     using Streetcode.BLL.Interfaces.Logging;
     using Streetcode.BLL.Mapping.AdditionalContent;
-    using Streetcode.BLL.Mapping.Media.Images;
     using Streetcode.BLL.MediatR.AdditionalContent.Subtitle.GetAll;
-    using Streetcode.BLL.MediatR.Media.Art.GetAll;
     using Streetcode.DAL.Repositories.Interfaces.Base;
     using Streetcode.XUnitTest.MediatRTests.Mocks;
     using Xunit;
@@ -64,7 +61,7 @@
             var result = await handler.Handle(request, CancellationToken.None);
 
             // Assert
-            result.Value.Should().BeOfType<List<SubtitleDTO>>();
+            result.Value.Should().BeOfType<List<SubtitleDto>>();
         }
 
         [Fact]

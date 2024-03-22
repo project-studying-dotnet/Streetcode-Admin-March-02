@@ -4,16 +4,14 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Text;
     using System.Threading.Tasks;
     using AutoMapper;
     using FluentAssertions;
     using Microsoft.EntityFrameworkCore.Query;
     using Moq;
-    using Streetcode.BLL.DTO.AdditionalContent.Tag;
+    using Streetcode.BLL.Dto.AdditionalContent.Tag;
     using Streetcode.BLL.Interfaces.Logging;
     using Streetcode.BLL.Mapping.AdditionalContent;
-    using Streetcode.BLL.MediatR.AdditionalContent.Subtitle.GetByStreetcodeId;
     using Streetcode.BLL.MediatR.AdditionalContent.Tag.GetByStreetcodeId;
     using Streetcode.DAL.Entities.AdditionalContent;
     using Streetcode.DAL.Repositories.Interfaces.Base;
@@ -56,7 +54,7 @@
         }
 
         [Fact]
-        public async Task Handler_GetByStreetcodeValidId_ResultShouldBeOfTypeIEnumerableStreetcodeTagDTO()
+        public async Task Handler_GetByStreetcodeValidId_ResultShouldBeOfTypeIEnumerableStreetcodeTagDto()
         {
             // Arrange
             var handler = new GetTagByStreetcodeIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
@@ -67,7 +65,7 @@
             var result = await handler.Handle(request, CancellationToken.None);
 
             // Assert
-            result.Value.Should().BeOfType<List<StreetcodeTagDTO>>();
+            result.Value.Should().BeOfType<List<StreetcodeTagDto>>();
         }
 
         [Fact]
