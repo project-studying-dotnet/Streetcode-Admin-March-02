@@ -7,7 +7,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Partners.Create
     using AutoMapper;
     using FluentAssertions;
     using Moq;
-    using Streetcode.BLL.DTO.Partners;
+    using Streetcode.BLL.Dto.Partners;
     using Streetcode.BLL.Interfaces.Logging;
     using Streetcode.BLL.Mapping.Partners;
     using Streetcode.BLL.MediatR.Partners.Create;
@@ -53,7 +53,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Partners.Create
 
             // Act
             var result = await handler.Handle(
-                new CreatePartnerQuery(new CreatePartnerDTO()
+                new CreatePartnerQuery(new CreatePartnerDto()
                 {
                     Id = 1,
                     IsKeyPartner = true,

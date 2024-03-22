@@ -8,7 +8,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Images.Create
     using AutoMapper;
     using FluentAssertions;
     using Moq;
-    using Streetcode.BLL.DTO.Media.Images;
+    using Streetcode.BLL.Dto.Media.Images;
     using Streetcode.BLL.Interfaces.BlobStorage;
     using Streetcode.BLL.Interfaces.Logging;
     using Streetcode.BLL.Mapping.Media.Images;
@@ -59,7 +59,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Images.Create
 
             // Act
             var result = await handler.Handle(
-                new CreateImageCommand(new ImageFileBaseCreateDTO()
+                new CreateImageCommand(new ImageFileBaseCreateDto()
                 {
                     Alt = "Created image",
                     Title = "Created title",

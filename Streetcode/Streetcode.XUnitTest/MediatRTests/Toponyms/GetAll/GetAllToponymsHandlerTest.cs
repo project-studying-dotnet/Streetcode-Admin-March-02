@@ -7,7 +7,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Toponyms.GetAll
     using AutoMapper;
     using FluentAssertions;
     using Moq;
-    using Streetcode.BLL.DTO.Toponyms;
+    using Streetcode.BLL.Dto.Toponyms;
     using Streetcode.BLL.Interfaces.Logging;
     using Streetcode.BLL.Mapping.Toponyms;
     using Streetcode.BLL.MediatR.Toponyms.GetAll;
@@ -53,7 +53,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Toponyms.GetAll
             var handler = new GetAllToponymsHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
            
             // Act
-            var result = await handler.Handle(new GetAllToponymsQuery(new GetAllToponymsRequestDTO() { Title = "First streetname" }), CancellationToken.None);
+            var result = await handler.Handle(new GetAllToponymsQuery(new GetAllToponymsRequestDto() { Title = "First streetname" }), CancellationToken.None);
 
             // Assert
             result.Value.Should().NotBeNull();
@@ -71,10 +71,10 @@ namespace Streetcode.XUnitTest.MediatRTests.Toponyms.GetAll
             var handler = new GetAllToponymsHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
 
             // Act
-            var result = await handler.Handle(new GetAllToponymsQuery(new GetAllToponymsRequestDTO() { Title = "First streetname" }), CancellationToken.None);
+            var result = await handler.Handle(new GetAllToponymsQuery(new GetAllToponymsRequestDto() { Title = "First streetname" }), CancellationToken.None);
 
             // Assert
-            result.Value.Toponyms.Should().BeOfType<List<ToponymDTO>>();
+            result.Value.Toponyms.Should().BeOfType<List<ToponymDto>>();
         }
     }
 }

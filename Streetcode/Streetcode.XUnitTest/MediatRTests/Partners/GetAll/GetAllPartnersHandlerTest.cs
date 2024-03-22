@@ -7,7 +7,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Partners.GetAll
     using AutoMapper;
     using FluentAssertions;
     using Moq;
-    using Streetcode.BLL.DTO.Partners;
+    using Streetcode.BLL.Dto.Partners;
     using Streetcode.BLL.Interfaces.Logging;
     using Streetcode.BLL.Mapping.Partners;
     using Streetcode.BLL.MediatR.Partners.GetAll;
@@ -89,7 +89,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Partners.GetAll
             var result = await handler.Handle(new GetAllPartnersQuery(), CancellationToken.None);
 
             // Assert
-            result.Value.Should().BeOfType<List<PartnerDTO>>();
+            result.Value.Should().BeOfType<List<PartnerDto>>();
         }
     }
 }
