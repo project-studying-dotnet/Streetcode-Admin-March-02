@@ -76,7 +76,7 @@
         {
             // Arrange
             var handler = new GetNewsByUrlHandler(this.mapper, this.mockRepository.Object, this.blobService.Object, this.mockLogger.Object);
-            string validUrl = "example.com";
+            string validUrl = "example1.com";
             var request = new GetNewsByUrlQuery(validUrl);
 
             // Act

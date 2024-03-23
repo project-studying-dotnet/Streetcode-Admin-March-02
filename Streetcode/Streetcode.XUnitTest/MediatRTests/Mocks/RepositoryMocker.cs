@@ -716,7 +716,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                     Text = "Text1",
                     CreationDate = DateTime.Now,
                     ImageId = 1,
-                    URL = "example.com",
+                    URL = "example1.com",
                 },
                 new News()
                 {
@@ -724,8 +724,8 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                     Title = "Title2",
                     Text = "Text2",
                     CreationDate = DateTime.Now,
-                    ImageId = 1,
-                    URL = "example.com",
+                    ImageId = 2,
+                    URL = "example2.com",
                 },
                 new News()
                 {
@@ -733,8 +733,8 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                     Title = "Title3",
                     Text = "Text3",
                     CreationDate = DateTime.Now,
-                    ImageId = 1,
-                    URL = "example.com",
+                    ImageId = 3,
+                    URL = "example3.com",
                 },
             };
 
