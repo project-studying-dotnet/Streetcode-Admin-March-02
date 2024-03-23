@@ -66,7 +66,7 @@
             var result = await handler.Handle(getCoordinatesByStreetcodeIdQuery, CancellationToken.None);
 
             // Assert
-            result.Value.Should().BeOfType<List<StreetcodeCoordinateDto>>();
+            result.Value.Should().BeOfType<List<PaymentResponseDTO>>();
         }
 
         [Fact]

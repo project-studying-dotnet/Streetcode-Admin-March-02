@@ -37,7 +37,7 @@
         {
             // Arrange
             var handler = new UpdateCoordinateHandler(this.mockRepository.Object, this.mapper);
-            StreetcodeCoordinateDto? streetcodeCoordinateDTO = null;
+            PaymentResponseDTO? streetcodeCoordinateDTO = null;
             var streetcodeCoordinate = new UpdateCoordinateCommand(streetcodeCoordinateDTO);
 
             // Act
@@ -52,7 +52,7 @@
         {
             // Arrange
             var handler = new UpdateCoordinateHandler(this.mockRepository.Object, this.mapper);
-            var streetcodeCoordinateDTO = new StreetcodeCoordinateDto()
+            var streetcodeCoordinateDTO = new PaymentResponseDTO()
             {
                 StreetcodeId = 1,
                 Id = 1,

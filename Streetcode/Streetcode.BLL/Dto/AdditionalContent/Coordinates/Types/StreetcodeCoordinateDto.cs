@@ -1,6 +1,6 @@
 namespace Streetcode.BLL.Dto.AdditionalContent.Coordinates.Types;
 
-public class StreetcodeCoordinateDto : CoordinateDto
+public class PaymentResponseDTO : CoordinateDto
 {
     public int StreetcodeId { get; set; }
 }
