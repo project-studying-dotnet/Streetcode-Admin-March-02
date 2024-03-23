@@ -1,21 +1,26 @@
-// <copyright file="RepositoryMocker.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
-
 namespace Streetcode.XUnitTest.MediatRTests.Mocks
 {
-    using System.Linq.Expressions;
-    using Microsoft.EntityFrameworkCore.Query;
-    using Moq;
-    using Streetcode.DAL.Entities.Media;
-    using Streetcode.DAL.Entities.Media.Images;
-    using Streetcode.DAL.Entities.Streetcode;
-    using Streetcode.DAL.Entities.Toponyms;
-    using Streetcode.DAL.Repositories.Interfaces.Base;
-    using Streetcode.DAL.Entities.Team;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
+    using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore.Query;
+    using Moq;
+    using Streetcode.BLL.Interfaces.Instagram;
+    using Streetcode.DAL.Entities.AdditionalContent;
+    using Streetcode.DAL.Entities.AdditionalContent.Coordinates.Types;
+    using Streetcode.DAL.Entities.Instagram;
+    using Streetcode.DAL.Entities.Media;
+    using Streetcode.DAL.Entities.Media.Images;
+    using Streetcode.DAL.Entities.Partners;
+    using Streetcode.DAL.Entities.Sources;
+    using Streetcode.DAL.Entities.Streetcode;
+    using Streetcode.DAL.Entities.Team;
+    using Streetcode.DAL.Entities.Timeline;
+    using Streetcode.DAL.Entities.Toponyms;
+    using Streetcode.DAL.Enums;
+    using Streetcode.DAL.Repositories.Interfaces.Base;
 
     /// <summary>
     /// Repository mocker.
@@ -343,6 +348,320 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                     It.IsAny<Expression<Func<TeamMemberLink, bool>>>(),
                     It.IsAny<Func<IQueryable<TeamMemberLink>, IIncludableQueryable<TeamMemberLink, object>>>()))
                 .ReturnsAsync(links);
+
+            return mockRepo;
+        }
+
+        public static Mock<IRepositoryWrapper> GetTimelineRepositoryMock()
+        {
+            var timeline_items = new List<TimelineItem>()
+            {
+                 new TimelineItem { Id = 1, Title = "TimelineItem 1", Description = "First description", Date = DateTime.Now, DateViewPattern = DateViewPattern.DateMonthYear },
+                 new TimelineItem { Id = 2, Title = "TimelineItem 2", Description = "Second description", Date = DateTime.Now, DateViewPattern = DateViewPattern.DateMonthYear },
+                 new TimelineItem { Id = 3, Title = "TimelineItem 3", Description = "Third description", Date = DateTime.Now, DateViewPattern = DateViewPattern.DateMonthYear }
+            };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(repo => repo.TimelineRepository.GetAllAsync(It.IsAny<Expression<Func<TimelineItem, bool>>>(), It.IsAny<Func<IQueryable<TimelineItem>,
+                IIncludableQueryable<TimelineItem, object>>>())).ReturnsAsync(timeline_items);
+
+            mockRepo.Setup(repo => repo.TimelineRepository.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<TimelineItem, bool>>>(), It.IsAny<Func<IQueryable<TimelineItem>, IIncludableQueryable<TimelineItem, object>>>()))
+                .ReturnsAsync((Expression<Func<TimelineItem, bool>> predicate, Func<IQueryable<TimelineItem>, IIncludableQueryable<TimelineItem, object>> include) =>
+                {
+                    return timeline_items.FirstOrDefault(predicate.Compile());
+                });
+
+            return mockRepo;
+        }
+
+        public static Mock<IRepositoryWrapper> GetHistoricalContextRepositoryMock()
+        {
+            var historical_contexts = new List<HistoricalContext>()
+        {
+            new HistoricalContext { Id = 1, Title = "TimelineItem 1" },
+            new HistoricalContext { Id = 2, Title = "TimelineItem 2" },
+            new HistoricalContext { Id = 3, Title = "TimelineItem 3" }
+        };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(repo => repo.HistoricalContextRepository.GetAllAsync(It.IsAny<Expression<Func<HistoricalContext, bool>>>(), It.IsAny<Func<IQueryable<HistoricalContext>,
+                IIncludableQueryable<HistoricalContext, object>>>())).ReturnsAsync(historical_contexts);
+
+            mockRepo.Setup(repo => repo.HistoricalContextRepository.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<HistoricalContext, bool>>>(), It.IsAny<Func<IQueryable<HistoricalContext>, IIncludableQueryable<HistoricalContext, object>>>()))
+                    .ReturnsAsync((Expression<Func<HistoricalContext, bool>> predicate, Func<IQueryable<HistoricalContext>, IIncludableQueryable<HistoricalContext, object>> include) =>
+                    {
+                        return historical_contexts.FirstOrDefault(predicate.Compile());
+                    });
+
+            return mockRepo;
+        }
+
+        public static Mock<IRepositoryWrapper> GetSourceRepositoryMock()
+        {
+            var sources = new List<SourceLinkCategory>()
+            {
+                new SourceLinkCategory { Id = 1, Title = "First title", ImageId = 1, Image = null },
+                new SourceLinkCategory { Id = 2, Title = "Second title", ImageId = 2, Image = null },
+                new SourceLinkCategory { Id = 3, Title = "Third title", ImageId = 3, Image = null },
+                new SourceLinkCategory { Id = 4, Title = "Fourth title", ImageId = 4, Image = null },
+            };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(x => x.SourceCategoryRepository.GetAllAsync(It.IsAny<Expression<Func<SourceLinkCategory, bool>>>(), It.IsAny<Func<IQueryable<SourceLinkCategory>, IIncludableQueryable<SourceLinkCategory, object>>>()))
+                .ReturnsAsync(sources);
+
+            return mockRepo;
+        }
+
+
+        public static Mock<IInstagramService> GetInstagramPostsMock()
+        {
+            var posts = new List<InstagramPost>()
+            {
+                new InstagramPost{ Id = "1", Caption = "1Caption", IsPinned = true, MediaType = "Image", MediaUrl = "1url", Permalink = "1permalink", ThumbnailUrl = "1thumbnailurl" },
+                new InstagramPost{ Id = "2", Caption = "2Caption", IsPinned = true, MediaType = "Image", MediaUrl = "2url", Permalink = "2permalink", ThumbnailUrl = "2thumbnailurl" },
+                new InstagramPost{ Id = "3", Caption = "3Caption", IsPinned = true, MediaType = "Image", MediaUrl = "3url", Permalink = "3permalink", ThumbnailUrl = "3thumbnailurl" },
+                new InstagramPost{ Id = "4", Caption = "4Caption", IsPinned = true, MediaType = "Image", MediaUrl = "4url", Permalink = "4permalink", ThumbnailUrl = "4thumbnailurl" },
+            };
+
+            var mockRepo = new Mock<IInstagramService>();
+
+            mockRepo.Setup(x => x.GetPostsAsync())
+                .ReturnsAsync(posts);
+
+            return mockRepo;
+        }
+      
+        public static Mock<IRepositoryWrapper> GetPartnersRepositoryMock()
+        {
+          var mockRepo = new Mock<IRepositoryWrapper>();
+          
+            var partners = new List<Partner>()
+            {
+                new Partner { Id = 1, Title = "First Title", LogoId = 1, IsKeyPartner = true, IsVisibleEverywhere = true, TargetUrl = "First Url", UrlTitle = "First Url Title", Description = "First Description", Logo = null },
+                new Partner { Id = 2, Title = "Second Title", LogoId = 2, IsKeyPartner = true, IsVisibleEverywhere = true, TargetUrl = "Second Url", UrlTitle = "Second Url Title", Description = "Second Description", Logo = null },
+                new Partner { Id = 3, Title = "Third Title", LogoId = 3, IsKeyPartner = true, IsVisibleEverywhere = true, TargetUrl = "Third Url", UrlTitle = "Third Url Title", Description = "Third Description", Logo = null },
+                new Partner { Id = 4, Title = "Fourth Title", LogoId = 4, IsKeyPartner = true, IsVisibleEverywhere = true, TargetUrl = "Fourth Url", UrlTitle = "Fourth Url Title", Description = "Fourth Description", Logo = null },
+            };
+          
+          mockRepo.Setup(x => x.PartnersRepository.GetAllAsync(It.IsAny<Expression<Func<Partner, bool>>>(), It.IsAny<Func<IQueryable<Partner>, IIncludableQueryable<Partner, object>>>()))
+                .ReturnsAsync(partners);
+
+            mockRepo.Setup(x => x.PartnersRepository.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Partner, bool>>>(), It.IsAny<Func<IQueryable<Partner>, IIncludableQueryable<Partner, object>>>()))
+                .ReturnsAsync((Expression<Func<Partner, bool>> predicate, Func<IQueryable<Partner>, IIncludableQueryable<Partner, object>> include) =>
+                {
+                    return partners.FirstOrDefault(predicate.Compile());
+                });
+          
+          return mockRepo;
+        }
+
+        public static Mock<IRepositoryWrapper> GetCoordinateRepositoryMock()
+        {
+            var coordinate = new StreetcodeCoordinate()
+            {
+                Id = 1,
+                StreetcodeId = 1,
+            };
+
+            List<StreetcodeCoordinate> coordinates = new List<StreetcodeCoordinate>
+            {
+                new StreetcodeCoordinate
+                {
+                    Id = 1,
+                    StreetcodeId = 1,
+                },
+                new StreetcodeCoordinate
+                {
+                    Id = 2,
+                    StreetcodeId = 1,
+                },
+            };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(x => x.StreetcodeCoordinateRepository.Create(It.IsAny<StreetcodeCoordinate>()))
+                .Returns(coordinate);
+
+            mockRepo.Setup(x => x.StreetcodeCoordinateRepository.GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<StreetcodeCoordinate, bool>>>(),
+                It.IsAny<Func<IQueryable<StreetcodeCoordinate>, IIncludableQueryable<StreetcodeCoordinate, object>>>()))
+                .ReturnsAsync((Expression<Func<StreetcodeCoordinate, bool>> predicate, Func<IQueryable<StreetcodeCoordinate>,
+                IIncludableQueryable<StreetcodeCoordinate, object>> include) =>
+                {
+                    return coordinates.FirstOrDefault(predicate.Compile());
+                });
+
+            mockRepo.Setup(x => x.StreetcodeCoordinateRepository.GetAllAsync(
+                It.IsAny<Expression<Func<StreetcodeCoordinate, bool>>>(),
+                It.IsAny<Func<IQueryable<StreetcodeCoordinate>, IIncludableQueryable<StreetcodeCoordinate, object>>>()))
+                .ReturnsAsync(coordinates);
+
+            mockRepo.Setup(repo => repo.StreetcodeCoordinateRepository.Update(It.IsAny<StreetcodeCoordinate>()));
+
+            mockRepo.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
+
+            return mockRepo;
+        }
+
+        public static Mock<IRepositoryWrapper> GetSubtitleRepositoryMock()
+        {
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            var subtitles = new List<Subtitle>()
+            {
+                new Subtitle
+                {
+                    StreetcodeId = 1,
+                    Id = 1,
+                    SubtitleText = "Test",
+                },
+                new Subtitle
+                {
+                    StreetcodeId = 1,
+                    Id = 2,
+                    SubtitleText = "Test",
+                },
+                new Subtitle
+                {
+                    StreetcodeId = 1,
+                    Id = 3,
+                    SubtitleText = "Test",
+                },
+            };
+
+            mockRepo.Setup(x => x.SubtitleRepository.GetAllAsync(
+                It.IsAny<Expression<Func<Subtitle, bool>>>(),
+                It.IsAny<Func<IQueryable<Subtitle>, IIncludableQueryable<Subtitle, object>>>()))
+                .ReturnsAsync(subtitles);
+
+            mockRepo.Setup(x => x.SubtitleRepository.GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<Subtitle, bool>>>(),
+                It.IsAny<Func<IQueryable<Subtitle>, IIncludableQueryable<Subtitle, object>>>()))
+            .ReturnsAsync((Expression<Func<Subtitle, bool>> predicate,
+                Func<IQueryable<Subtitle>,
+                IIncludableQueryable<Subtitle, object>> include) =>
+                {
+                    return subtitles.FirstOrDefault(predicate.Compile());
+                });
+
+            return mockRepo;
+        }
+
+        public static Mock<IRepositoryWrapper> GetTagRepositoryMock()
+        {
+            var tag = new Tag()
+            {
+                Id = 1,
+                Title = "Test",
+            };
+
+            List<Tag> tags = new List<Tag>
+            {
+                new Tag
+                {
+                    Id = 1,
+                    Title = "Test",
+                },
+                new Tag
+                {
+                    Id = 2,
+                    Title = "Test",
+                },
+            };
+
+            var tagIndeces = new List<StreetcodeTagIndex>
+            {
+                new StreetcodeTagIndex { TagId = 1, StreetcodeId = 1, Tag = new Tag { Id = 1, Title = "Test" }, Index = 1 },
+                new StreetcodeTagIndex { TagId = 2, StreetcodeId = 1, Tag = new Tag { Id = 2, Title = "Test" }, Index = 2 },
+            };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(x => x.TagRepository.CreateAsync(It.IsAny<Tag>()))
+                .ReturnsAsync(tag);
+
+            mockRepo.Setup(x => x.TagRepository.GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<Tag, bool>>>(),
+                It.IsAny<Func<IQueryable<Tag>, IIncludableQueryable<Tag, object>>>()))
+                .ReturnsAsync((Expression<Func<Tag, bool>> predicate, Func<IQueryable<Tag>,
+                IIncludableQueryable<Tag, object>> include) =>
+                {
+                    return tags.FirstOrDefault(predicate.Compile());
+                });
+
+            mockRepo.Setup(x => x.TagRepository.GetAllAsync(
+                It.IsAny<Expression<Func<Tag, bool>>>(),
+                It.IsAny<Func<IQueryable<Tag>, IIncludableQueryable<Tag, object>>>()))
+                .ReturnsAsync(tags);
+
+            mockRepo.Setup(x => x.StreetcodeTagIndexRepository.GetAllAsync(
+               It.IsAny<Expression<Func<StreetcodeTagIndex, bool>>>(),
+               It.IsAny<Func<IQueryable<StreetcodeTagIndex>,
+               IIncludableQueryable<StreetcodeTagIndex, object>>>()))
+               .Returns(Task.FromResult<IEnumerable<StreetcodeTagIndex>>(tagIndeces));
+
+            mockRepo.Setup(repo => repo.TagRepository.Update(It.IsAny<Tag>()));
+
+            mockRepo.Setup(x => x.SaveChanges()).Returns(1);
+
+            return mockRepo;
+        }
+
+        public static Mock<IRepositoryWrapper> GetTagRepositoryMockWithSettingException()
+        {
+            var tag = new Tag()
+            {
+                Id = 1,
+                Title = "Test",
+            };
+
+            List<Tag> tags = new List<Tag>
+            {
+                new Tag
+                {
+                    Id = 1,
+                    Title = "Test",
+                },
+                new Tag
+                {
+                    Id = 2,
+                    Title = "Test",
+                },
+            };
+
+            var tagIndeces = new List<StreetcodeTagIndex>
+            {
+                new StreetcodeTagIndex { TagId = 1, StreetcodeId = 1, Tag = new Tag { Id = 1, Title = "Test" }, Index = 1 },
+                new StreetcodeTagIndex { TagId = 2, StreetcodeId = 1, Tag = new Tag { Id = 2, Title = "Test" }, Index = 2 },
+            };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(x => x.TagRepository.CreateAsync(It.IsAny<Tag>()))
+                .ReturnsAsync(tag);
+
+            mockRepo.Setup(x => x.TagRepository.GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<Tag, bool>>>(),
+                It.IsAny<Func<IQueryable<Tag>, IIncludableQueryable<Tag, object>>>()))
+                .ReturnsAsync((Expression<Func<Tag, bool>> predicate, Func<IQueryable<Tag>,
+                IIncludableQueryable<Tag, object>> include) =>
+                {
+                    return tags.FirstOrDefault(predicate.Compile());
+                });
+
+            mockRepo.Setup(x => x.TagRepository.GetAllAsync(
+                It.IsAny<Expression<Func<Tag, bool>>>(),
+                It.IsAny<Func<IQueryable<Tag>,
+                IIncludableQueryable<Tag, object>>>()))
+                .ReturnsAsync(tags);
+
+            mockRepo.Setup(x => x.TagRepository.Update(It.IsAny<Tag>()));
+
+            mockRepo.Setup(x => x.SaveChanges()).Throws(new InvalidOperationException("Failed to create tag"));
 
             return mockRepo;
         }

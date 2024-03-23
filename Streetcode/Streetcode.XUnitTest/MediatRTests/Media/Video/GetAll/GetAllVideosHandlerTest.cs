@@ -10,7 +10,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Video.GetAll
     using AutoMapper;
     using FluentAssertions;
     using Moq;
-    using Streetcode.BLL.DTO.Media.Video;
+    using Streetcode.BLL.Dto.Media.Video;
     using Streetcode.BLL.Interfaces.Logging;
     using Streetcode.BLL.Mapping.Media;
     using Streetcode.BLL.MediatR.Media.Video.GetAll;
@@ -93,7 +93,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Video.GetAll
             var result = await handler.Handle(new GetAllVideosQuery(), CancellationToken.None);
 
             // Assert
-            result.Value.Should().BeOfType<List<VideoDTO>>();
+            result.Value.Should().BeOfType<List<VideoDto>>();
         }
     }
 }

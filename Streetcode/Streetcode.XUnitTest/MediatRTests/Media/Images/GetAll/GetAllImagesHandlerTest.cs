@@ -7,8 +7,8 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Images
     using AutoMapper;
     using FluentAssertions;
     using Moq;
-    using Streetcode.BLL.DTO.Media.Audio;
-    using Streetcode.BLL.DTO.Media.Images;
+    using Streetcode.BLL.Dto.Media.Audio;
+    using Streetcode.BLL.Dto.Media.Images;
     using Streetcode.BLL.Interfaces.BlobStorage;
     using Streetcode.BLL.Interfaces.Logging;
     using Streetcode.BLL.MediatR.Media.Audio.GetAll;
@@ -89,27 +89,27 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Images
             var result = await handler.Handle(new GetAllImagesQuery(), CancellationToken.None);
 
             // Assert
-            result.Value.Should().BeOfType<List<ImageDTO>>();
+            result.Value.Should().BeOfType<List<ImageDto>>();
         }
 
-        private List<ImageDTO> GetImagesDTOList()
+        private List<ImageDto> GetImagesDTOList()
         {
-            return new List<ImageDTO>()
+            return new List<ImageDto>()
             {
-                new ImageDTO
+                new ImageDto
                 {
                     Id = 1,
                 },
-                new ImageDTO
+                new ImageDto
                 {
                     Id = 2,
                 },
             };
         }
 
-        private void ConfigureMapper(List<ImageDTO> imageListDTO)
+        private void ConfigureMapper(List<ImageDto> imageListDTO)
         {
-            this.mockMapper?.Setup(x => x.Map<IEnumerable<ImageDTO>>(It.IsAny<IEnumerable<object>>()))
+            this.mockMapper?.Setup(x => x.Map<IEnumerable<ImageDto>>(It.IsAny<IEnumerable<object>>()))
             .Returns(imageListDTO);
         }
     }

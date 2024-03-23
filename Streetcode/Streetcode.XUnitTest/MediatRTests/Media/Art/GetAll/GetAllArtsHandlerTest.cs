@@ -9,7 +9,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Art.GetAll
     using AutoMapper;
     using FluentAssertions;
     using Moq;
-    using Streetcode.BLL.DTO.Media.Art;
+    using Streetcode.BLL.Dto.Media.Art;
     using Streetcode.BLL.Interfaces.Logging;
     using Streetcode.BLL.Mapping.Media.Images;
     using Streetcode.BLL.MediatR.Media.Art.GetAll;
@@ -92,7 +92,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Art.GetAll
             var result = await handler.Handle(new GetAllArtsQuery(), CancellationToken.None);
 
             // Assert
-            result.Value.Should().BeOfType<List<ArtDTO>>();
+            result.Value.Should().BeOfType<List<ArtDto>>();
         }
     }
 }
