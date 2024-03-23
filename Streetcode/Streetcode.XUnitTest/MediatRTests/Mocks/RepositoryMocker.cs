@@ -714,16 +714,15 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                 .GetAllAsync(
                     It.IsAny<Expression<Func<Fact, bool>>>(),
                     It.IsAny<Func<IQueryable<Fact>, IIncludableQueryable<Fact, object>>>()))
-                .ReturnsAsync(facts);
-
-            mockRepo.Setup(x => x.FactRepository
-                .GetAllAsync(
-                    It.IsAny<Expression<Func<Fact, bool>>>(),
-                    It.IsAny<Func<IQueryable<Fact>, IIncludableQueryable<Fact, object>>>()))
                 .ReturnsAsync((
                     Expression<Func<Fact, bool>> predicate, 
                     Func<IQueryable<Fact>, IIncludableQueryable<Fact, object>> include) =>
                 {
+                    if (predicate is null)
+                    {
+                        return facts;
+                    }
+
                     return facts.Where(predicate.Compile());
                 });
 
