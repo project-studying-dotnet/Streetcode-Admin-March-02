@@ -19,20 +19,12 @@
 
     public class DeleteNewsHandlerTest
     {
-        private readonly IMapper mapper;
         private readonly Mock<IRepositoryWrapper> mockRepository;
         private readonly Mock<ILoggerService> mockLogger;
 
         public DeleteNewsHandlerTest()
         {
             this.mockRepository = RepositoryMocker.GetNewsRepositoryMock();
-
-            var mapperConfig = new MapperConfiguration(c =>
-            {
-                c.AddProfile<NewsProfile>();
-            });
-
-            this.mapper = mapperConfig.CreateMapper();
 
             this.mockLogger = new Mock<ILoggerService>();
         }
