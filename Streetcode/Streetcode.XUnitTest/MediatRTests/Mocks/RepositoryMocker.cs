@@ -7,6 +7,8 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore.Query;
     using Moq;
+    using Streetcode.BLL.Dto.Email;
+    using Streetcode.BLL.Interfaces.Email;
     using Streetcode.BLL.Interfaces.Instagram;
     using Streetcode.BLL.Interfaces.Payment;
     using Streetcode.DAL.Entities.AdditionalContent;
@@ -667,6 +669,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
 
             return mockRepo;
         }
+
         public static Mock<IPaymentService> GetPaymentMock()
         {
             var merchantPaymentInfo = new MerchantPaymentInfo
@@ -683,12 +686,17 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
 
             var mockService = new Mock<IPaymentService>();
 
-            // Setup the mock to return a specific invoice when CreateInvoiceAsync is called
             mockService.Setup(x => x.CreateInvoiceAsync(It.IsAny<Invoice>()))
                .ReturnsAsync(new InvoiceInfo("invoiceId", "pageUrl"));
 
             return mockService;
+        }
 
+        public static Mock<IEmailService> GetEmailMock(bool word)
+        {
+            var mockService = new Mock<IEmailService>();
+
+            return mockService;
         }
     }
 }
