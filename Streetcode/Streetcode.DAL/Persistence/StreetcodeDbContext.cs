@@ -104,5 +104,7 @@ public class StreetcodeDbContext : DbContext
         modelBuilder.ApplyConfiguration(new RelatedTermEntityConfiguration());
 
         modelBuilder.ApplyConfiguration(new CoordinateEntityConfiguration());
+
+        modelBuilder.ApplyConfiguration(new FactEntityConfiguration());
     }
 }
