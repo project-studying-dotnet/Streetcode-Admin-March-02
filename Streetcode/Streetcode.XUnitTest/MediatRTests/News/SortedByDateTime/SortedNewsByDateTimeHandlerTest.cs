@@ -1,5 +1,10 @@
 ﻿namespace Streetcode.XUnitTest.MediatRTests.News.SortedByDateTime
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
     using AutoMapper;
     using FluentAssertions;
     using Moq;
@@ -11,11 +16,6 @@
     using Streetcode.BLL.MediatR.Newss.SortedByDateTime;
     using Streetcode.DAL.Repositories.Interfaces.Base;
     using Streetcode.XUnitTest.MediatRTests.Mocks;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Xunit;
 
     public class SortedNewsByDateTimeHandlerTest

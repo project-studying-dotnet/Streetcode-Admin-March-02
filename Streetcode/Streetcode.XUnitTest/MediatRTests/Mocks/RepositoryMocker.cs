@@ -738,6 +738,22 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                 },
             };
 
+            var images = new List<Image>()
+            {
+                new Image()
+                {
+                    Id = 1
+                },
+                new Image()
+                {
+                    Id = 2
+                },
+                new Image()
+                {
+                    Id = 3
+                },
+            };
+
             var mockRepo = new Mock<IRepositoryWrapper>();
 
             mockRepo.Setup(x => x.NewsRepository.Create(It.IsAny<News>()))
@@ -756,6 +772,17 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                 It.IsAny<Expression<Func<News, bool>>>(),
                 It.IsAny<Func<IQueryable<News>, IIncludableQueryable<News, object>>>()))
                 .ReturnsAsync(news);
+
+            mockRepo.Setup(x => x.ImageRepository.GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<Image, bool>>>(),
+                It.IsAny<Func<IQueryable<Image>, IIncludableQueryable<Image, object>>>()))
+                .ReturnsAsync((Expression<Func<Image, bool>> predicate, Func<IQueryable<Image>,
+                IIncludableQueryable<Image, object>> include) =>
+                {
+                    return images.FirstOrDefault(predicate.Compile());
+                });
+
+            mockRepo.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
 
             return mockRepo;
         }
