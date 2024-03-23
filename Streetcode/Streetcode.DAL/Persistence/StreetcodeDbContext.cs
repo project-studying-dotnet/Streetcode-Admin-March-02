@@ -214,6 +214,10 @@ public class StreetcodeDbContext : DbContext
                 .IsUnique(false);
         });
 
+        modelBuilder.Entity<Fact>()
+            .HasIndex(f => new { f.StreetcodeId, f.OrderNumber })
+            .IsUnique();
+
         modelBuilder.Entity<StreetcodeContent>(entity =>
         {
             entity.Property(s => s.CreatedAt)
