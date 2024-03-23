@@ -54,6 +54,7 @@
 	  <Folder Include="MediatRTests\Media\Audio\GetByStreetcodeId\" />
 	  <Folder Include="MediatRTests\Toponyms\GetByStreetcodeId\" />
 	  <Folder Include="MediatRTests\Payment\" />
+	  <Folder Include="MediatRTests\Email\" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -65,5 +66,6 @@
 	  <None Remove="MediatRTests\Timeline\HistoricalContext\" />
 	  <None Remove="MediatRTests\Timeline\HistoricalContext\GetAll\" />
 	  <None Remove="MediatRTests\Payment\" />
+	  <None Remove="MediatRTests\Email\" />
 	</ItemGroup>
 </Project>
