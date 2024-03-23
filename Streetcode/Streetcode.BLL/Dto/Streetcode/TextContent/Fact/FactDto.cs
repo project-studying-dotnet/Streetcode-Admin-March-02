@@ -1,10 +1,6 @@
 namespace Streetcode.BLL.Dto.Streetcode.TextContent.Fact;
 
-public class FactDto
+public class FactDto : FactBaseDto
 {
     public int Id { get; set; }
-    public string Title { get; set; }
-    public int ImageId { get; set; }
-    public string FactContent { get; set; }
-    public int OrderNumber { get; set; }
 }
