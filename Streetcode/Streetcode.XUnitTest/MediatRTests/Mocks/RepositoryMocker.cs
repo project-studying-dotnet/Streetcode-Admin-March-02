@@ -21,8 +21,12 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
     using Streetcode.DAL.Entities.Team;
     using Streetcode.DAL.Entities.Timeline;
     using Streetcode.DAL.Entities.Toponyms;
+    using Streetcode.DAL.Entities.News;
     using Streetcode.DAL.Enums;
     using Streetcode.DAL.Repositories.Interfaces.Base;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.ChangeTracking;
+    using Streetcode.DAL.Persistence;
 
     /// <summary>
     /// Repository mocker.
@@ -667,6 +671,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
 
             return mockRepo;
         }
+
         public static Mock<IPaymentService> GetPaymentMock()
         {
             var merchantPaymentInfo = new MerchantPaymentInfo
@@ -688,7 +693,71 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                .ReturnsAsync(new InvoiceInfo("invoiceId", "pageUrl"));
 
             return mockService;
+        }
 
+        public static Mock<IRepositoryWrapper> GetNewsRepositoryMock()
+        {
+            var newsItem = new News()
+            {
+                Id = 1,
+                Title = "Title1",
+                Text = "Text1",
+                CreationDate = DateTime.Now,
+                ImageId = 1,
+                URL = "example.com",
+            };
+
+            var news = new List<News>()
+            {
+                new News()
+                {
+                    Id = 1,
+                    Title = "Title1",
+                    Text = "Text1",
+                    CreationDate = DateTime.Now,
+                    ImageId = 1,
+                    URL = "example.com",
+                },
+                new News()
+                {
+                    Id = 2,
+                    Title = "Title2",
+                    Text = "Text2",
+                    CreationDate = DateTime.Now,
+                    ImageId = 1,
+                    URL = "example.com",
+                },
+                new News()
+                {
+                    Id = 3,
+                    Title = "Title3",
+                    Text = "Text3",
+                    CreationDate = DateTime.Now,
+                    ImageId = 1,
+                    URL = "example.com",
+                },
+            };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(x => x.NewsRepository.Create(It.IsAny<News>()))
+                .Returns(newsItem);
+
+            mockRepo.Setup(x => x.NewsRepository.GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<News, bool>>>(),
+                It.IsAny<Func<IQueryable<News>, IIncludableQueryable<News, object>>>()))
+                .ReturnsAsync((Expression<Func<News, bool>> predicate, Func<IQueryable<News>,
+                IIncludableQueryable<News, object>> include) =>
+                {
+                    return news.FirstOrDefault(predicate.Compile());
+                });
+
+            mockRepo.Setup(x => x.NewsRepository.GetAllAsync(
+                It.IsAny<Expression<Func<News, bool>>>(),
+                It.IsAny<Func<IQueryable<News>, IIncludableQueryable<News, object>>>()))
+                .ReturnsAsync(news);
+
+            return mockRepo;
         }
     }
 }
