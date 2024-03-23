@@ -4,36 +4,25 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Text;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore.Query;
     using Moq;
-    using Streetcode.DAL.Entities.Media.Images;
-    using Streetcode.DAL.Repositories.Interfaces.Base;
-    using Streetcode.DAL.Repositories.Realizations.Base;
-    using Microsoft.EntityFrameworkCore.ChangeTracking;
-    using Streetcode.DAL.Entities.AdditionalContent;
-    using Streetcode.DAL.Entities.AdditionalContent.Coordinates;
-    using Streetcode.DAL.Entities.AdditionalContent.Coordinates.Types;
-    using Streetcode.DAL.Entities.Analytics;
-    using Streetcode.DAL.Entities.Media;
-    using Streetcode.DAL.Entities.Media.Images;
-    using Streetcode.DAL.Entities.Streetcode;
-    using Streetcode.DAL.Repositories.Interfaces.Base;
-    using Streetcode.DAL.Repositories.Realizations.Base;
-    using static System.Net.Mime.MediaTypeNames;
-    using Streetcode.BLL.Interfaces.Logging;
-    using Microsoft.Extensions.Hosting;
     using Streetcode.BLL.Interfaces.Instagram;
-    using Streetcode.DAL.Entities.Timeline;
-    using Streetcode.DAL.Enums;
+    using Streetcode.BLL.Interfaces.Payment;
+    using Streetcode.DAL.Entities.AdditionalContent;
+    using Streetcode.DAL.Entities.AdditionalContent.Coordinates.Types;
     using Streetcode.DAL.Entities.Instagram;
     using Streetcode.DAL.Entities.Media;
-    using Streetcode.DAL.Entities.Streetcode;
-    using Streetcode.DAL.Entities.Toponyms;
-    using Streetcode.DAL.Entities.Team;
-    using Streetcode.DAL.Entities.Sources;
+    using Streetcode.DAL.Entities.Media.Images;
     using Streetcode.DAL.Entities.Partners;
+    using Streetcode.DAL.Entities.Payment;
+    using Streetcode.DAL.Entities.Sources;
+    using Streetcode.DAL.Entities.Streetcode;
+    using Streetcode.DAL.Entities.Team;
+    using Streetcode.DAL.Entities.Timeline;
+    using Streetcode.DAL.Entities.Toponyms;
+    using Streetcode.DAL.Enums;
+    using Streetcode.DAL.Repositories.Interfaces.Base;
 
     /// <summary>
     /// Repository mocker.
@@ -677,6 +666,29 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
             mockRepo.Setup(x => x.SaveChanges()).Throws(new InvalidOperationException("Failed to create tag"));
 
             return mockRepo;
+        }
+        public static Mock<IPaymentService> GetPaymentMock()
+        {
+            var merchantPaymentInfo = new MerchantPaymentInfo
+            {
+                Destination = "Destination 1"
+            };
+
+            var invoices = new List<Invoice>()
+        {
+            new Invoice(10000, 840, merchantPaymentInfo, "https://example.com/redirect1"),
+            new Invoice(10000, 840, merchantPaymentInfo, "https://example.com/redirect2"),
+            new Invoice(10000, 840, merchantPaymentInfo, "https://example.com/redirect3"),
+        };
+
+            var mockService = new Mock<IPaymentService>();
+
+            // Setup the mock to return a specific invoice when CreateInvoiceAsync is called
+            mockService.Setup(x => x.CreateInvoiceAsync(It.IsAny<Invoice>()))
+               .ReturnsAsync(new InvoiceInfo("invoiceId", "pageUrl"));
+
+            return mockService;
+
         }
     }
 }

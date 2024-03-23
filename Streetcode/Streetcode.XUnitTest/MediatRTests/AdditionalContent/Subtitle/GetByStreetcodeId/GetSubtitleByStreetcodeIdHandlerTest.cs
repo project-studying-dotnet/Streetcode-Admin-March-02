@@ -1,9 +1,5 @@
 ﻿namespace Streetcode.XUnitTest.MediatRTests.AdditionalContent.Subtitle.GetByStreetcodeId
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
     using AutoMapper;
     using FluentAssertions;
@@ -11,7 +7,6 @@
     using Streetcode.BLL.Interfaces.Logging;
     using Streetcode.BLL.Mapping.AdditionalContent;
     using Streetcode.BLL.MediatR.AdditionalContent.Subtitle.GetByStreetcodeId;
-    using Streetcode.BLL.MediatR.Media.Audio.GetByStreetcodeId;
     using Streetcode.DAL.Repositories.Interfaces.Base;
     using Streetcode.XUnitTest.MediatRTests.Mocks;
     using Xunit;
