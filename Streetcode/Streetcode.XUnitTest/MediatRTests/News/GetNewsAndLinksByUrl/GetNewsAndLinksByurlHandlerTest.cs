@@ -1,23 +1,23 @@
-﻿using AutoMapper;
-using FluentAssertions;
-using Moq;
-using Streetcode.BLL.Dto.News;
-using Streetcode.BLL.Interfaces.BlobStorage;
-using Streetcode.BLL.Interfaces.Logging;
-using Streetcode.BLL.Mapping.Newss;
-using Streetcode.BLL.MediatR.Newss.GetByUrl;
-using Streetcode.BLL.MediatR.Newss.GetNewsAndLinksByUrl;
-using Streetcode.DAL.Repositories.Interfaces.Base;
-using Streetcode.XUnitTest.MediatRTests.Mocks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace Streetcode.XUnitTest.MediatRTests.News.GetNewsAndLinksByUrl
+﻿namespace Streetcode.XUnitTest.MediatRTests.News.GetNewsAndLinksByUrl
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using AutoMapper;
+    using FluentAssertions;
+    using Moq;
+    using Streetcode.BLL.Dto.News;
+    using Streetcode.BLL.Interfaces.BlobStorage;
+    using Streetcode.BLL.Interfaces.Logging;
+    using Streetcode.BLL.Mapping.Newss;
+    using Streetcode.BLL.MediatR.Newss.GetByUrl;
+    using Streetcode.BLL.MediatR.Newss.GetNewsAndLinksByUrl;
+    using Streetcode.DAL.Repositories.Interfaces.Base;
+    using Streetcode.XUnitTest.MediatRTests.Mocks;
+    using Xunit;
+
     public class GetNewsAndLinksByurlHandlerTest
     {
         private readonly IMapper mapper;
