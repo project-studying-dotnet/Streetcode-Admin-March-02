@@ -7,11 +7,14 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore.Query;
     using Moq;
+    using Streetcode.BLL.Dto.Email;
+    using Streetcode.BLL.Interfaces.Email;
     using Streetcode.BLL.Interfaces.Instagram;
     using Streetcode.BLL.Interfaces.Payment;
     using Streetcode.DAL.Entities.AdditionalContent;
     using Streetcode.DAL.Entities.AdditionalContent.Coordinates.Types;
     using Streetcode.DAL.Entities.Instagram;
+    using Streetcode.DAL.Entities.Locations;
     using Streetcode.DAL.Entities.Media;
     using Streetcode.DAL.Entities.Media.Images;
     using Streetcode.DAL.Entities.Partners;
@@ -443,7 +446,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
       
         public static Mock<IRepositoryWrapper> GetPartnersRepositoryMock()
         {
-          var mockRepo = new Mock<IRepositoryWrapper>();
+            var mockRepo = new Mock<IRepositoryWrapper>();
           
             var partners = new List<Partner>()
             {
@@ -453,7 +456,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                 new Partner { Id = 4, Title = "Fourth Title", LogoId = 4, IsKeyPartner = true, IsVisibleEverywhere = true, TargetUrl = "Fourth Url", UrlTitle = "Fourth Url Title", Description = "Fourth Description", Logo = null },
             };
           
-          mockRepo.Setup(x => x.PartnersRepository.GetAllAsync(It.IsAny<Expression<Func<Partner, bool>>>(), It.IsAny<Func<IQueryable<Partner>, IIncludableQueryable<Partner, object>>>()))
+            mockRepo.Setup(x => x.PartnersRepository.GetAllAsync(It.IsAny<Expression<Func<Partner, bool>>>(), It.IsAny<Func<IQueryable<Partner>, IIncludableQueryable<Partner, object>>>()))
                 .ReturnsAsync(partners);
 
             mockRepo.Setup(x => x.PartnersRepository.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Partner, bool>>>(), It.IsAny<Func<IQueryable<Partner>, IIncludableQueryable<Partner, object>>>()))
@@ -462,7 +465,31 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                     return partners.FirstOrDefault(predicate.Compile());
                 });
           
-          return mockRepo;
+            return mockRepo;
+        }
+
+        public static Mock<IRepositoryWrapper> GetLocationsRepositoryMock()
+        {
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            var locations = new List<Location>()
+            {
+                new Location { Id = 1, Streetname = "First StreetName", TableNumber = 1 },
+                new Location { Id = 2, Streetname = "First StreetName", TableNumber = 2 },
+                new Location { Id = 3, Streetname = "First StreetName", TableNumber = 3 },
+                new Location { Id = 4, Streetname = "First StreetName", TableNumber = 4 },
+            };
+
+            mockRepo.Setup(x => x.LocationRepository.GetAllAsync(It.IsAny<Expression<Func<Location, bool>>>(), It.IsAny<Func<IQueryable<Location>, IIncludableQueryable<Location, object>>>()))
+                .ReturnsAsync(locations);
+
+            mockRepo.Setup(x => x.LocationRepository.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Location, bool>>>(), It.IsAny<Func<IQueryable<Location>, IIncludableQueryable<Location, object>>>()))
+                .ReturnsAsync((Expression<Func<Location, bool>> predicate, Func<IQueryable<Location>, IIncludableQueryable<Location, object>> include) =>
+                 {
+                     return locations.FirstOrDefault(predicate.Compile());
+                 });
+
+            return mockRepo;
         }
 
         public static Mock<IRepositoryWrapper> GetCoordinateRepositoryMock()
@@ -680,15 +707,14 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
             };
 
             var invoices = new List<Invoice>()
-        {
-            new Invoice(10000, 840, merchantPaymentInfo, "https://example.com/redirect1"),
-            new Invoice(10000, 840, merchantPaymentInfo, "https://example.com/redirect2"),
-            new Invoice(10000, 840, merchantPaymentInfo, "https://example.com/redirect3"),
-        };
+            {
+                new Invoice(10000, 840, merchantPaymentInfo, "https://example.com/redirect1"),
+                new Invoice(10000, 840, merchantPaymentInfo, "https://example.com/redirect2"),
+                new Invoice(10000, 840, merchantPaymentInfo, "https://example.com/redirect3"),
+            };
 
             var mockService = new Mock<IPaymentService>();
 
-            // Setup the mock to return a specific invoice when CreateInvoiceAsync is called
             mockService.Setup(x => x.CreateInvoiceAsync(It.IsAny<Invoice>()))
                .ReturnsAsync(new InvoiceInfo("invoiceId", "pageUrl"));
 
@@ -785,6 +811,13 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
             mockRepo.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
 
             return mockRepo;
+        }
+
+        public static Mock<IEmailService> GetEmailMock(bool word)
+        {
+            var mockService = new Mock<IEmailService>();
+
+            return mockService;
         }
     }
 }
