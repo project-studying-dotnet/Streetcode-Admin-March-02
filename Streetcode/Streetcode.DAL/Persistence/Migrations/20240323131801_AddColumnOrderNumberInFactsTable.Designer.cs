@@ -12,7 +12,7 @@ using Streetcode.DAL.Persistence;
 namespace Streetcode.DAL.Persistence.Migrations
 {
     [DbContext(typeof(StreetcodeDbContext))]
-    [Migration("20240323130002_AddColumnOrderNumberInFactsTable")]
+    [Migration("20240323131801_AddColumnOrderNumberInFactsTable")]
     partial class AddColumnOrderNumberInFactsTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -623,7 +623,7 @@ namespace Streetcode.DAL.Persistence.Migrations
                     b.Property<int?>("ImageId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderNumber")
+                    b.Property<int?>("OrderNumber")
                         .HasColumnType("int");
 
                     b.Property<int>("StreetcodeId")
@@ -639,7 +639,8 @@ namespace Streetcode.DAL.Persistence.Migrations
                     b.HasIndex("ImageId");
 
                     b.HasIndex("StreetcodeId", "OrderNumber")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[OrderNumber] IS NOT NULL");
 
                     b.ToTable("facts", "streetcode");
                 });

@@ -18,15 +18,15 @@ namespace Streetcode.DAL.Persistence.Migrations
                 schema: "streetcode",
                 table: "facts",
                 type: "int",
-                nullable: false,
-                defaultValue: 0);
+                nullable: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_facts_StreetcodeId_OrderNumber",
                 schema: "streetcode",
                 table: "facts",
                 columns: new[] { "StreetcodeId", "OrderNumber" },
-                unique: true);
+                unique: true,
+                filter: "[OrderNumber] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
