@@ -7,12 +7,12 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.Fact.Update;
 
-public class UpdatFactHandler : IRequestHandler<UpdateFactCommand, Result<FactDto>>
+public class UpdateFactHandler : IRequestHandler<UpdateFactCommand, Result<FactDto>>
 {
     private readonly IRepositoryWrapper _repositoryWrapper;
     private readonly IMapper _mapper;
     private readonly ILoggerService _logger;
-    public UpdatFactHandler(IRepositoryWrapper repositoryWrapper, IMapper mapper, ILoggerService logger)
+    public UpdateFactHandler(IRepositoryWrapper repositoryWrapper, IMapper mapper, ILoggerService logger)
     {
         _repositoryWrapper = repositoryWrapper;
         _mapper = mapper;
@@ -40,7 +40,7 @@ public class UpdatFactHandler : IRequestHandler<UpdateFactCommand, Result<FactDt
         }
         else
         {
-            const string errorMsg = $"Failed to update news";
+            const string errorMsg = $"Failed to update fact";
             _logger.LogError(request, errorMsg);
             return Result.Fail(new Error(errorMsg));
         }
