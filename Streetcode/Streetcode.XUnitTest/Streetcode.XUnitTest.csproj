@@ -52,6 +52,9 @@
 	  <Folder Include="MediatRTests\Media\Audio\GetAll\" />
 	  <Folder Include="MediatRTests\Media\Audio\GetById\" />
 	  <Folder Include="MediatRTests\Media\Audio\GetByStreetcodeId\" />
+	  <Folder Include="MediatRTests\Timeline\Timelineitem\Create\" />
+	  <Folder Include="MediatRTests\Timeline\Timelineitem\Delete\" />
+	  <Folder Include="MediatRTests\Timeline\Timelineitem\Update\" />
 	  <Folder Include="MediatRTests\Toponyms\GetByStreetcodeId\" />
 	</ItemGroup>
 
