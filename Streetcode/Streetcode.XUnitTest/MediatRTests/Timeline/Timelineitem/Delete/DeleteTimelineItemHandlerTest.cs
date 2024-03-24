@@ -1,15 +1,13 @@
-﻿// <copyright file="DeletePartnerHandlerTest.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
-
-namespace Streetcode.XUnitTest.MediatRTests.Partners.Delete
+﻿namespace Streetcode.XUnitTest.MediatRTests.Timeline.Timelineitem.Delete
 {
+    using System.Threading.Tasks;
     using AutoMapper;
     using FluentAssertions;
     using Moq;
+    using Streetcode.BLL.Interfaces.BlobStorage;
     using Streetcode.BLL.Interfaces.Logging;
-    using Streetcode.BLL.Mapping.Partners;
-    using Streetcode.BLL.MediatR.Partners.Delete;
+    using Streetcode.BLL.Mapping.Timeline;
+    using Streetcode.BLL.MediatR.Timeline.TimelineItem.Delete;
     using Streetcode.DAL.Repositories.Interfaces.Base;
     using Streetcode.XUnitTest.MediatRTests.Mocks;
     using Xunit;
@@ -17,25 +15,25 @@ namespace Streetcode.XUnitTest.MediatRTests.Partners.Delete
     /// <summary>
     /// Tested successfully.
     /// </summary>
-    public class DeletePartnerHandlerTest
+    public class DeleteTimelineItemHandlerTest
     {
         private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly IMapper mapper;
+        private readonly Mock<IBlobService> mockBlob;
         private readonly Mock<ILoggerService> mockLogger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DeletePartnerHandlerTest"/> class.
+        /// Initializes a new instance of the <see cref="DeleteTimelineItemHandlerTest"/> class.
         /// </summary>
-        public DeletePartnerHandlerTest()
+        public DeleteTimelineItemHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetPartnersRepositoryMock();
+            this.mockRepository = RepositoryMocker.GetTimelineRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
-                c.AddProfile<PartnerProfile>();
+                c.AddProfile<TimelineItemProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            this.mockBlob = new Mock<IBlobService>();
 
             this.mockLogger = new Mock<ILoggerService>();
         }
@@ -48,10 +46,10 @@ namespace Streetcode.XUnitTest.MediatRTests.Partners.Delete
         public async Task DeleteWithFirstIdShouldNotBeNull()
         {
             // Arrange
-            var handler = new DeletePartnerHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new DeleteTimelineItemHandler(this.mockRepository.Object, this.mockBlob.Object, this.mockLogger.Object);
 
             // Act
-            var result = await handler.Handle(new DeletePartnerQuery(1), CancellationToken.None);
+            var result = await handler.Handle(new DeleteTimelineItemCommand(1), CancellationToken.None);
 
             // Assert
             result.Value.Should().NotBeNull();
