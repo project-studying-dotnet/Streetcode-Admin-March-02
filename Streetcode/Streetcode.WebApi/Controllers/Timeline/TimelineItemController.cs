@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Streetcode.BLL.Dto.Timeline;
+using Streetcode.BLL.MediatR.Timeline.TimelineItem.Create;
 using Streetcode.BLL.MediatR.Timeline.TimelineItem.Delete;
 using Streetcode.BLL.MediatR.Timeline.TimelineItem.GetAll;
 using Streetcode.BLL.MediatR.Timeline.TimelineItem.GetById;
@@ -28,11 +29,11 @@ public class TimelineItemController : BaseApiController
         return HandleResult(await Mediator.Send(new GetTimelineItemsByStreetcodeIdQuery(streetcodeId)));
     }
 
-    //[HttpPost]
-    //public async Task<IActionResult> Create([FromBody]TimelineItemDto timelineItem)
-    //{
-
-    //}
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] TimelineItemDto timelineItem)
+    {
+        return HandleResult(await Mediator.Send(new CreateTimelineItemCommand(timelineItem)));
+    }
 
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] TimelineItemDto timelineItem)
