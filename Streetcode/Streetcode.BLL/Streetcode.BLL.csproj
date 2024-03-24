@@ -44,6 +44,7 @@
     <Folder Include="Dto\Instagram\" />
     <Folder Include="MediatR\Analytics\" />
     <Folder Include="MediatR\Streetcode\Fact\Create\" />
+    <Folder Include="MediatR\Streetcode\Fact\UpdateOrderNumber\" />
   </ItemGroup>
 
 </Project>
