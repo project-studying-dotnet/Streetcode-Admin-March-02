@@ -31,9 +31,9 @@ public class UpdateFactHandler : IRequestHandler<UpdateFactCommand, Result<FactD
 
         _repositoryWrapper.FactRepository.Update(fact);
 
+        // TODO: Validate fact.StreetcodeId and fact.ImageId because of exception in SaveChangesAsync if it doesn't exist
         var resultIsSuccess = await _repositoryWrapper.SaveChangesAsync() > 0;
-
-        if(resultIsSuccess)
+        if (resultIsSuccess)
         {
             var response = _mapper.Map<FactDto>(fact);
             return Result.Ok(response);
