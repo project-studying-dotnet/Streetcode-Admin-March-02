@@ -30,6 +30,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.ChangeTracking;
     using Streetcode.DAL.Persistence;
+    using Streetcode.DAL.Entities.Streetcode.TextContent;
 
     /// <summary>
     /// Repository mocker.
@@ -818,6 +819,26 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
             var mockService = new Mock<IEmailService>();
 
             return mockService;
+        }
+
+        public static Mock<IRepositoryWrapper> GetAllFacts()
+        {
+            var facts = new List<Fact>()
+            {
+                new Fact{ Id = 1, Title = "1Title", FactContent = "1FactContent", ImageId = 1, Image = new Image(), StreetcodeId = 1, Streetcode = new StreetcodeContent()},
+                new Fact{ Id = 2, Title = "2Title", FactContent = "2FactContent", ImageId = 2, Image = new Image(), StreetcodeId = 2, Streetcode = new StreetcodeContent()},
+                new Fact{ Id = 3, Title = "3Title", FactContent = "3FactContent", ImageId = 3, Image = new Image(), StreetcodeId = 3, Streetcode = new StreetcodeContent()},
+                new Fact{ Id = 4, Title = "4Title", FactContent = "4FactContent", ImageId = 4, Image = new Image(), StreetcodeId = 4, Streetcode = new StreetcodeContent()},
+            };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(x => x.FactRepository.GetAllAsync(
+                It.IsAny<Expression<Func<Fact, bool>>>(),
+                It.IsAny<Func<IQueryable<Fact>, IIncludableQueryable<Fact, object>>>()))
+                .ReturnsAsync(facts);
+
+            return mockRepo;
         }
     }
 }
