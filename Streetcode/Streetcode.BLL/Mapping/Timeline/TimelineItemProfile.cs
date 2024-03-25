@@ -2,20 +2,23 @@ using AutoMapper;
 using Streetcode.BLL.Dto.Timeline;
 using Streetcode.DAL.Entities.Timeline;
 
-namespace Streetcode.BLL.Mapping.Timeline;
-
-public class TimelineItemProfile : Profile
+namespace Streetcode.BLL.Mapping.Timeline
 {
-    public TimelineItemProfile()
+    public class TimelineItemProfile : Profile
     {
-        CreateMap<TimelineItem, TimelineItemDto>().ReverseMap();
+        public TimelineItemProfile()
+        {
+            CreateMap<TimelineItem, TimelineItemDto>().ReverseMap();
 
-        CreateMap<TimelineItem, TimelineItemDto>()
-            .ForMember(dest => dest.HistoricalContexts, opt => opt.MapFrom(x => x.HistoricalContextTimelines
-                .Select(x => new HistoricalContextDto
-                {
-                    Id = x.HistoricalContextId,
-                    Title = x.HistoricalContext.Title
-                }).ToList()));
+            CreateMap<TimelineItem, TimelineItemDto>()
+                .ForMember(dest => dest.HistoricalContexts, opt => opt.MapFrom(src =>
+                    src.HistoricalContextTimelines != null ?
+                    src.HistoricalContextTimelines.Select(x => new HistoricalContextDto
+                    {
+                        Id = x.HistoricalContextId,
+                        Title = x.HistoricalContext.Title
+                    }).ToList() :
+                    null));
+        }
     }
 }
