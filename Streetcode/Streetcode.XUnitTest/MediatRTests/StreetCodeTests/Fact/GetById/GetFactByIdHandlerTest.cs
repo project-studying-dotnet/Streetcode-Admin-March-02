@@ -33,16 +33,23 @@ namespace Streetcode.XUnitTest.MediatRTests.StreetCodeTests.Fact.GetById
         }
 
         [Fact]
-        public async Task Result_GetFactByIdHandlerTest()
+        public async Task Result_GetFactByIdHandlerNotNull_Test()
         {
             var handler = new GetFactByIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
 
             var result = await handler.Handle(new GetFactByIdQuery(2), CancellationToken.None);
 
             result.Value.Should().NotBeNull();
-            //Assert.Equal(2, result.Value.Id);
-
-
         }
-}
+
+        [Fact]
+        public async Task Result_GetFactByIdHandlerShouldBeSecond_Test()
+        {
+            var handler = new GetFactByIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+
+            var result = await handler.Handle(new GetFactByIdQuery(2), CancellationToken.None);
+
+            Assert.Equal(2, result.Value.Id);
+        }
+    }
 }
