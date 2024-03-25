@@ -1,5 +1,6 @@
 using Hangfire;
 using Streetcode.BLL.Services.BlobStorageService;
+using Streetcode.WebApi.ExceptionHandlers;
 using Streetcode.WebApi.Extensions;
 using Streetcode.WebApi.Utils;
 
@@ -13,6 +14,7 @@ builder.Services.ConfigureBlob(builder);
 builder.Services.ConfigurePayment(builder);
 builder.Services.ConfigureInstagram(builder);
 builder.Services.ConfigureSerilog(builder);
+builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
 
 var app = builder.Build();
 
@@ -32,6 +34,7 @@ await app.ApplyMigrations();
 app.UseCors();
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
