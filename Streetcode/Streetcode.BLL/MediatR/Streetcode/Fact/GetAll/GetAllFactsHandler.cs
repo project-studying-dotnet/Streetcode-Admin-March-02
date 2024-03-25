@@ -4,6 +4,7 @@ using MediatR;
 using Streetcode.BLL.Dto.AdditionalContent.Subtitles;
 using Streetcode.BLL.Dto.Streetcode.TextContent.Fact;
 using Streetcode.BLL.Interfaces.Logging;
+using Streetcode.BLL.MediatR.Streetcode.Fact.GetById;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.Streetcode.Fact.GetAll;
@@ -33,5 +34,10 @@ public class GetAllFactsHandler : IRequestHandler<GetAllFactsQuery, Result<IEnum
         }
 
         return Result.Ok(_mapper.Map<IEnumerable<FactDto>>(facts));
+    }
+
+    public Task Handle(GetFactByIdQuery getFactByIdQuery, CancellationToken none)
+    {
+        throw new NotImplementedException();
     }
 }
