@@ -27,7 +27,7 @@ namespace Streetcode.XUnitTest.MediatRTests.StreetCodeTests.RelatedFigure
         {
             var handler = new DeleteRelatedFigureHandler(this.mockRepository.Object, this.mockLogger.Object);
 
-            var result = await handler.Handle(new DeleteRelatedFigureCommand(1, 2), CancellationToken.None);
+            var result = await handler.Handle(new DeleteRelatedFigureCommand(1, 1), CancellationToken.None);
 
             result.Value.Should().NotBeNull();
         }
