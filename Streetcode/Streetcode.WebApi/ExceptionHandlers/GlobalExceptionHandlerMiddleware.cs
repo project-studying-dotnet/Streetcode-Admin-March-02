@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Streetcode.WebApi.ExceptionHandlers
 {
@@ -17,10 +18,33 @@ namespace Streetcode.WebApi.ExceptionHandlers
             {
                 await next(context);
             }
+            catch (ValidationException ex)
+            {
+                var traceId = Guid.NewGuid();
+                LogInfo(traceId, ex.Message, ex.StackTrace);
+
+                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+                var problemDetails = new ProblemDetails
+                {
+                    Type = "ValidationFailure",
+                    Title = "Validation error",
+                    Status = StatusCodes.Status400BadRequest,
+                    Instance = context.Request.Path,
+                    Detail = $"One or more validation errors has occured, traceID: {traceId}",
+                };
+
+                if (ex.Errors is not null)
+                {
+                    problemDetails.Extensions["errors"] = ex.Errors;
+                }
+
+                await context.Response.WriteAsJsonAsync(problemDetails);
+            }
             catch (Exception ex)
             {
                 var traceId = Guid.NewGuid();
-                _logger.LogError($"Error occure while processing the request, TraceID: {traceId}, Message: {ex.Message}, StackTrace: {ex.StackTrace}");
+                LogInfo(traceId, ex.Message, ex.StackTrace);
 
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
@@ -35,6 +59,11 @@ namespace Streetcode.WebApi.ExceptionHandlers
 
                 await context.Response.WriteAsJsonAsync(problemDetails);
             }
+        }
+
+        private void LogInfo(Guid traceId, string message, string? stackTrace)
+        {
+            _logger.LogError($"Error occure while processing the request, TraceID: {traceId}, Message: {message}, StackTrace: {stackTrace}");
         }
     }
 }

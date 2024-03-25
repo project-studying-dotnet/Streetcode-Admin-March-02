@@ -1,4 +1,7 @@
+using System.Reflection;
+using FluentValidation;
 using Hangfire;
+using MediatR;
 using Streetcode.BLL.Services.BlobStorageService;
 using Streetcode.WebApi.ExceptionHandlers;
 using Streetcode.WebApi.Extensions;
@@ -14,6 +17,8 @@ builder.Services.ConfigureBlob(builder);
 builder.Services.ConfigurePayment(builder);
 builder.Services.ConfigureInstagram(builder);
 builder.Services.ConfigureSerilog(builder);
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+builder.Services.AddValidatorsFromAssembly(Assembly.Load("Streetcode.BLL"));
 builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
 
 var app = builder.Build();
