@@ -15,7 +15,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Partners.Delete
     using Xunit;
 
     /// <summary>
-    /// Can not test.
+    /// Tested successfully.
     /// </summary>
     public class DeletePartnerHandlerTest
     {

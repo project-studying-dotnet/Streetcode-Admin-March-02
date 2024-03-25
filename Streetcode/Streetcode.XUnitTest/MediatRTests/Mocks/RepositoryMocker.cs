@@ -7,12 +7,15 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore.Query;
     using Moq;
+    using Streetcode.BLL.Dto.Email;
+    using Streetcode.BLL.Interfaces.Email;
     using Streetcode.BLL.Interfaces.Instagram;
     using Streetcode.BLL.Interfaces.Payment;
     using Streetcode.DAL.Entities.AdditionalContent;
     using Streetcode.DAL.Entities.AdditionalContent.Coordinates;
     using Streetcode.DAL.Entities.AdditionalContent.Coordinates.Types;
     using Streetcode.DAL.Entities.Instagram;
+    using Streetcode.DAL.Entities.Locations;
     using Streetcode.DAL.Entities.Media;
     using Streetcode.DAL.Entities.Media.Images;
     using Streetcode.DAL.Entities.Partners;
@@ -23,8 +26,12 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
     using Streetcode.DAL.Entities.Team;
     using Streetcode.DAL.Entities.Timeline;
     using Streetcode.DAL.Entities.Toponyms;
+    using Streetcode.DAL.Entities.News;
     using Streetcode.DAL.Enums;
     using Streetcode.DAL.Repositories.Interfaces.Base;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.ChangeTracking;
+    using Streetcode.DAL.Persistence;
 
     /// <summary>
     /// Repository mocker.
@@ -441,7 +448,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
       
         public static Mock<IRepositoryWrapper> GetPartnersRepositoryMock()
         {
-          var mockRepo = new Mock<IRepositoryWrapper>();
+            var mockRepo = new Mock<IRepositoryWrapper>();
           
             var partners = new List<Partner>()
             {
@@ -451,7 +458,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                 new Partner { Id = 4, Title = "Fourth Title", LogoId = 4, IsKeyPartner = true, IsVisibleEverywhere = true, TargetUrl = "Fourth Url", UrlTitle = "Fourth Url Title", Description = "Fourth Description", Logo = null },
             };
           
-          mockRepo.Setup(x => x.PartnersRepository.GetAllAsync(It.IsAny<Expression<Func<Partner, bool>>>(), It.IsAny<Func<IQueryable<Partner>, IIncludableQueryable<Partner, object>>>()))
+            mockRepo.Setup(x => x.PartnersRepository.GetAllAsync(It.IsAny<Expression<Func<Partner, bool>>>(), It.IsAny<Func<IQueryable<Partner>, IIncludableQueryable<Partner, object>>>()))
                 .ReturnsAsync(partners);
 
             mockRepo.Setup(x => x.PartnersRepository.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Partner, bool>>>(), It.IsAny<Func<IQueryable<Partner>, IIncludableQueryable<Partner, object>>>()))
@@ -460,7 +467,31 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                     return partners.FirstOrDefault(predicate.Compile());
                 });
           
-          return mockRepo;
+            return mockRepo;
+        }
+
+        public static Mock<IRepositoryWrapper> GetLocationsRepositoryMock()
+        {
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            var locations = new List<Location>()
+            {
+                new Location { Id = 1, Streetname = "First StreetName", TableNumber = 1 },
+                new Location { Id = 2, Streetname = "First StreetName", TableNumber = 2 },
+                new Location { Id = 3, Streetname = "First StreetName", TableNumber = 3 },
+                new Location { Id = 4, Streetname = "First StreetName", TableNumber = 4 },
+            };
+
+            mockRepo.Setup(x => x.LocationRepository.GetAllAsync(It.IsAny<Expression<Func<Location, bool>>>(), It.IsAny<Func<IQueryable<Location>, IIncludableQueryable<Location, object>>>()))
+                .ReturnsAsync(locations);
+
+            mockRepo.Setup(x => x.LocationRepository.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Location, bool>>>(), It.IsAny<Func<IQueryable<Location>, IIncludableQueryable<Location, object>>>()))
+                .ReturnsAsync((Expression<Func<Location, bool>> predicate, Func<IQueryable<Location>, IIncludableQueryable<Location, object>> include) =>
+                 {
+                     return locations.FirstOrDefault(predicate.Compile());
+                 });
+
+            return mockRepo;
         }
 
         public static Mock<IRepositoryWrapper> GetCoordinateRepositoryMock()
@@ -678,17 +709,115 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
             };
 
             var invoices = new List<Invoice>()
-        {
-            new Invoice(10000, 840, merchantPaymentInfo, "https://example.com/redirect1"),
-            new Invoice(10000, 840, merchantPaymentInfo, "https://example.com/redirect2"),
-            new Invoice(10000, 840, merchantPaymentInfo, "https://example.com/redirect3"),
-        };
+            {
+                new Invoice(10000, 840, merchantPaymentInfo, "https://example.com/redirect1"),
+                new Invoice(10000, 840, merchantPaymentInfo, "https://example.com/redirect2"),
+                new Invoice(10000, 840, merchantPaymentInfo, "https://example.com/redirect3"),
+            };
 
             var mockService = new Mock<IPaymentService>();
 
-            // Setup the mock to return a specific invoice when CreateInvoiceAsync is called
             mockService.Setup(x => x.CreateInvoiceAsync(It.IsAny<Invoice>()))
                .ReturnsAsync(new InvoiceInfo("invoiceId", "pageUrl"));
+
+            return mockService;
+        }
+
+        public static Mock<IRepositoryWrapper> GetNewsRepositoryMock()
+        {
+            var newsItem = new News()
+            {
+                Id = 1,
+                Title = "Title1",
+                Text = "Text1",
+                CreationDate = new DateTime(2024, 3, 21, 0, 0, 0, DateTimeKind.Utc),
+                ImageId = 1,
+                URL = "example.com",
+            };
+
+            var news = new List<News>()
+            {
+                new News()
+                {
+                    Id = 1,
+                    Title = "Title1",
+                    Text = "Text1",
+                    CreationDate = new DateTime(2024, 3, 22, 0, 0, 0, DateTimeKind.Utc),
+                    ImageId = 1,
+                    URL = "example1.com",
+                },
+                new News()
+                {
+                    Id = 2,
+                    Title = "Title2",
+                    Text = "Text2",
+                    CreationDate = new DateTime(2022, 3, 21, 0, 0, 0, DateTimeKind.Utc),
+                    ImageId = 2,
+                    URL = "example2.com",
+                },
+                new News()
+                {
+                    Id = 3,
+                    Title = "Title3",
+                    Text = "Text3",
+                    CreationDate = new DateTime(2024, 3, 23, 0, 0, 0, DateTimeKind.Utc),
+                    ImageId = 3,
+                    URL = "example3.com",
+                },
+            };
+
+            var images = new List<Image>()
+            {
+                new Image()
+                {
+                    Id = 1
+                },
+                new Image()
+                {
+                    Id = 2
+                },
+                new Image()
+                {
+                    Id = 3
+                },
+            };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(x => x.NewsRepository.Create(It.IsAny<News>()))
+                .Returns(newsItem);
+
+            mockRepo.Setup(x => x.NewsRepository.GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<News, bool>>>(),
+                It.IsAny<Func<IQueryable<News>, IIncludableQueryable<News, object>>>()))
+                .ReturnsAsync((Expression<Func<News, bool>> predicate, Func<IQueryable<News>,
+                IIncludableQueryable<News, object>> include) =>
+                {
+                    return news.FirstOrDefault(predicate.Compile());
+                });
+
+            mockRepo.Setup(x => x.NewsRepository.GetAllAsync(
+                It.IsAny<Expression<Func<News, bool>>>(),
+                It.IsAny<Func<IQueryable<News>, IIncludableQueryable<News, object>>>()))
+                .ReturnsAsync(news);
+
+            mockRepo.Setup(x => x.ImageRepository.GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<Image, bool>>>(),
+                It.IsAny<Func<IQueryable<Image>, IIncludableQueryable<Image, object>>>()))
+                .ReturnsAsync((Expression<Func<Image, bool>> predicate, Func<IQueryable<Image>,
+                IIncludableQueryable<Image, object>> include) =>
+                {
+                    return images.FirstOrDefault(predicate.Compile());
+                });
+
+            mockRepo.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
+
+            return mockRepo;
+        }
+
+        public static Mock<IEmailService> GetEmailMock(bool word)
+        {
+            var mockService = new Mock<IEmailService>();
 
             return mockService;
         }
@@ -711,20 +840,20 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
             var mockRepo = new Mock<IRepositoryWrapper>();
 
             mockRepo.Setup(x => x.FactRepository
-                .GetAllAsync(
-                    It.IsAny<Expression<Func<Fact, bool>>>(),
-                    It.IsAny<Func<IQueryable<Fact>, IIncludableQueryable<Fact, object>>>()))
-                .ReturnsAsync((
-                    Expression<Func<Fact, bool>> predicate, 
-                    Func<IQueryable<Fact>, IIncludableQueryable<Fact, object>> include) =>
+            .GetAllAsync(
+                It.IsAny<Expression<Func<Fact, bool>>>(),
+                It.IsAny<Func<IQueryable<Fact>, IIncludableQueryable<Fact, object>>>()))
+            .ReturnsAsync((
+                Expression<Func<Fact, bool>> predicate, 
+                Func<IQueryable<Fact>, IIncludableQueryable<Fact, object>> include) =>
+            {
+                if (predicate is null)
                 {
-                    if (predicate is null)
-                    {
-                        return facts;
-                    }
+                    return facts;
+                }
 
-                    return facts.Where(predicate.Compile());
-                });
+                return facts.Where(predicate.Compile());
+            });
 
             mockRepo.Setup(x => x.FactRepository
                 .GetFirstOrDefaultAsync(
@@ -733,7 +862,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                 .ReturnsAsync((Expression<Func<Fact, bool>> predicate, Func<IQueryable<Fact>, IIncludableQueryable<Fact, object>> include) =>
                 {
                     return facts.FirstOrDefault(predicate.Compile());
-                });
+                    });
 
             return mockRepo;
         }
