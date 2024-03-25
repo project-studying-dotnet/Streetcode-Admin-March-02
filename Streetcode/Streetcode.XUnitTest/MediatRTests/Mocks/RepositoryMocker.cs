@@ -840,5 +840,25 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
 
             return mockRepo;
         }
+
+        public static Mock<IRepositoryWrapper> GetAllRelatedFigures()
+        {
+            var relatedFiegures = new List<RelatedFigure>()
+            {
+                new RelatedFigure { ObserverId = 1, Observer = new StreetcodeContent(), TargetId = 1, Target = new StreetcodeContent() },
+                new RelatedFigure { ObserverId = 2, Observer = new StreetcodeContent(), TargetId = 2, Target = new StreetcodeContent() },
+                new RelatedFigure { ObserverId = 3, Observer = new StreetcodeContent(), TargetId = 3, Target = new StreetcodeContent() },
+                new RelatedFigure { ObserverId = 4, Observer = new StreetcodeContent(), TargetId = 4, Target = new StreetcodeContent() },
+            };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(x => x.RelatedFigureRepository.GetAllAsync(
+                It.IsAny<Expression<Func<RelatedFigure, bool>>>(),
+                It.IsAny<Func<IQueryable<RelatedFigure>, IIncludableQueryable<RelatedFigure, object>>>()))
+                .ReturnsAsync(relatedFiegures);
+
+            return mockRepo;
+        }
     }
 }
