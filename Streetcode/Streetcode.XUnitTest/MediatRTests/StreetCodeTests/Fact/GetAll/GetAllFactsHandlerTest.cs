@@ -1,19 +1,16 @@
-﻿using System;
-using AutoMapper;
-using FluentAssertions;
-using Moq;
-using Streetcode.BLL.Interfaces.Logging;
-using Streetcode.BLL.Mapping.Newss;
-using Streetcode.BLL.Mapping.Streetcode;
-using Streetcode.BLL.Mapping.Streetcode.TextContent;
-using Streetcode.BLL.MediatR.Sources.SourceLink.GetCategoryById;
-using Streetcode.BLL.MediatR.Streetcode.Fact.GetAll;
-using Streetcode.DAL.Repositories.Interfaces.Base;
-using Streetcode.XUnitTest.MediatRTests.Mocks;
-using Xunit;
-
-namespace Streetcode.XUnitTest.MediatRTests.StreetCodeTests.Fact.GetAll
+﻿namespace Streetcode.XUnitTest.MediatRTests.StreetCodeTests.Fact.GetAll
 {
+    using System;
+    using AutoMapper;
+    using FluentAssertions;
+    using Moq;
+    using Streetcode.BLL.Interfaces.Logging;
+    using Streetcode.BLL.Mapping.Streetcode.TextContent;
+    using Streetcode.BLL.MediatR.Streetcode.Fact.GetAll;
+    using Streetcode.DAL.Repositories.Interfaces.Base;
+    using Streetcode.XUnitTest.MediatRTests.Mocks;
+    using Xunit;
+
     public class GetAllFactsHandlerTest
     {
         private readonly IMapper mapper;

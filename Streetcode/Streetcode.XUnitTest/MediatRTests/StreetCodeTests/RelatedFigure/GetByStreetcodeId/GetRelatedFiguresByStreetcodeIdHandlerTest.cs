@@ -1,18 +1,16 @@
-﻿using System;
-using AutoMapper;
-using FluentAssertions;
-using Moq;
-using Streetcode.BLL.Interfaces.Logging;
-using Streetcode.BLL.Mapping.Streetcode;
-using Streetcode.BLL.Mapping.Streetcode.TextContent;
-using Streetcode.BLL.MediatR.Streetcode.Fact.GetByStreetcodeId;
-using Streetcode.BLL.MediatR.Streetcode.RelatedFigure.GetByStreetcodeId;
-using Streetcode.DAL.Repositories.Interfaces.Base;
-using Streetcode.XUnitTest.MediatRTests.Mocks;
-using Xunit;
-
-namespace Streetcode.XUnitTest.MediatRTests.StreetCodeTests.RelatedFigure.GetByStreetcodeId
+﻿namespace Streetcode.XUnitTest.MediatRTests.StreetCodeTests.RelatedFigure.GetByStreetcodeId
 {
+    using System;
+    using AutoMapper;
+    using FluentAssertions;
+    using Moq;
+    using Streetcode.BLL.Interfaces.Logging;
+    using Streetcode.BLL.Mapping.Streetcode;
+    using Streetcode.BLL.MediatR.Streetcode.RelatedFigure.GetByStreetcodeId;
+    using Streetcode.DAL.Repositories.Interfaces.Base;
+    using Streetcode.XUnitTest.MediatRTests.Mocks;
+    using Xunit;
+
     public class GetRelatedFiguresByStreetcodeIdHandlerTest
     {
         private readonly IMapper mapper;
