@@ -4,7 +4,6 @@
     using FluentAssertions;
     using Moq;
     using Streetcode.BLL.Interfaces.Logging;
-    using Streetcode.BLL.MediatR.Streetcode.RelatedTerm.Delete;
     using Streetcode.BLL.MediatR.Streetcode.Streetcode.DeleteSoft;
     using Streetcode.DAL.Repositories.Interfaces.Base;
     using Streetcode.XUnitTest.MediatRTests.Mocks;
