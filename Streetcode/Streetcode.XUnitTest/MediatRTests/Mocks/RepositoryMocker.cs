@@ -880,5 +880,24 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
 
             return mockRepo;
         }
+
+        public static Mock<IRepositoryWrapper> GetAllStreetcodes()
+        {
+            var streetcodes = new List<StreetcodeContent>()
+            {
+                new StreetcodeContent { Alias = "1Alias", Audio = new Audio(), AudioId = 1, Coordinates = new List<StreetcodeCoordinate>(), CreatedAt = new DateTime(), DateString = "1Date", EventEndOrPersonDeathDate = new DateTime(), EventStartOrPersonBirthDate = new DateTime(), Facts = new List<Fact>(), Id = 1, Images = new List<Image>(), Index = 1, Observers = new List<RelatedFigure>(), Partners = new List<Partner>(), SourceLinkCategories = new List<SourceLinkCategory>(), StatisticRecords = new List<DAL.Entities.Analytics.StatisticRecord>(), Status = StreetcodeStatus.Published, StreetcodeArts = new List<StreetcodeArt>(), StreetcodeCategoryContents = new List<StreetcodeCategoryContent>(), StreetcodeTagIndices = new List<StreetcodeTagIndex>(), Subtitles = new List<Subtitle>(), Tags = new List<Tag>(), Targets = new List<RelatedFigure>(), Teaser = "1Teaser", Text = new Text(), TimelineItems = new List<TimelineItem>(), Title = "1Title", Toponyms = new List<Toponym>(), TransactionLink = new DAL.Entities.Transactions.TransactionLink(), TransliterationUrl = "1url", UpdatedAt = new DateTime(), Videos = new List<Video>(), ViewCount = 1 },
+                new StreetcodeContent { Alias = "2Alias", Audio = new Audio(), AudioId = 1, Coordinates = new List<StreetcodeCoordinate>(), CreatedAt = new DateTime(), DateString = "2Date", EventEndOrPersonDeathDate = new DateTime(), EventStartOrPersonBirthDate = new DateTime(), Facts = new List<Fact>(), Id = 1, Images = new List<Image>(), Index = 1, Observers = new List<RelatedFigure>(), Partners = new List<Partner>(), SourceLinkCategories = new List<SourceLinkCategory>(), StatisticRecords = new List<DAL.Entities.Analytics.StatisticRecord>(), Status = StreetcodeStatus.Published, StreetcodeArts = new List<StreetcodeArt>(), StreetcodeCategoryContents = new List<StreetcodeCategoryContent>(), StreetcodeTagIndices = new List<StreetcodeTagIndex>(), Subtitles = new List<Subtitle>(), Tags = new List<Tag>(), Targets = new List<RelatedFigure>(), Teaser = "2Teaser", Text = new Text(), TimelineItems = new List<TimelineItem>(), Title = "2Title", Toponyms = new List<Toponym>(), TransactionLink = new DAL.Entities.Transactions.TransactionLink(), TransliterationUrl = "2url", UpdatedAt = new DateTime(), Videos = new List<Video>(), ViewCount = 2 },
+                new StreetcodeContent { Alias = "3Alias", Audio = new Audio(), AudioId = 1, Coordinates = new List<StreetcodeCoordinate>(), CreatedAt = new DateTime(), DateString = "3Date", EventEndOrPersonDeathDate = new DateTime(), EventStartOrPersonBirthDate = new DateTime(), Facts = new List<Fact>(), Id = 1, Images = new List<Image>(), Index = 1, Observers = new List<RelatedFigure>(), Partners = new List<Partner>(), SourceLinkCategories = new List<SourceLinkCategory>(), StatisticRecords = new List<DAL.Entities.Analytics.StatisticRecord>(), Status = StreetcodeStatus.Published, StreetcodeArts = new List<StreetcodeArt>(), StreetcodeCategoryContents = new List<StreetcodeCategoryContent>(), StreetcodeTagIndices = new List<StreetcodeTagIndex>(), Subtitles = new List<Subtitle>(), Tags = new List<Tag>(), Targets = new List<RelatedFigure>(), Teaser = "3Teaser", Text = new Text(), TimelineItems = new List<TimelineItem>(), Title = "3Title", Toponyms = new List<Toponym>(), TransactionLink = new DAL.Entities.Transactions.TransactionLink(), TransliterationUrl = "3url", UpdatedAt = new DateTime(), Videos = new List<Video>(), ViewCount = 3 },
+            };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(x => x.StreetcodeRepository.GetAllAsync(
+                It.IsAny<Expression<Func<StreetcodeContent, bool>>>(),
+                It.IsAny<Func<IQueryable<StreetcodeContent>, IIncludableQueryable<StreetcodeContent, object>>>()))
+                .ReturnsAsync(streetcodes);
+
+            return mockRepo;
+        }
     }
 }
