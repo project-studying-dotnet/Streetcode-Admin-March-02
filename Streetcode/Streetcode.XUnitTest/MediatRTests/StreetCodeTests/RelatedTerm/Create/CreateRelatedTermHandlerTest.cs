@@ -56,9 +56,7 @@
                 TermId = 1,
             };
 
-            var res = new CreateRelatedTermCommand(newRelatedTerm);
-
-            var result = await handler.Handle(res, CancellationToken.None);
+            var result = await handler.Handle(new CreateRelatedTermCommand(newRelatedTerm), CancellationToken.None);
 
             result.IsSuccess.Should().BeTrue();
         }
