@@ -18,52 +18,72 @@ namespace Streetcode.WebApi.ExceptionHandlers
             {
                 await next(context);
             }
-            catch (ValidationException ex)
-            {
-                var traceId = Guid.NewGuid();
-                LogInfo(traceId, ex.Message, ex.StackTrace);
-
-                context.Response.StatusCode = StatusCodes.Status400BadRequest;
-
-                var problemDetails = new ProblemDetails
-                {
-                    Type = "ValidationFailure",
-                    Title = "Validation error",
-                    Status = StatusCodes.Status400BadRequest,
-                    Instance = context.Request.Path,
-                    Detail = $"One or more validation errors has occured, traceID: {traceId}",
-                };
-
-                if (ex.Errors is not null)
-                {
-                    problemDetails.Extensions["errors"] = ex.Errors;
-                }
-
-                await context.Response.WriteAsJsonAsync(problemDetails);
-            }
             catch (Exception ex)
             {
-                var traceId = Guid.NewGuid();
-                LogInfo(traceId, ex.Message, ex.StackTrace);
-
-                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-
-                var problemDetails = new ProblemDetails
-                {
-                    Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1",
-                    Title = "Internal Server Error",
-                    Status = StatusCodes.Status500InternalServerError,
-                    Instance = context.Request.Path,
-                    Detail = $"Internal server error occured, traceID: {traceId}",
-                };
-
-                await context.Response.WriteAsJsonAsync(problemDetails);
+                await HandleExceptionAsync(context, ex);
             }
         }
 
-        private void LogInfo(Guid traceId, string message, string? stackTrace)
+        private async Task HandleExceptionAsync(HttpContext context, Exception exception)
+        {
+            var traceId = Guid.NewGuid();
+            LogInfoAboutError(traceId, exception.Message, exception.StackTrace);
+
+            var problemDetails = new ProblemDetails();
+
+            switch (exception)
+            {
+                case ValidationException validationException:
+                    {
+                        WriteInfoAboutErrorToProblemDetails(
+                            problemDetails,
+                            "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.1",
+                            "Validation error",
+                            StatusCodes.Status400BadRequest,
+                            context.Request.Path,
+                            $"One or more validation errors has occured, traceID: {traceId}");
+
+                        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+                        if (validationException.Errors is not null)
+                        {
+                            problemDetails.Extensions["errors"] = validationException.Errors;
+                        }
+
+                        break;
+                    }
+
+                default:
+                    {
+                        WriteInfoAboutErrorToProblemDetails(
+                            problemDetails,
+                            "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1",
+                            "Internal Server Error",
+                            StatusCodes.Status500InternalServerError,
+                            context.Request.Path,
+                            $"Internal server error occured, traceID: {traceId}");
+
+                        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+
+                        break;
+                    }
+            }
+
+            await context.Response.WriteAsJsonAsync(problemDetails);
+        }
+
+        private void LogInfoAboutError(Guid traceId, string message, string? stackTrace)
         {
             _logger.LogError($"Error occure while processing the request, TraceID: {traceId}, Message: {message}, StackTrace: {stackTrace}");
+        }
+
+        private static void WriteInfoAboutErrorToProblemDetails(ProblemDetails problemDetails, string errorType, string errorTitle, int errorStatusCode, string errorInstance, string errorDetail)
+        {
+            problemDetails.Type = errorType;
+            problemDetails.Title = errorTitle;
+            problemDetails.Status = errorStatusCode;
+            problemDetails.Instance = errorInstance;
+            problemDetails.Detail = errorDetail;
         }
     }
 }

@@ -19,7 +19,7 @@ builder.Services.ConfigureInstagram(builder);
 builder.Services.ConfigureSerilog(builder);
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 builder.Services.AddValidatorsFromAssembly(Assembly.Load("Streetcode.BLL"));
-builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
+builder.Services.AddGlobalExceptionHandlerMiddlewareToServices();
 
 var app = builder.Build();
 
@@ -39,7 +39,7 @@ await app.ApplyMigrations();
 app.UseCors();
 app.UseHttpsRedirection();
 app.UseRouting();
-app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+app.UseGlobalExceptionHandlerMiddleware();
 
 app.UseAuthentication();
 app.UseAuthorization();
