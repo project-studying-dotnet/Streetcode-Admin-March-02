@@ -39,7 +39,7 @@
             // Arrange
             var handler = new CreateTagHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
             var tagDTO = new CreateTagDto() { Title = "Test" };
-            var request = new CreateTagQuery(tagDTO);
+            var request = new CreateTagCommand(tagDTO);
 
             // Act
             var result = await handler.Handle(request, CancellationToken.None);
@@ -54,7 +54,7 @@
             // Arrange
             var handler = new CreateTagHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
             var tagDTO = new CreateTagDto() { Title = "Test" };
-            var request = new CreateTagQuery(tagDTO);
+            var request = new CreateTagCommand(tagDTO);
 
             // Act
             var result = await handler.Handle(request, CancellationToken.None);
@@ -69,7 +69,7 @@
             // Arrange
             var handler = new CreateTagHandler(RepositoryMocker.GetTagRepositoryMockWithSettingException().Object, this.mapper, this.mockLogger.Object);
             var tagDTO = new CreateTagDto();
-            var request = new CreateTagQuery(tagDTO);
+            var request = new CreateTagCommand(tagDTO);
 
             // Act
             var result = await handler.Handle(request, CancellationToken.None);
