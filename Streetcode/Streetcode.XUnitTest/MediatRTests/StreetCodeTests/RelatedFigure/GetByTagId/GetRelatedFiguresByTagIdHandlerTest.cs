@@ -48,8 +48,6 @@
 
             var result = await handler.Handle(new GetRelatedFiguresByTagIdQuery(2), CancellationToken.None);
 
-            //result.Value.ElementAt(1).Tags.Should().Contain(x => x.Id == 2);
-
             result.Value.ElementAt(1).Tags.FirstOrDefault(x => x.Id == 2);
         }
     }
