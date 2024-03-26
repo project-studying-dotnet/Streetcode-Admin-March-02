@@ -1,17 +1,16 @@
-﻿using System;
-using AutoMapper;
-using FluentAssertions;
-using Moq;
-using Streetcode.BLL.Interfaces.Logging;
-using Streetcode.BLL.Mapping.Streetcode;
-using Streetcode.BLL.MediatR.Streetcode.Streetcode.GetAllMainPage;
-using Streetcode.BLL.MediatR.Streetcode.Streetcode.GetAllShort;
-using Streetcode.DAL.Repositories.Interfaces.Base;
-using Streetcode.XUnitTest.MediatRTests.Mocks;
-using Xunit;
-
-namespace Streetcode.XUnitTest.MediatRTests.StreetCodeTests.Streetcodee.GetAllShort
+﻿namespace Streetcode.XUnitTest.MediatRTests.StreetCodeTests.Streetcodee.GetAllShort
 {
+    using System;
+    using AutoMapper;
+    using FluentAssertions;
+    using Moq;
+    using Streetcode.BLL.Interfaces.Logging;
+    using Streetcode.BLL.Mapping.Streetcode;
+    using Streetcode.BLL.MediatR.Streetcode.Streetcode.GetAllShort;
+    using Streetcode.DAL.Repositories.Interfaces.Base;
+    using Streetcode.XUnitTest.MediatRTests.Mocks;
+    using Xunit;
+
     public class GetAllStreetcodesShortHandlerTest
     {
         private readonly IMapper mapper;

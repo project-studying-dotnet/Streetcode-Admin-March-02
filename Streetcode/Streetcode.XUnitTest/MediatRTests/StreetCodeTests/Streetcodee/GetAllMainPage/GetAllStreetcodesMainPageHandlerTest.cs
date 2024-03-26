@@ -6,7 +6,6 @@
     using Moq;
     using Streetcode.BLL.Interfaces.Logging;
     using Streetcode.BLL.Mapping.Streetcode;
-    using Streetcode.BLL.MediatR.Streetcode.Streetcode.GetAll;
     using Streetcode.BLL.MediatR.Streetcode.Streetcode.GetAllMainPage;
     using Streetcode.DAL.Repositories.Interfaces.Base;
     using Streetcode.XUnitTest.MediatRTests.Mocks;
