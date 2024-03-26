@@ -10,7 +10,7 @@ namespace Streetcode.BLL.MediatR.AdditionalContent.Tag.Create
                 .NotEmpty()
                 .WithMessage("Title is required.")
                 .MaximumLength(50)
-                .WithMessage("Tag title length should not be longer then 50 symbols.");
+                .WithMessage("Tag title length should not be longer than 50 symbols.");
         }
     }
 }
