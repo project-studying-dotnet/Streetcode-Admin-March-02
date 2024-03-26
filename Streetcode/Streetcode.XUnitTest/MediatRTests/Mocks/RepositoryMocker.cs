@@ -899,5 +899,24 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
 
             return mockRepo;
         }
+
+        public static Mock<IRepositoryWrapper> GetAllTerms()
+        {
+            var terms = new List<Term>()
+            {
+                new Term { Id = 1, Title = "1Title", Description = "1Description", RelatedTerms = new List<RelatedTerm>() },
+                new Term { Id = 1, Title = "2Title", Description = "2Description", RelatedTerms = new List<RelatedTerm>() },
+                new Term { Id = 1, Title = "3Title", Description = "3Description", RelatedTerms = new List<RelatedTerm>() },
+            };
+
+            var mockRepo = new Mock<IRepositoryWrapper>();
+
+            mockRepo.Setup(x => x.TermRepository.GetAllAsync(
+            It.IsAny<Expression<Func<Term, bool>>>(),
+            It.IsAny<Func<IQueryable<Term>, IIncludableQueryable<Term, object>>>()))
+            .ReturnsAsync(terms);
+
+            return mockRepo;
+        }
     }
 }
