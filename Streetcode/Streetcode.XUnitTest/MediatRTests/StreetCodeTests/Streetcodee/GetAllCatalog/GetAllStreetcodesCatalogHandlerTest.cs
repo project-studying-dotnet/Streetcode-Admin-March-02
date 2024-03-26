@@ -1,4 +1,4 @@
-﻿namespace Streetcode.XUnitTest.MediatRTests.StreetCodeTests.Streetcodee.GetAll
+﻿namespace Streetcode.XUnitTest.MediatRTests.StreetCodeTests.Streetcodee.GetAllCatalog
 {
     using System;
     using AutoMapper;
@@ -6,20 +6,18 @@
     using Moq;
     using Streetcode.BLL.Interfaces.Logging;
     using Streetcode.BLL.Mapping.Streetcode;
-    using Streetcode.BLL.Mapping.Streetcode.TextContent;
-    using Streetcode.BLL.MediatR.Streetcode.Fact.GetAll;
-    using Streetcode.BLL.MediatR.Streetcode.Streetcode.GetAll;
+    using Streetcode.BLL.MediatR.Streetcode.Streetcode.GetAllCatalog;
     using Streetcode.DAL.Repositories.Interfaces.Base;
     using Streetcode.XUnitTest.MediatRTests.Mocks;
     using Xunit;
 
-    public class GetAllStreetcodesHandlerTest
+    public class GetAllStreetcodesCatalogHandlerTest
     {
         private readonly IMapper mapper;
         private readonly Mock<IRepositoryWrapper> mockRepository;
         private readonly Mock<ILoggerService> mockLogger;
 
-        public GetAllStreetcodesHandlerTest()
+        public GetAllStreetcodesCatalogHandlerTest()
         {
             this.mockRepository = RepositoryMocker.GetStreetcodeRepositoryMock();
 
@@ -34,11 +32,11 @@
         }
 
         [Fact]
-        public async Task Result_GetAllStreetcodes_Test()
+        public async Task Result_GetAllStreetcodesCatalog_Test()
         {
-            var handler = new GetAllStreetcodesHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetAllStreetcodesCatalogHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
 
-            var result = await handler.Handle(new GetAllStreetcodesQuery(new BLL.Dto.Streetcode.GetAllStreetcodesRequestDto()), CancellationToken.None);
+            var result = await handler.Handle(new GetAllStreetcodesCatalogQuery(1, 10), CancellationToken.None);
 
             result.Value.Should().NotBeNull();
         }
