@@ -53,7 +53,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Partners.Create
 
             // Act
             var result = await handler.Handle(
-                new CreatePartnerQuery(new CreatePartnerDto()
+                new CreatePartnerCommand(new CreatePartnerDto()
                 {
                     Id = 1,
                     IsKeyPartner = true,
