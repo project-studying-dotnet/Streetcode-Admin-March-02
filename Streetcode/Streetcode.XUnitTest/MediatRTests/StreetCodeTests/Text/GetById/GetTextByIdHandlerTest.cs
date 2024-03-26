@@ -32,13 +32,23 @@
         }
 
         [Fact]
-        public async Task Result_GetTextById_Test()
+        public async Task Result_GetTextByIdNotNull_Test()
         {
             var handler = new GetTextByIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
 
             var result = await handler.Handle(new GetTextByIdQuery(2), CancellationToken.None);
 
             result.Value.Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task Result_GetTextById_Test()
+        {
+            var handler = new GetTextByIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+
+            var result = await handler.Handle(new GetTextByIdQuery(2), CancellationToken.None);
+
+            result.Value.Id.Should().Be(2);
         }
     }
 }
