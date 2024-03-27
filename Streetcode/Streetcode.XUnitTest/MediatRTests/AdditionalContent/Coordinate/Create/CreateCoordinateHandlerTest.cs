@@ -13,29 +13,29 @@
 
     public class CreateCoordinateHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         public CreateCoordinateHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetCoordinateRepositoryMock();
+            _mockRepository = RepositoryMocker.GetCoordinateRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<BLL.Mapping.AdditionalContent.Coordinates.StreetcodeCoordinateProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         [Fact]
         public async Task CreateCoordinate_CoordinateDTOIsNull_IsFailedShouldBeTrue()
         {
             // Arrange
-            var handler = new CreateCoordinateHandler(this.mockRepository.Object, this.mapper);
+            var handler = new CreateCoordinateHandler(_mockRepository.Object, _mapper);
             StreetcodeCoordinateDto? streetcodeCoordinateDTO = null;
             var streetcodeCoordinate = new CreateCoordinateCommand(streetcodeCoordinateDTO);
 
@@ -50,7 +50,7 @@
         public async Task CreateCoordinate_ValidData_IsSuccessShouldBeTrue()
         {
             // Arrange
-            var handler = new CreateCoordinateHandler(this.mockRepository.Object, this.mapper);
+            var handler = new CreateCoordinateHandler(_mockRepository.Object, _mapper);
             var streetcodeCoordinateDTO = new StreetcodeCoordinateDto()
             {
                 StreetcodeId = 1,

@@ -16,25 +16,25 @@
     /// </summary>
     public class CreateTimelineItemHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateTimelineItemHandlerTest"/> class.
         /// </summary>
         public CreateTimelineItemHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetTimelineRepositoryMock();
+            _mockRepository = RepositoryMocker.GetTimelineRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<TimelineItemProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         /// <summary>
@@ -45,7 +45,7 @@
         public async Task CreatedTimelineItemShouldNotBeNull()
         {
             // Arrange
-            var handler = new CreateTimelineItemHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new CreateTimelineItemHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new CreateTimelineItemCommand(new BLL.Dto.Timeline.TimelineItemDto() { Title = "TEST" }), CancellationToken.None);
@@ -62,7 +62,7 @@
         public async Task CreatedTimelineItemTitleShouldBeTest()
         {
             // Arrange
-            var handler = new CreateTimelineItemHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new CreateTimelineItemHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new CreateTimelineItemCommand(new BLL.Dto.Timeline.TimelineItemDto() { Title = "TEST" }), CancellationToken.None);

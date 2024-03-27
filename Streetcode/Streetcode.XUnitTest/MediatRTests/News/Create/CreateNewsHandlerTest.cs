@@ -21,29 +21,29 @@
 
     public class CreateNewsHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         public CreateNewsHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetNewsRepositoryMock();
+            _mockRepository = RepositoryMocker.GetNewsRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<NewsProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         [Fact]
         public async Task Handle_NewsDtoIsNull_IsFailedShouldBeTrue()
         {
             // Arrange
-            var handler = new CreateNewsHandler(this.mapper, this.mockRepository.Object, this.mockLogger.Object);
+            var handler = new CreateNewsHandler(_mapper, _mockRepository.Object, _mockLogger.Object);
             NewsDto? newsDto = null;
             var streetcodeCoordinate = new CreateNewsCommand(newsDto);
 
@@ -58,7 +58,7 @@
         public async Task Handle_ValidDto_IsSuccessShouldBeTrue()
         {
             // Arrange
-            var handler = new CreateNewsHandler(this.mapper, this.mockRepository.Object, this.mockLogger.Object);
+            var handler = new CreateNewsHandler(_mapper, _mockRepository.Object, _mockLogger.Object);
             NewsDto? newsDto = new NewsDto()
             {
                 Id = 1,

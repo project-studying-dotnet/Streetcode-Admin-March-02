@@ -19,20 +19,20 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.Delete
     /// </summary>
     public class DeleteAudioHandlerTest
     {
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
-        private readonly Mock<IBlobService> mockBlob;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
+        private readonly Mock<IBlobService> _mockBlob;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeleteAudioHandlerTest"/> class.
         /// </summary>
         public DeleteAudioHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetAudiosRepositoryMock();
+            _mockRepository = RepositoryMocker.GetAudiosRepositoryMock();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
 
-            this.mockBlob = new Mock<IBlobService>();
+            _mockBlob = new Mock<IBlobService>();
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.Delete
         public async Task DeleteWithFirstIdShouldNotBeNull()
         {
             // Arrange
-            var handler = new DeleteAudioHandler(this.mockRepository.Object, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new DeleteAudioHandler(_mockRepository.Object, _mockBlob.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new DeleteAudioCommand(1), CancellationToken.None);

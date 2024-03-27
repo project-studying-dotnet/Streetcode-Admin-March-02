@@ -19,20 +19,20 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.GetBaseAudio
     /// </summary>
     public class GetBaseAudioHandlerTest
     {
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
-        private readonly Mock<IBlobService> mockBlob;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
+        private readonly Mock<IBlobService> _mockBlob;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetBaseAudioHandlerTest"/> class.
         /// </summary>
         public GetBaseAudioHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetAudiosRepositoryMock();
+            _mockRepository = RepositoryMocker.GetAudiosRepositoryMock();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
 
-            this.mockBlob = new Mock<IBlobService>();
+            _mockBlob = new Mock<IBlobService>();
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.GetBaseAudio
         public async Task GetByIdNotNullTest()
         {
             // Arrange
-            var handler = new GetBaseAudioHandler(this.mockBlob.Object, this.mockRepository.Object, this.mockLogger.Object);
+            var handler = new GetBaseAudioHandler(_mockBlob.Object, _mockRepository.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetBaseAudioQuery(1), CancellationToken.None);

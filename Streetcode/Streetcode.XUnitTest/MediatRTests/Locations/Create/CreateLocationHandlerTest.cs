@@ -19,25 +19,25 @@ namespace Streetcode.XUnitTest.MediatRTests.Locations.Create
     /// </summary>
     public class CreateLocationHandlerTest
     {
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly IMapper mapper;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly IMapper _mapper;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateLocationHandlerTest"/> class.
         /// </summary>
         public CreateLocationHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetLocationsRepositoryMock();
+            _mockRepository = RepositoryMocker.GetLocationsRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<LocationProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Locations.Create
         public async Task CreateNotNullLocationMustBeCreated()
         {
             // Arrange
-            var handler = new CreateLocationHandler(this.mapper, this.mockRepository.Object, this.mockLogger.Object);
+            var handler = new CreateLocationHandler(_mapper, _mockRepository.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(

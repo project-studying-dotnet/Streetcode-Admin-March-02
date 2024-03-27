@@ -20,28 +20,28 @@ namespace Streetcode.XUnitTest.MediatRTests.Sources.GetById
     /// </summary>
     public class GetSourceByIdHandlerTest
     {
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly IMapper mapper;
-        private readonly Mock<IBlobService> mockBlob;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly IMapper _mapper;
+        private readonly Mock<IBlobService> _mockBlob;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetSourceByIdHandlerTest"/> class.
         /// </summary>
         public GetSourceByIdHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetSourceRepositoryMock();
+            _mockRepository = RepositoryMocker.GetSourceRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<SourceLinkCategoryProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
 
-            this.mockBlob = new Mock<IBlobService>();
+            _mockBlob = new Mock<IBlobService>();
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Sources.GetById
         public async Task GetByIdNotNullTest()
         {
             // Arrange
-            var handler = new GetCategoryByIdHandler(this.mockRepository.Object, this.mapper, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new GetCategoryByIdHandler(_mockRepository.Object, _mapper, _mockBlob.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetCategoryByIdQuery(1), CancellationToken.None);
@@ -69,7 +69,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Sources.GetById
         public async Task GetByIdFirstShouldBeFirstTest()
         {
             // Arrange
-            var handler = new GetCategoryByIdHandler(this.mockRepository.Object, this.mapper, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new GetCategoryByIdHandler(_mockRepository.Object, _mapper, _mockBlob.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetCategoryByIdQuery(1), CancellationToken.None);
@@ -86,7 +86,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Sources.GetById
         public async Task GetByIdSecondShouldNotBeFourthTest()
         {
             // Arrange
-            var handler = new GetCategoryByIdHandler(this.mockRepository.Object, this.mapper, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new GetCategoryByIdHandler(_mockRepository.Object, _mapper, _mockBlob.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetCategoryByIdQuery(2), CancellationToken.None);

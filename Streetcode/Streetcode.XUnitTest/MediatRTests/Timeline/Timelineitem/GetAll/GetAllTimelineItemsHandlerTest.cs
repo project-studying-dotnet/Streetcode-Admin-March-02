@@ -73,6 +73,4 @@ namespace Streetcode.XUnitTest.MediatRTests.Timeline.Timelineitem.GetAll
             result.Value.Should().BeOfType<List<TimelineItemDto>>();
         }
     }
-
 }
-

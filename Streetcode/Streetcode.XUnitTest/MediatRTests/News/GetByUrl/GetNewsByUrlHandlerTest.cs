@@ -20,32 +20,32 @@
 
     public class GetNewsByUrlHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
-        private readonly Mock<IBlobService> blobService;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
+        private readonly Mock<IBlobService> _blobService;
 
         public GetNewsByUrlHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetNewsRepositoryMock();
+            _mockRepository = RepositoryMocker.GetNewsRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<NewsProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
 
-            this.blobService = new Mock<IBlobService>();
+            _blobService = new Mock<IBlobService>();
         }
 
         [Fact]
         public async Task Handler_GetNewsByValidUrl_ResultShouldBeNotNull()
         {
             // Arrange
-            var handler = new GetNewsByUrlHandler(this.mapper, this.mockRepository.Object, this.blobService.Object, this.mockLogger.Object);
+            var handler = new GetNewsByUrlHandler(_mapper, _mockRepository.Object, _blobService.Object, _mockLogger.Object);
             string validUrl = "example.com";
             var request = new GetNewsByUrlQuery(validUrl);
 
@@ -60,7 +60,7 @@
         public async Task Handler_GetNewsByInvalidUrl_IsFailedShouldBeTrue()
         {
             // Arrange
-            var handler = new GetNewsByUrlHandler(this.mapper, this.mockRepository.Object, this.blobService.Object, this.mockLogger.Object);
+            var handler = new GetNewsByUrlHandler(_mapper, _mockRepository.Object, _blobService.Object, _mockLogger.Object);
             string invalidUrl = string.Empty;
             var request = new GetNewsByUrlQuery(invalidUrl);
 
@@ -75,7 +75,7 @@
         public async Task Handler_GetNewsByValidUrl_ResultShouldBeTypeOfNewsDto()
         {
             // Arrange
-            var handler = new GetNewsByUrlHandler(this.mapper, this.mockRepository.Object, this.blobService.Object, this.mockLogger.Object);
+            var handler = new GetNewsByUrlHandler(_mapper, _mockRepository.Object, _blobService.Object, _mockLogger.Object);
             string validUrl = "example1.com";
             var request = new GetNewsByUrlQuery(validUrl);
 

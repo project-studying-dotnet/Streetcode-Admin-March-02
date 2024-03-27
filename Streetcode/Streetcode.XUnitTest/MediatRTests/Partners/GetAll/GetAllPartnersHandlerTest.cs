@@ -20,25 +20,25 @@ namespace Streetcode.XUnitTest.MediatRTests.Partners.GetAll
     /// </summary>
     public class GetAllPartnersHandlerTest
     {
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly IMapper mapper;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly IMapper _mapper;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetAllPartnersHandlerTest"/> class.
         /// </summary>
         public GetAllPartnersHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetPartnersRepositoryMock();
+            _mockRepository = RepositoryMocker.GetPartnersRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<PartnerProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Partners.GetAll
         public async Task GetAllNotNullOrEmptyTest()
         {
             // Arrange
-            var handler = new GetAllPartnersHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetAllPartnersHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetAllPartnersQuery(), CancellationToken.None);
@@ -66,7 +66,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Partners.GetAll
         public async Task GetAllCountShouldBeFour()
         {
             // Arrange
-            var handler = new GetAllPartnersHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetAllPartnersHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetAllPartnersQuery(), CancellationToken.None);
@@ -83,7 +83,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Partners.GetAll
         public async Task GetAllShouldBeTypeListPartnerDTO()
         {
             // Arrange
-            var handler = new GetAllPartnersHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetAllPartnersHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetAllPartnersQuery(), CancellationToken.None);

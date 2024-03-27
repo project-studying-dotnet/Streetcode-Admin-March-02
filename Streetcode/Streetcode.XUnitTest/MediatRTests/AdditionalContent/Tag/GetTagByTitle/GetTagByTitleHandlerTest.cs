@@ -14,29 +14,29 @@
 
     public class GetTagByTitleHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         public GetTagByTitleHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetTagRepositoryMock();
+            _mockRepository = RepositoryMocker.GetTagRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<TagProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         [Fact]
         public async Task Handler_GetTagByValidTitle_GetByIdResultShouldBeNotNull()
         {
             // Arrange
-            var handler = new GetTagByTitleHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetTagByTitleHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
             string validTitle = "Test";
             var request = new GetTagByTitleQuery(validTitle);
 
@@ -51,7 +51,7 @@
         public async Task Handler_GetTagByInvalidTitle_IsFailedShouldBeTrue()
         {
             // Arrange
-            var handler = new GetTagByTitleHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetTagByTitleHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
             string invalidTitle = "Title doesn't exist";
             var request = new GetTagByTitleQuery(invalidTitle);
 

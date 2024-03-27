@@ -20,32 +20,32 @@
 
     public class GetNewsAndLinksByurlHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
-        private readonly Mock<IBlobService> blobService;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
+        private readonly Mock<IBlobService> _blobService;
 
         public GetNewsAndLinksByurlHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetNewsRepositoryMock();
+            _mockRepository = RepositoryMocker.GetNewsRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<NewsProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
 
-            this.blobService = new Mock<IBlobService>();
+            _blobService = new Mock<IBlobService>();
         }
 
         [Fact]
         public async Task Handler_GetNewsAndLinksByInvalidUrl_IsFailedShouldBeTrue()
         {
             // Arrange
-            var handler = new GetNewsAndLinksByUrlHandler(this.mapper, this.mockRepository.Object, this.blobService.Object, this.mockLogger.Object);
+            var handler = new GetNewsAndLinksByUrlHandler(_mapper, _mockRepository.Object, _blobService.Object, _mockLogger.Object);
             string invalidUrl = string.Empty;
             var request = new GetNewsAndLinksByUrlQuery(invalidUrl);
 
@@ -60,7 +60,7 @@
         public async Task Handler_GetNewsAndLinksByValidUrl_PreviousNewsLinkShouldBeAsExpected()
         {
             // Arrange
-            var handler = new GetNewsAndLinksByUrlHandler(this.mapper, this.mockRepository.Object, this.blobService.Object, this.mockLogger.Object);
+            var handler = new GetNewsAndLinksByUrlHandler(_mapper, _mockRepository.Object, _blobService.Object, _mockLogger.Object);
             string validUrl = "example2.com";
             string expectedPreviousNewsUrl = "example1.com";
             var request = new GetNewsAndLinksByUrlQuery(validUrl);
@@ -76,7 +76,7 @@
         public async Task Handler_GetNewsAndLinksByValidUrl_NextNewsLinkShouldBeAsExpected()
         {
             // Arrange
-            var handler = new GetNewsAndLinksByUrlHandler(this.mapper, this.mockRepository.Object, this.blobService.Object, this.mockLogger.Object);
+            var handler = new GetNewsAndLinksByUrlHandler(_mapper, _mockRepository.Object, _blobService.Object, _mockLogger.Object);
             string validUrl = "example2.com";
             string expectedNextNewsUrl = "example3.com";
             var request = new GetNewsAndLinksByUrlQuery(validUrl);
@@ -92,7 +92,7 @@
         public async Task Handler_GetNewsAndLinksByValidUrl_PreviousNewsLinkShouldBeNull()
         {
             // Arrange
-            var handler = new GetNewsAndLinksByUrlHandler(this.mapper, this.mockRepository.Object, this.blobService.Object, this.mockLogger.Object);
+            var handler = new GetNewsAndLinksByUrlHandler(_mapper, _mockRepository.Object, _blobService.Object, _mockLogger.Object);
             string validUrl = "example1.com";
             var request = new GetNewsAndLinksByUrlQuery(validUrl);
 
@@ -107,7 +107,7 @@
         public async Task Handler_GetNewsAndLinksByValidUrl_NextNewsLinkShouldBeNull()
         {
             // Arrange
-            var handler = new GetNewsAndLinksByUrlHandler(this.mapper, this.mockRepository.Object, this.blobService.Object, this.mockLogger.Object);
+            var handler = new GetNewsAndLinksByUrlHandler(_mapper, _mockRepository.Object, _blobService.Object, _mockLogger.Object);
             string validUrl = "example3.com";
             var request = new GetNewsAndLinksByUrlQuery(validUrl);
 
@@ -122,7 +122,7 @@
         public async Task Handler_GetNewsAndLinksByValidUrl_ResultShouldBeOfTypeNewsDtoWithURLs()
         {
             // Arrange
-            var handler = new GetNewsAndLinksByUrlHandler(this.mapper, this.mockRepository.Object, this.blobService.Object, this.mockLogger.Object);
+            var handler = new GetNewsAndLinksByUrlHandler(_mapper, _mockRepository.Object, _blobService.Object, _mockLogger.Object);
             string validUrl = "example2.com";
             var request = new GetNewsAndLinksByUrlQuery(validUrl);
 
@@ -137,7 +137,7 @@
         public async Task Handler_GetNewsAndLinksByValidUrl_RandomNewsUrlShouldBeAsValidUrl()
         {
             // Arrange
-            var handler = new GetNewsAndLinksByUrlHandler(this.mapper, this.mockRepository.Object, this.blobService.Object, this.mockLogger.Object);
+            var handler = new GetNewsAndLinksByUrlHandler(_mapper, _mockRepository.Object, _blobService.Object, _mockLogger.Object);
             string validUrl = "example2.com";
             var request = new GetNewsAndLinksByUrlQuery(validUrl);
 

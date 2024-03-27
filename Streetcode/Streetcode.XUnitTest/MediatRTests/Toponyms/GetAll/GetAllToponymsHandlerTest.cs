@@ -20,26 +20,25 @@ namespace Streetcode.XUnitTest.MediatRTests.Toponyms.GetAll
     /// </summary>
     public class GetAllToponymsHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
-
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetAllToponymsHandlerTest"/> class.
         /// </summary>
         public GetAllToponymsHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetToponymsRepositoryMock();
+            _mockRepository = RepositoryMocker.GetToponymsRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<ToponymProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         /// <summary>
@@ -48,17 +47,16 @@ namespace Streetcode.XUnitTest.MediatRTests.Toponyms.GetAll
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
         public async Task GetAllNotNullOrEmptyTest()
-        {       
+        {
             // Arrange
-            var handler = new GetAllToponymsHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
-           
+            var handler = new GetAllToponymsHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
+
             // Act
             var result = await handler.Handle(new GetAllToponymsQuery(new GetAllToponymsRequestDto() { Title = "First streetname" }), CancellationToken.None);
 
             // Assert
             result.Value.Should().NotBeNull();
         }
-
 
         /// <summary>
         /// Get all list should be type ArtDTO.
@@ -68,7 +66,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Toponyms.GetAll
         public async Task GetAllShouldBeTypeListToponymDTO()
         {
             // Arrange
-            var handler = new GetAllToponymsHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetAllToponymsHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetAllToponymsQuery(new GetAllToponymsRequestDto() { Title = "First streetname" }), CancellationToken.None);

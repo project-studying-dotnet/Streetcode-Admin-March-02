@@ -22,32 +22,32 @@
 
     public class GetAllNewsHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
-        private readonly Mock<IBlobService> blobService;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
+        private readonly Mock<IBlobService> _blobService;
 
         public GetAllNewsHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetNewsRepositoryMock();
+            _mockRepository = RepositoryMocker.GetNewsRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<NewsProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
 
-            this.blobService = new Mock<IBlobService>();
+            _blobService = new Mock<IBlobService>();
         }
 
         [Fact]
         public async Task Handler_GetAll_ResultShouldNotBeNullOrEmpty()
         {
             // Arrange
-            var handler = new GetAllNewsHandler(this.mockRepository.Object, this.mapper, this.blobService.Object, this.mockLogger.Object);
+            var handler = new GetAllNewsHandler(_mockRepository.Object, _mapper, _blobService.Object, _mockLogger.Object);
             var request = new GetAllNewsQuery();
 
             // Act
@@ -61,7 +61,7 @@
         public async Task Handler_GetAll_ResultShouldBeOfTypeSubtitleDTO()
         {
             // Arrange
-            var handler = new GetAllNewsHandler(this.mockRepository.Object, this.mapper, this.blobService.Object, this.mockLogger.Object);
+            var handler = new GetAllNewsHandler(_mockRepository.Object, _mapper, _blobService.Object, _mockLogger.Object);
             var request = new GetAllNewsQuery();
 
             // Act
@@ -75,7 +75,7 @@
         public async Task Handler_GetAll_CountShouldBeThree()
         {
             // Arrange
-            var handler = new GetAllNewsHandler(this.mockRepository.Object, this.mapper, this.blobService.Object, this.mockLogger.Object);
+            var handler = new GetAllNewsHandler(_mockRepository.Object, _mapper, _blobService.Object, _mockLogger.Object);
             var request = new GetAllNewsQuery();
 
             // Act

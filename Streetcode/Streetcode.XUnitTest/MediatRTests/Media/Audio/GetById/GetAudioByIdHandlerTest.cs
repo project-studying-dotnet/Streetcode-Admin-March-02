@@ -22,28 +22,28 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.GetById
     /// </summary>
     public class GetAudioByIdHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
-        private readonly Mock<IBlobService> mockBlob;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
+        private readonly Mock<IBlobService> _mockBlob;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetAudioByIdHandlerTest"/> class.
         /// </summary>
         public GetAudioByIdHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetAudiosRepositoryMock();
+            _mockRepository = RepositoryMocker.GetAudiosRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<AudioProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
 
-            this.mockBlob = new Mock<IBlobService>();
+            _mockBlob = new Mock<IBlobService>();
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.GetById
         public async Task GetByIdNotNullTest()
         {
             // Arrange
-            var handler = new GetAudioByIdHandler(this.mockRepository.Object, this.mapper, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new GetAudioByIdHandler(_mockRepository.Object, _mapper, _mockBlob.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetAudioByIdQuery(2), CancellationToken.None);
@@ -71,7 +71,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.GetById
         public async Task GetByIdFirstShouldBeFirstTest()
         {
             // Arrange
-            var handler = new GetAudioByIdHandler(this.mockRepository.Object, this.mapper, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new GetAudioByIdHandler(_mockRepository.Object, _mapper, _mockBlob.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetAudioByIdQuery(1), CancellationToken.None);
@@ -88,7 +88,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.GetById
         public async Task GetByIdSecondShouldNotBeFourthTest()
         {
             // Arrange
-            var handler = new GetAudioByIdHandler(this.mockRepository.Object, this.mapper, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new GetAudioByIdHandler(_mockRepository.Object, _mapper, _mockBlob.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetAudioByIdQuery(2), CancellationToken.None);

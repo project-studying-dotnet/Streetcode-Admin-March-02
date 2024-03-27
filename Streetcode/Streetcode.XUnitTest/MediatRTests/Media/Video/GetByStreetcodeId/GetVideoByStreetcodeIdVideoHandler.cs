@@ -19,25 +19,25 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Video.GetByStreetcodeId
     /// </summary>
     public class GetVideoByStreetcodeIdVIdeoHandler
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetVideoByStreetcodeIdVIdeoHandler"/> class.
         /// </summary>
         public GetVideoByStreetcodeIdVIdeoHandler()
         {
-            this.mockRepository = RepositoryMocker.GetVideosRepositoryMock();
+            _mockRepository = RepositoryMocker.GetVideosRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<VideoProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Video.GetByStreetcodeId
         public async Task GetByIdNotNullTest()
         {
             // Arrange
-            var handler = new GetVideoByStreetcodeIdHandler(this.mockRepository.Object, this.mapper,  this.mockLogger.Object);
+            var handler = new GetVideoByStreetcodeIdHandler(_mockRepository.Object, _mapper,  _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetVideoByStreetcodeIdQuery(1), CancellationToken.None);
