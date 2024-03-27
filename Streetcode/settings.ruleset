@@ -155,7 +155,7 @@
 		<!-- A closing square bracket within a C# statement is not spaced correctly. -->
 		<Rule Id="SA1012" Action="Error" />
 		<!-- An opening brace within a C# element is not spaced correctly. -->
-		<Rule Id="SA1013" Action="Error" />
+		<Rule Id="SA1013" Action="Warning" />
 		<!-- A closing brace within a C# element is not spaced correctly. -->
 		<Rule Id="SA1014" Action="Error" />
 		<!-- An opening generic bracket within a C# element is not spaced correctly. -->
