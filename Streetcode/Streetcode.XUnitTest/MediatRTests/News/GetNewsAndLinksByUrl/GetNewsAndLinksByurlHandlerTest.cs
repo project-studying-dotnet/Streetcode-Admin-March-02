@@ -138,14 +138,15 @@
         {
             // Arrange
             var handler = new GetNewsAndLinksByUrlHandler(_mapper, _mockRepository.Object, _blobService.Object, _mockLogger.Object);
-            string validUrl = "example2.com";
+            string validUrl = "example3.com";
             var request = new GetNewsAndLinksByUrlQuery(validUrl);
+            string expected = "example1.com";
 
             // Act
             var result = await handler.Handle(request, CancellationToken.None);
 
             // Assert
-            result.Value.RandomNews?.RandomNewsUrl.Should().Be(validUrl);
+            result.Value.RandomNews?.RandomNewsUrl.Should().Be(expected);
         }
     }
 }
