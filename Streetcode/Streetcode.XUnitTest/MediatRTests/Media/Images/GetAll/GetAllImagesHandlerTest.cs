@@ -23,22 +23,22 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Images
     /// </summary>
     public class GetAllImagesHandlerTest
     {
-        private readonly Mock<IRepositoryWrapper>? mockRepository;
-        private readonly Mock<IMapper>? mockMapper;
-        private readonly Mock<IBlobService>? mockBlobService;
-        private readonly Mock<ILoggerService>? mockLogger;
+        private readonly Mock<IRepositoryWrapper>? _mockRepository;
+        private readonly Mock<IMapper>? _mockMapper;
+        private readonly Mock<IBlobService>? _mockBlobService;
+        private readonly Mock<ILoggerService>? _mockLogger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetAllImagesHandlerTest"/> class.
         /// </summary>
         public GetAllImagesHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetImagesRepositoryMock();
-            this.mockMapper = new Mock<IMapper>();
-            this.mockBlobService = new Mock<IBlobService>();
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockRepository = RepositoryMocker.GetImagesRepositoryMock();
+            _mockMapper = new Mock<IMapper>();
+            _mockBlobService = new Mock<IBlobService>();
+            _mockLogger = new Mock<ILoggerService>();
 
-            this.ConfigureMapper(this.GetImagesDTOList());
+            ConfigureMapper(GetImagesDTOList());
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Images
         public async Task GetAllNotNullOrEmptyTest()
         {
             // Arrange
-            var handler = new GetAllImagesHandler(this.mockRepository.Object, this.mockMapper.Object, this.mockBlobService.Object, this.mockLogger.Object);
+            var handler = new GetAllImagesHandler(_mockRepository.Object, _mockMapper.Object, _mockBlobService.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetAllImagesQuery(), CancellationToken.None);
@@ -66,7 +66,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Images
         public async Task GetAllCountShouldBeTwo()
         {
             // Arrange
-            var handler = new GetAllImagesHandler(this.mockRepository.Object, this.mockMapper.Object, this.mockBlobService.Object, this.mockLogger.Object);
+            var handler = new GetAllImagesHandler(_mockRepository.Object, _mockMapper.Object, _mockBlobService.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetAllImagesQuery(), CancellationToken.None);
@@ -83,7 +83,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Images
         public async Task GetAllShouldBeTypeListAudioDTO()
         {
             // Arrange
-            var handler = new GetAllImagesHandler(this.mockRepository.Object, this.mockMapper.Object, this.mockBlobService.Object, this.mockLogger.Object);
+            var handler = new GetAllImagesHandler(_mockRepository.Object, _mockMapper.Object, _mockBlobService.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetAllImagesQuery(), CancellationToken.None);
@@ -109,7 +109,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Images
 
         private void ConfigureMapper(List<ImageDto> imageListDTO)
         {
-            this.mockMapper?.Setup(x => x.Map<IEnumerable<ImageDto>>(It.IsAny<IEnumerable<object>>()))
+            _mockMapper?.Setup(x => x.Map<IEnumerable<ImageDto>>(It.IsAny<IEnumerable<object>>()))
             .Returns(imageListDTO);
         }
     }

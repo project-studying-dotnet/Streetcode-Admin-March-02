@@ -19,25 +19,25 @@ namespace Streetcode.XUnitTest.MediatRTests.Locations.Delete
     /// </summary>
     public class DeleteLocationHandlerTest
     {
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly IMapper mapper;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly IMapper _mapper;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeleteLocationHandlerTest"/> class.
         /// </summary>
         public DeleteLocationHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetLocationsRepositoryMock();
+            _mockRepository = RepositoryMocker.GetLocationsRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<LocationProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Locations.Delete
         public async Task DeleteWithFirstIdShouldNotBeNull()
         {
             // Arrange
-            var handler = new DeleteLocationHandler(this.mockRepository.Object, this.mockLogger.Object);
+            var handler = new DeleteLocationHandler(_mockRepository.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new DeleteLocationCommand(1), CancellationToken.None);

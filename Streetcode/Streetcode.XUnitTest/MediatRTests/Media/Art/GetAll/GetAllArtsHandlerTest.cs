@@ -23,25 +23,25 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Art.GetAll
     /// </summary>
     public class GetAllArtsHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetAllArtsHandlerTest"/> class.
         /// </summary>
         public GetAllArtsHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetArtRepositoryMock();
+            _mockRepository = RepositoryMocker.GetArtRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<ArtProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Art.GetAll
         public async Task GetAllNotNullOrEmptyTest()
         {
             // Arrange
-            var handler = new GetAllArtsHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetAllArtsHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetAllArtsQuery(), CancellationToken.None);
@@ -69,7 +69,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Art.GetAll
         public async Task GetAllCountShouldBeFour()
         {
             // Arrange
-            var handler = new GetAllArtsHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetAllArtsHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetAllArtsQuery(), CancellationToken.None);
@@ -86,7 +86,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Art.GetAll
         public async Task GetAllShouldBeTypeListArtDTO()
         {
             // Arrange
-            var handler = new GetAllArtsHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetAllArtsHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetAllArtsQuery(), CancellationToken.None);

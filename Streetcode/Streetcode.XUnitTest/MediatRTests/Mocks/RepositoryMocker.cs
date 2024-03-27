@@ -32,6 +32,8 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.ChangeTracking;
     using Streetcode.DAL.Persistence;
+    using Streetcode.DAL.Entities.AdditionalContent.Coordinates;
+    using Streetcode.BLL.Dto.Partners;
 
     /// <summary>
     /// Repository mocker.
@@ -74,10 +76,18 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
         {
             var audios = new List<Audio>()
             {
-               new Audio { Id = 1, Title = "First audio", BlobName = "First blob name", MimeType = "First mime type", Base64 = "First base 64", Streetcode = null },
+               new Audio { Id = 1, Title = "First audio", BlobName = "First blob name", MimeType = "First mime type", Base64 = "First base 64", Streetcode = null, },
                new Audio { Id = 2, Title = "Second audio", BlobName = "Second blob name", MimeType = "Second mime type", Base64 = "Second base 64", Streetcode = null },
                new Audio { Id = 3, Title = "Third audio", BlobName = "Third blob name", MimeType = "Third mime type", Base64 = "Third base 64", Streetcode = null },
                new Audio { Id = 4, Title = "Fourth audio", BlobName = "Fourth blob name", MimeType = "Fourth mime type", Base64 = "Fourth base 64", Streetcode = null },
+            };
+
+            var streetCodes = new List<StreetcodeContent>
+            {
+                new StreetcodeContent() { Id = 1, Title = "First streetcode content title", AudioId = 1, Audio = audios[0] },
+                new StreetcodeContent() { Id = 2, Title = "Second streetcode content title", AudioId = 2 },
+                new StreetcodeContent() { Id = 3, Title = "Third streetcode content title", AudioId = 3 },
+                new StreetcodeContent() { Id = 4, Title = "Fourth streetcode content title", AudioId = 4 },
             };
 
             var mockRepo = new Mock<IRepositoryWrapper>();
@@ -91,6 +101,17 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                     return audios.FirstOrDefault(predicate.Compile());
                 });
 
+            mockRepo.Setup(x => x.StreetcodeRepository.GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<StreetcodeContent, bool>>>(),
+                It.IsAny<Func<IQueryable<StreetcodeContent>, IIncludableQueryable<StreetcodeContent, object>>>()))
+                .ReturnsAsync((Expression<Func<StreetcodeContent, bool>> predicate, Func<IQueryable<StreetcodeContent>,
+                IIncludableQueryable<StreetcodeContent, object>> include) =>
+                {
+                    return streetCodes.FirstOrDefault(predicate.Compile());
+                });
+
+            mockRepo.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
+
             return mockRepo;
         }
 
@@ -102,10 +123,10 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
         {
             var videos = new List<Video>()
             {
-              new Video{ Id = 1, Title = "First video title", Description = "First video description", Url = "www.first.com", StreetcodeId = 1, Streetcode = null },
-              new Video{ Id = 2, Title = "Second video title", Description = "Second video description", Url = "www.second.com", StreetcodeId = 2, Streetcode = null },
-              new Video{ Id = 3, Title = "Third video title", Description = "Third video description", Url = "www.third.com", StreetcodeId = 3, Streetcode = null },
-              new Video{ Id = 4, Title = "Fourth video title", Description = "Fourth video description", Url = "www.fourth.com", StreetcodeId = 4, Streetcode = null },
+              new Video { Id = 1, Title = "First video title", Description = "First video description", Url = "www.first.com", StreetcodeId = 1, Streetcode = null },
+              new Video { Id = 2, Title = "Second video title", Description = "Second video description", Url = "www.second.com", StreetcodeId = 2, Streetcode = null },
+              new Video { Id = 3, Title = "Third video title", Description = "Third video description", Url = "www.third.com", StreetcodeId = 3, Streetcode = null },
+              new Video { Id = 4, Title = "Fourth video title", Description = "Fourth video description", Url = "www.fourth.com", StreetcodeId = 4, Streetcode = null },
             };
 
             var mockRepo = new Mock<IRepositoryWrapper>();
@@ -170,6 +191,8 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                 {
                     return images.FirstOrDefault(predicate.Compile());
                 });
+
+            mockRepo.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
 
             return mockRepo;
         }
@@ -365,11 +388,30 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
 
         public static Mock<IRepositoryWrapper> GetTimelineRepositoryMock()
         {
+            var historicalTimelines = new List<HistoricalContextTimeline>()
+            {
+                new HistoricalContextTimeline()
+                {
+                    HistoricalContextId = 1,
+                    TimelineId = 1,
+                },
+                new HistoricalContextTimeline()
+                {
+                    HistoricalContextId = 2,
+                    TimelineId = 1,
+                },
+                new HistoricalContextTimeline()
+                {
+                    HistoricalContextId = 3,
+                    TimelineId = 2,
+                },
+            };
+
             var timeline_items = new List<TimelineItem>()
             {
-                 new TimelineItem { Id = 1, Title = "TimelineItem 1", Description = "First description", Date = DateTime.Now, DateViewPattern = DateViewPattern.DateMonthYear },
-                 new TimelineItem { Id = 2, Title = "TimelineItem 2", Description = "Second description", Date = DateTime.Now, DateViewPattern = DateViewPattern.DateMonthYear },
-                 new TimelineItem { Id = 3, Title = "TimelineItem 3", Description = "Third description", Date = DateTime.Now, DateViewPattern = DateViewPattern.DateMonthYear }
+                 new TimelineItem { Id = 1, Title = "TimelineItem 1", Description = "First description", Date = DateTime.Now, DateViewPattern = DateViewPattern.DateMonthYear, HistoricalContextTimelines = historicalTimelines },
+                 new TimelineItem { Id = 2, Title = "TimelineItem 2", Description = "Second description", Date = DateTime.Now, DateViewPattern = DateViewPattern.DateMonthYear, HistoricalContextTimelines = historicalTimelines },
+                 new TimelineItem { Id = 3, Title = "TimelineItem 3", Description = "Third description", Date = DateTime.Now, DateViewPattern = DateViewPattern.DateMonthYear, HistoricalContextTimelines = historicalTimelines }
             };
 
             var mockRepo = new Mock<IRepositoryWrapper>();
@@ -377,11 +419,18 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
             mockRepo.Setup(repo => repo.TimelineRepository.GetAllAsync(It.IsAny<Expression<Func<TimelineItem, bool>>>(), It.IsAny<Func<IQueryable<TimelineItem>,
                 IIncludableQueryable<TimelineItem, object>>>())).ReturnsAsync(timeline_items);
 
-            mockRepo.Setup(repo => repo.TimelineRepository.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<TimelineItem, bool>>>(), It.IsAny<Func<IQueryable<TimelineItem>, IIncludableQueryable<TimelineItem, object>>>()))
-                .ReturnsAsync((Expression<Func<TimelineItem, bool>> predicate, Func<IQueryable<TimelineItem>, IIncludableQueryable<TimelineItem, object>> include) =>
-                {
-                    return timeline_items.FirstOrDefault(predicate.Compile());
-                });
+            mockRepo.Setup(x => x.TimelineRepository.GetFirstOrDefaultAsync(
+                 It.IsAny<Expression<Func<TimelineItem, bool>>>(),
+                 It.IsAny<Func<IQueryable<TimelineItem>, IIncludableQueryable<TimelineItem, object>>>()))
+                 .ReturnsAsync((Expression<Func<TimelineItem, bool>> predicate, Func<IQueryable<TimelineItem>,
+                 IIncludableQueryable<TimelineItem, object>> include) =>
+                 {
+                     return timeline_items.FirstOrDefault(predicate.Compile());
+                 });
+
+            mockRepo.Setup(x => x.TimelineRepository.Create(It.IsAny<TimelineItem>())).Returns(timeline_items[0]);
+            mockRepo.Setup(x => x.HistoricalContextTimelineRepository.CreateAsync(It.IsAny<HistoricalContextTimeline>())).ReturnsAsync(historicalTimelines[0]);
+            mockRepo.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
 
             return mockRepo;
         }
@@ -389,11 +438,11 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
         public static Mock<IRepositoryWrapper> GetHistoricalContextRepositoryMock()
         {
             var historical_contexts = new List<HistoricalContext>()
-        {
-            new HistoricalContext { Id = 1, Title = "TimelineItem 1" },
-            new HistoricalContext { Id = 2, Title = "TimelineItem 2" },
-            new HistoricalContext { Id = 3, Title = "TimelineItem 3" }
-        };
+            {
+                new HistoricalContext { Id = 1, Title = "TimelineItem 1" },
+                new HistoricalContext { Id = 2, Title = "TimelineItem 2" },
+                new HistoricalContext { Id = 3, Title = "TimelineItem 3" }
+            };
 
             var mockRepo = new Mock<IRepositoryWrapper>();
 
@@ -406,6 +455,9 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                         return historical_contexts.FirstOrDefault(predicate.Compile());
                     });
 
+            mockRepo.Setup(x => x.HistoricalContextRepository.Create(It.IsAny<HistoricalContext>())).Returns(historical_contexts[0]);
+            mockRepo.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
+
             return mockRepo;
         }
 
@@ -413,16 +465,29 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
         {
             var sources = new List<SourceLinkCategory>()
             {
-                new SourceLinkCategory { Id = 1, Title = "First title", ImageId = 1, Image = null },
-                new SourceLinkCategory { Id = 2, Title = "Second title", ImageId = 2, Image = null },
-                new SourceLinkCategory { Id = 3, Title = "Third title", ImageId = 3, Image = null },
-                new SourceLinkCategory { Id = 4, Title = "Fourth title", ImageId = 4, Image = null },
+                new SourceLinkCategory { Id = 1, Title = "First title", ImageId = 1, Image = new Image() { Id = 1, Base64 = "Test1", } },
+                new SourceLinkCategory { Id = 2, Title = "Second title", ImageId = 2, Image = new Image() { Id = 2, Base64 = "Test2", } },
+                new SourceLinkCategory { Id = 3, Title = "Third title", ImageId = 3, Image = new Image() { Id = 3, Base64 = "Test3", } },
+                new SourceLinkCategory { Id = 4, Title = "Fourth title", ImageId = 4, Image = new Image() { Id = 4, Base64 = "Test4", } },
             };
 
             var mockRepo = new Mock<IRepositoryWrapper>();
 
             mockRepo.Setup(x => x.SourceCategoryRepository.GetAllAsync(It.IsAny<Expression<Func<SourceLinkCategory, bool>>>(), It.IsAny<Func<IQueryable<SourceLinkCategory>, IIncludableQueryable<SourceLinkCategory, object>>>()))
                 .ReturnsAsync(sources);
+
+            mockRepo.Setup(repo => repo.SourceCategoryRepository.GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<SourceLinkCategory, bool>>>(),
+                It.IsAny<Func<IQueryable<SourceLinkCategory>,
+                IIncludableQueryable<SourceLinkCategory, object>>>()))
+                .ReturnsAsync(
+                (
+                    Expression<Func<SourceLinkCategory, bool>> predicate,
+                    Func<IQueryable<SourceLinkCategory>,
+                    IIncludableQueryable<SourceLinkCategory, object>> include) =>
+                    {
+                        return sources.FirstOrDefault(predicate.Compile());
+                    });
 
             return mockRepo;
         }
@@ -432,10 +497,10 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
         {
             var posts = new List<InstagramPost>()
             {
-                new InstagramPost{ Id = "1", Caption = "1Caption", IsPinned = true, MediaType = "Image", MediaUrl = "1url", Permalink = "1permalink", ThumbnailUrl = "1thumbnailurl" },
-                new InstagramPost{ Id = "2", Caption = "2Caption", IsPinned = true, MediaType = "Image", MediaUrl = "2url", Permalink = "2permalink", ThumbnailUrl = "2thumbnailurl" },
-                new InstagramPost{ Id = "3", Caption = "3Caption", IsPinned = true, MediaType = "Image", MediaUrl = "3url", Permalink = "3permalink", ThumbnailUrl = "3thumbnailurl" },
-                new InstagramPost{ Id = "4", Caption = "4Caption", IsPinned = true, MediaType = "Image", MediaUrl = "4url", Permalink = "4permalink", ThumbnailUrl = "4thumbnailurl" },
+                new InstagramPost { Id = "1", Caption = "1Caption", IsPinned = true, MediaType = "Image", MediaUrl = "1url", Permalink = "1permalink", ThumbnailUrl = "1thumbnailurl" },
+                new InstagramPost { Id = "2", Caption = "2Caption", IsPinned = true, MediaType = "Image", MediaUrl = "2url", Permalink = "2permalink", ThumbnailUrl = "2thumbnailurl" },
+                new InstagramPost { Id = "3", Caption = "3Caption", IsPinned = true, MediaType = "Image", MediaUrl = "3url", Permalink = "3permalink", ThumbnailUrl = "3thumbnailurl" },
+                new InstagramPost { Id = "4", Caption = "4Caption", IsPinned = true, MediaType = "Image", MediaUrl = "4url", Permalink = "4permalink", ThumbnailUrl = "4thumbnailurl" },
             };
 
             var mockRepo = new Mock<IInstagramService>();
@@ -445,11 +510,23 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
 
             return mockRepo;
         }
-      
+
         public static Mock<IRepositoryWrapper> GetPartnersRepositoryMock()
         {
             var mockRepo = new Mock<IRepositoryWrapper>();
-          
+
+            var createdPartner = new Partner()
+            {
+                Id = 1,
+                IsKeyPartner = true,
+                IsVisibleEverywhere = true,
+                Title = "Created title",
+                Description = "Created description",
+                TargetUrl = "Created target url",
+                LogoId = 1,
+                UrlTitle = "Created url title",
+            };
+
             var partners = new List<Partner>()
             {
                 new Partner { Id = 1, Title = "First Title", LogoId = 1, IsKeyPartner = true, IsVisibleEverywhere = true, TargetUrl = "First Url", UrlTitle = "First Url Title", Description = "First Description", Logo = null },
@@ -457,7 +534,15 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                 new Partner { Id = 3, Title = "Third Title", LogoId = 3, IsKeyPartner = true, IsVisibleEverywhere = true, TargetUrl = "Third Url", UrlTitle = "Third Url Title", Description = "Third Description", Logo = null },
                 new Partner { Id = 4, Title = "Fourth Title", LogoId = 4, IsKeyPartner = true, IsVisibleEverywhere = true, TargetUrl = "Fourth Url", UrlTitle = "Fourth Url Title", Description = "Fourth Description", Logo = null },
             };
-          
+
+            var streetCodes = new List<StreetcodeContent>
+            {
+                new StreetcodeContent() { Id = 1, Title = "First streetcode content title", AudioId = 1 },
+                new StreetcodeContent() { Id = 2, Title = "Second streetcode content title", AudioId = 2 },
+                new StreetcodeContent() { Id = 3, Title = "Third streetcode content title", AudioId = 3 },
+                new StreetcodeContent() { Id = 4, Title = "Fourth streetcode content title", AudioId = 4 },
+            };
+
             mockRepo.Setup(x => x.PartnersRepository.GetAllAsync(It.IsAny<Expression<Func<Partner, bool>>>(), It.IsAny<Func<IQueryable<Partner>, IIncludableQueryable<Partner, object>>>()))
                 .ReturnsAsync(partners);
 
@@ -466,7 +551,33 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                 {
                     return partners.FirstOrDefault(predicate.Compile());
                 });
-          
+
+            mockRepo.Setup(x => x.PartnersRepository.GetSingleOrDefaultAsync(It.IsAny<Expression<Func<Partner, bool>>>(), It.IsAny<Func<IQueryable<Partner>, IIncludableQueryable<Partner, object>>>()))
+                .ReturnsAsync((Expression<Func<Partner, bool>> predicate, Func<IQueryable<Partner>, IIncludableQueryable<Partner, object>> include) =>
+                {
+                    return partners.FirstOrDefault(predicate.Compile());
+                });
+
+            mockRepo.Setup(x => x.StreetcodeRepository.GetSingleOrDefaultAsync(
+                It.IsAny<Expression<Func<StreetcodeContent, bool>>>(),
+                It.IsAny<Func<IQueryable<StreetcodeContent>,
+                IIncludableQueryable<StreetcodeContent, object>>>()))
+                .ReturnsAsync(
+                (Expression<Func<StreetcodeContent, bool>> predicate,
+                Func<IQueryable<Partner>, IIncludableQueryable<StreetcodeContent, object>> include) =>
+                {
+                    return streetCodes.FirstOrDefault(predicate.Compile());
+                });
+
+            mockRepo.Setup(x => x.StreetcodeRepository.GetAllAsync(
+                It.IsAny<Expression<Func<StreetcodeContent, bool>>>(),
+                It.IsAny<Func<IQueryable<StreetcodeContent>,
+                IIncludableQueryable<StreetcodeContent, object>>>()))
+                .ReturnsAsync(streetCodes);
+
+            mockRepo.Setup(x => x.PartnersRepository.CreateAsync(It.IsAny<Partner>()))
+                .ReturnsAsync(createdPartner);
+
             return mockRepo;
         }
 
@@ -490,6 +601,11 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                  {
                      return locations.FirstOrDefault(predicate.Compile());
                  });
+
+            mockRepo.Setup(x => x.LocationRepository.Create(It.IsAny<Location>()))
+                .Returns(locations[0]);
+
+            mockRepo.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
 
             return mockRepo;
         }
@@ -576,7 +692,8 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
             mockRepo.Setup(x => x.SubtitleRepository.GetFirstOrDefaultAsync(
                 It.IsAny<Expression<Func<Subtitle, bool>>>(),
                 It.IsAny<Func<IQueryable<Subtitle>, IIncludableQueryable<Subtitle, object>>>()))
-            .ReturnsAsync((Expression<Func<Subtitle, bool>> predicate,
+            .ReturnsAsync((
+                Expression<Func<Subtitle, bool>> predicate,
                 Func<IQueryable<Subtitle>,
                 IIncludableQueryable<Subtitle, object>> include) =>
                 {
@@ -737,6 +854,15 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
 
             var news = new List<News>()
             {
+                new News()
+                {
+                Id = 1,
+                Title = "Title1",
+                Text = "Text1",
+                CreationDate = new DateTime(2024, 3, 21, 0, 0, 0, DateTimeKind.Utc),
+                ImageId = 1,
+                URL = "example.com",
+                },
                 new News()
                 {
                     Id = 1,

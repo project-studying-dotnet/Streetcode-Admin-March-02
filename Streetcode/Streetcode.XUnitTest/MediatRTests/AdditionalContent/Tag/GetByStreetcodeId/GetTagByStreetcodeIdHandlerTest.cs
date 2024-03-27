@@ -20,29 +20,29 @@
 
     public class GetTagByStreetcodeIdHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         public GetTagByStreetcodeIdHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetTagRepositoryMock();
+            _mockRepository = RepositoryMocker.GetTagRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<TagProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         [Fact]
         public async Task Handler_GetByStreetcodeValidId_ResultShouldNotBeNull()
         {
             // Arrange
-            var handler = new GetTagByStreetcodeIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetTagByStreetcodeIdHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
             int validId = 1;
             var request = new GetTagByStreetcodeIdQuery(validId);
 
@@ -57,7 +57,7 @@
         public async Task Handler_GetByStreetcodeValidId_ResultShouldBeOfTypeIEnumerableStreetcodeTagDto()
         {
             // Arrange
-            var handler = new GetTagByStreetcodeIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetTagByStreetcodeIdHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
             int validId = 1;
             var request = new GetTagByStreetcodeIdQuery(validId);
 
@@ -72,11 +72,11 @@
         public async Task Handler_GetByStreetcodeInvalidId_IsFailedShouldBeTrue()
         {
             // Arrange
-            var handler = new GetTagByStreetcodeIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetTagByStreetcodeIdHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
             int invalidId = 10;
             var request = new GetTagByStreetcodeIdQuery(invalidId);
 
-            this.mockRepository.Setup(x => x.StreetcodeTagIndexRepository.GetAllAsync(
+            _mockRepository.Setup(x => x.StreetcodeTagIndexRepository.GetAllAsync(
                 It.IsAny<Expression<Func<StreetcodeTagIndex, bool>>>(),
                 It.IsAny<Func<IQueryable<StreetcodeTagIndex>, IIncludableQueryable<StreetcodeTagIndex, object>>>()))
             .Returns(Task.FromResult<IEnumerable<StreetcodeTagIndex>>(null));

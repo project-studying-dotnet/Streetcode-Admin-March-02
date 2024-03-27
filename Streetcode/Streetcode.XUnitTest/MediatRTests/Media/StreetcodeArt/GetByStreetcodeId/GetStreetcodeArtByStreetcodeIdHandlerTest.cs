@@ -24,23 +24,23 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.StreetcodeArt.GetByStreetcodeI
     /// </summary>
     public class GetStreetcodeArtByStreetcodeIdHandlerTest
     {
-        private readonly Mock<IMapper> mockMapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
-        private readonly Mock<IBlobService> mockBlob;
+        private readonly Mock<IMapper> _mockMapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
+        private readonly Mock<IBlobService> _mockBlob;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetStreetcodeArtByStreetcodeIdHandlerTest"/> class.
         /// </summary>
         public GetStreetcodeArtByStreetcodeIdHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetStreetcodeArtRepositoryMock();
+            _mockRepository = RepositoryMocker.GetStreetcodeArtRepositoryMock();
 
-            this.mockMapper = new Mock<IMapper>();
+            _mockMapper = new Mock<IMapper>();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
 
-            this.mockBlob = new Mock<IBlobService>();
+            _mockBlob = new Mock<IBlobService>();
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.StreetcodeArt.GetByStreetcodeI
         public async Task GetByIdNotNullTest()
         {
             // Arrange
-            var handler = new GetStreetcodeArtByStreetcodeIdHandler(this.mockRepository.Object, this.mockMapper.Object, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new GetStreetcodeArtByStreetcodeIdHandler(_mockRepository.Object, _mockMapper.Object, _mockBlob.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetStreetcodeArtByStreetcodeIdQuery(1), CancellationToken.None);
@@ -68,7 +68,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.StreetcodeArt.GetByStreetcodeI
         public async Task GetByIdSizeShoulBeZero()
         {
             // Arrange
-            var handler = new GetStreetcodeArtByStreetcodeIdHandler(this.mockRepository.Object, this.mockMapper.Object, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new GetStreetcodeArtByStreetcodeIdHandler(_mockRepository.Object, _mockMapper.Object, _mockBlob.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetStreetcodeArtByStreetcodeIdQuery(1), CancellationToken.None);

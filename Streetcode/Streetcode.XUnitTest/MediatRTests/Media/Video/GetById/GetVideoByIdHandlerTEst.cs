@@ -21,9 +21,9 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Video.GetById
     /// </summary>
     public class GetVideoByIdHandlerTEst
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
 
         /// <summary>
@@ -31,16 +31,16 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Video.GetById
         /// </summary>
         public GetVideoByIdHandlerTEst()
         {
-            this.mockRepository = RepositoryMocker.GetVideosRepositoryMock();
+            _mockRepository = RepositoryMocker.GetVideosRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<VideoProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Video.GetById
         public async Task GetByIdNotNullTest()
         {
             // Arrange
-            var handler = new GetVideoByIdHandler(this.mockRepository.Object, this.mapper,  this.mockLogger.Object);
+            var handler = new GetVideoByIdHandler(_mockRepository.Object, _mapper,  _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetVideoByIdQuery(2), CancellationToken.None);
@@ -68,7 +68,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Video.GetById
         public async Task GetByIdFirstShouldBeFirstTest()
         {
             // Arrange
-            var handler = new GetVideoByIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetVideoByIdHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetVideoByIdQuery(1), CancellationToken.None);
@@ -85,7 +85,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Video.GetById
         public async Task GetByIdSecondShouldNotBeFourthTest()
         {
             // Arrange
-            var handler = new GetVideoByIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetVideoByIdHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetVideoByIdQuery(2), CancellationToken.None);

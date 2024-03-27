@@ -17,37 +17,37 @@
     /// </summary>
     public class UpdateTimelineItemHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateTimelineItemHandlerTest"/> class.
         /// </summary>
         public UpdateTimelineItemHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetCoordinateRepositoryMock();
+            _mockRepository = RepositoryMocker.GetTimelineRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<TimelineItemProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         [Fact]
-        public async Task Handler_CoordinateDTOIsNull_IsFaildeShouldBeTrue()
+        public async Task Handler_TimelineDTOIsNull_IsFaildeShouldBeTrue()
         {
             // Arrange
-            var handler = new UpdateTimelineItemHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new UpdateTimelineItemHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
             TimelineItemDto? timeline = null;
-            var streetcodeCoordinate = new UpdateTimelineItemCommand(timeline);
+            var request = new UpdateTimelineItemCommand(timeline);
 
             // Act
-            var result = await handler.Handle(streetcodeCoordinate, CancellationToken.None);
+            var result = await handler.Handle(request, CancellationToken.None);
 
             // Assert
             result.IsFailed.Should().BeTrue();
@@ -57,12 +57,26 @@
         public async Task Handler_ValidData_IsSucessShouldBeTrue()
         {
             // Arrange
-            var handler = new UpdateTimelineItemHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new UpdateTimelineItemHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
+            var historicalContexts = new List<HistoricalContextDto>()
+            {
+                new HistoricalContextDto()
+                {
+                    Id = 1,
+                },
+                new HistoricalContextDto()
+                {
+                    Id = 2,
+                },
+            };
+
             var timeline = new TimelineItemDto()
             {
-               Id=1,
-               Title="BEBEBBEBE"
+               Id = 1,
+               Title = "BEBEBBEBE",
+               HistoricalContexts = historicalContexts,
             };
+
             var updatedTimeline = new UpdateTimelineItemCommand(timeline);
 
             // Act

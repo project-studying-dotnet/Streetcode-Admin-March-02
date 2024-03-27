@@ -13,29 +13,29 @@
 
     public class GetTagByIdHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         public GetTagByIdHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetTagRepositoryMock();
+            _mockRepository = RepositoryMocker.GetTagRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<TagProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         [Fact]
         public async Task Handler_GetTagByValidId_GetByIdResultShouldBeNotNull()
         {
             // Arrange
-            var handler = new GetTagByIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetTagByIdHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
             int validId = 1;
             var request = new GetTagByIdQuery(validId);
 
@@ -50,7 +50,7 @@
         public async Task Handler_GetTagByInvalidId_IsFailedShouldBeTrue()
         {
             // Arrange
-            var handler = new GetTagByIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetTagByIdHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
             int invalidId = 10;
             var request = new GetTagByIdQuery(invalidId);
 

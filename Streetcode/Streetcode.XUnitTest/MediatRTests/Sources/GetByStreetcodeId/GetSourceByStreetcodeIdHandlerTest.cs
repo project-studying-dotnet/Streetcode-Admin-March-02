@@ -7,10 +7,14 @@ namespace Streetcode.XUnitTest.MediatRTests.Sources.GetByStreetcodeId
     using AutoMapper;
     using FluentAssertions;
     using Moq;
+    using Streetcode.BLL.Dto.Media.Images;
+    using Streetcode.BLL.Dto.Sources;
     using Streetcode.BLL.Interfaces.BlobStorage;
     using Streetcode.BLL.Interfaces.Logging;
     using Streetcode.BLL.Mapping.Sources;
     using Streetcode.BLL.MediatR.Sources.SourceLink.GetCategoriesByStreetcodeId;
+    using Streetcode.DAL.Entities.Media.Images;
+    using Streetcode.DAL.Entities.Sources;
     using Streetcode.DAL.Repositories.Interfaces.Base;
     using Streetcode.XUnitTest.MediatRTests.Mocks;
     using Xunit;
@@ -20,28 +24,29 @@ namespace Streetcode.XUnitTest.MediatRTests.Sources.GetByStreetcodeId
     /// </summary>
     public class GetSourceByStreetcodeIdHandlerTest
     {
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly IMapper mapper;
-        private readonly Mock<IBlobService> mockBlob;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly IMapper _mapper;
+        private readonly Mock<IBlobService> _mockBlob;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetSourceByStreetcodeIdHandlerTest"/> class.
         /// </summary>
         public GetSourceByStreetcodeIdHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetSourceRepositoryMock();
+            _mockRepository = RepositoryMocker.GetSourceRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<SourceLinkCategoryProfile>();
+                c.CreateMap<Image, ImageDto>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
 
-            this.mockBlob = new Mock<IBlobService>();
+            _mockBlob = new Mock<IBlobService>();
         }
 
         /// <summary>
@@ -52,7 +57,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Sources.GetByStreetcodeId
         public async Task GetByIdNotNullTest()
         {
             // Arrange
-            var handler = new GetCategoriesByStreetcodeIdHandler(this.mockRepository.Object, this.mapper, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new GetCategoriesByStreetcodeIdHandler(_mockRepository.Object, _mapper, _mockBlob.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetCategoriesByStreetcodeIdQuery(1), CancellationToken.None);
@@ -69,7 +74,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Sources.GetByStreetcodeId
         public async Task GetByIdSecondBlobNameShouldBeSecond()
         {
             // Arrange
-            var handler = new GetCategoriesByStreetcodeIdHandler(this.mockRepository.Object, this.mapper, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new GetCategoriesByStreetcodeIdHandler(_mockRepository.Object, _mapper, _mockBlob.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetCategoriesByStreetcodeIdQuery(1), CancellationToken.None);

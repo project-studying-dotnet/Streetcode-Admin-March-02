@@ -18,29 +18,29 @@
 
     public class GetSubtitleByIdHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         public GetSubtitleByIdHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetSubtitleRepositoryMock();
+            _mockRepository = RepositoryMocker.GetSubtitleRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<SubtitleProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         [Fact]
         public async Task Handler_GetSubtitleByValidId_GetByIdResultShouldBeNotNull()
         {
             // Arrange
-            var handler = new GetSubtitleByIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetSubtitleByIdHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
             int validId = 1;
             var request = new GetSubtitleByIdQuery(validId);
 
@@ -55,7 +55,7 @@
         public async Task Handler_GetSubtitleByInvalidId_IsFailedShouldBeTrue()
         {
             // Arrange
-            var handler = new GetSubtitleByIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetSubtitleByIdHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
             int invalidId = 10;
             var request = new GetSubtitleByIdQuery(invalidId);
 

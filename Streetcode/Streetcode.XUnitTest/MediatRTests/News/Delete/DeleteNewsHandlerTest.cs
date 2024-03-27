@@ -19,21 +19,21 @@
 
     public class DeleteNewsHandlerTest
     {
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         public DeleteNewsHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetNewsRepositoryMock();
+            _mockRepository = RepositoryMocker.GetNewsRepositoryMock();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         [Fact]
         public async Task Handler_WrongId_IsFailedShouldBeTrue()
         {
             // Arrange
-            var handler = new DeleteNewsHandler(this.mockRepository.Object, this.mockLogger.Object);
+            var handler = new DeleteNewsHandler(_mockRepository.Object, _mockLogger.Object);
 
             int wrongId = 10;
             var request = new DeleteNewsCommand(wrongId);
@@ -49,7 +49,7 @@
         public async Task Handler_CorrectId_DeleteShouldBeCalled()
         {
             // Arrange
-            var handler = new DeleteNewsHandler(this.mockRepository.Object, this.mockLogger.Object);
+            var handler = new DeleteNewsHandler(_mockRepository.Object, _mockLogger.Object);
 
             int correctId = 1;
             var request = new DeleteNewsCommand(correctId);
@@ -58,7 +58,7 @@
             var result = await handler.Handle(request, CancellationToken.None);
 
             // Assert
-            this.mockRepository.Verify(x => x.NewsRepository.Delete(It.IsAny<News>()), Times.Once);
+            _mockRepository.Verify(x => x.NewsRepository.Delete(It.IsAny<News>()), Times.Once);
         }
     }
 }

@@ -23,32 +23,32 @@
 
     public class UpdateNewsHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
-        private readonly Mock<IBlobService> blobService;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
+        private readonly Mock<IBlobService> _blobService;
 
         public UpdateNewsHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetNewsRepositoryMock();
+            _mockRepository = RepositoryMocker.GetNewsRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<NewsProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
 
-            this.blobService = new Mock<IBlobService>();
+            _blobService = new Mock<IBlobService>();
         }
 
         [Fact]
         public async Task Handler_NewsDtoIsNull_IsFailedShouldBeTrue()
         {
             // Arrange
-            var handler = new UpdateNewsHandler(this.mockRepository.Object, this.mapper, this.blobService.Object, this.mockLogger.Object);
+            var handler = new UpdateNewsHandler(_mockRepository.Object, _mapper, _blobService.Object, _mockLogger.Object);
             NewsDto? newsDto = null;
             var request = new UpdateNewsCommand(newsDto);
 
@@ -63,7 +63,7 @@
         public async Task Handler_NewsDtoIsValid_IsSucessShouldBeTrue()
         {
             // Arrange
-            var handler = new UpdateNewsHandler(this.mockRepository.Object, this.mapper, this.blobService.Object, this.mockLogger.Object);
+            var handler = new UpdateNewsHandler(_mockRepository.Object, _mapper, _blobService.Object, _mockLogger.Object);
             NewsDto? newsDto = new NewsDto()
             {
                 Id = 1,
@@ -86,7 +86,7 @@
         public async Task Handler_NewsDtoIsValid_DeleteImageIsCalled()
         {
             // Arrange
-            var handler = new UpdateNewsHandler(this.mockRepository.Object, this.mapper, this.blobService.Object, this.mockLogger.Object);
+            var handler = new UpdateNewsHandler(_mockRepository.Object, _mapper, _blobService.Object, _mockLogger.Object);
             NewsDto? newsDto = new NewsDto()
             {
                 Id = 1,
@@ -102,14 +102,14 @@
             var result = await handler.Handle(request, CancellationToken.None);
 
             // Assert
-            this.mockRepository.Verify(x => x.ImageRepository.Delete(It.IsAny<Image>()), Times.Once);
+            _mockRepository.Verify(x => x.ImageRepository.Delete(It.IsAny<Image>()), Times.Once);
         }
 
         [Fact]
         public async Task Handler_NewsDtoIsValid_UpdateNewsIsCalled()
         {
             // Arrange
-            var handler = new UpdateNewsHandler(this.mockRepository.Object, this.mapper, this.blobService.Object, this.mockLogger.Object);
+            var handler = new UpdateNewsHandler(_mockRepository.Object, _mapper, _blobService.Object, _mockLogger.Object);
             NewsDto? newsDto = new NewsDto()
             {
                 Id = 1,
@@ -125,7 +125,7 @@
             var result = await handler.Handle(request, CancellationToken.None);
 
             // Assert
-            this.mockRepository.Verify(x => x.NewsRepository.Update(It.IsAny<News>()), Times.Once);
+            _mockRepository.Verify(x => x.NewsRepository.Update(It.IsAny<News>()), Times.Once);
         }
     }
 }

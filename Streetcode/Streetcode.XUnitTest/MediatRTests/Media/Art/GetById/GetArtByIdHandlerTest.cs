@@ -20,16 +20,16 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Art.GetById
     /// </summary>
     public class GetArtByIdHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetArtByIdHandlerTest"/> class.
         /// </summary> 
         public GetArtByIdHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetArtRepositoryMock();
+            _mockRepository = RepositoryMocker.GetArtRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
@@ -37,9 +37,9 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Art.GetById
             });
 
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Art.GetById
         public async Task GetByIdNotNullTest()
         {
             // Arrange
-            var handler = new GetArtByIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetArtByIdHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetArtByIdQuery(1), CancellationToken.None);
@@ -67,7 +67,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Art.GetById
         public async Task GetByIdFirstShouldBeFirstTest()
         {
             // Arrange
-            var handler = new GetArtByIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetArtByIdHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetArtByIdQuery(1), CancellationToken.None);
@@ -84,7 +84,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Art.GetById
         public async Task GetByIdSecondShouldNotBeFourthTest()
         {
             // Arrange
-            var handler = new GetArtByIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetArtByIdHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetArtByIdQuery(2), CancellationToken.None);

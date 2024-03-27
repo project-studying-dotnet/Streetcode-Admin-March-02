@@ -13,29 +13,29 @@
 
     public class GetSubtitleByStreetcodeIdHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         public GetSubtitleByStreetcodeIdHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetSubtitleRepositoryMock();
+            _mockRepository = RepositoryMocker.GetSubtitleRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<SubtitleProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         [Fact]
         public async Task Handler_GetByStreetcodeValidId_ResultShouldNotBeNull()
         {
             // Arrange
-            var handler = new GetSubtitlesByStreetcodeIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetSubtitlesByStreetcodeIdHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
             int validId = 1;
             var request = new GetSubtitlesByStreetcodeIdQuery(validId);
 
@@ -50,7 +50,7 @@
         public async Task Handler_GetByStreetcodeInvalidId_ResultShouldBeNull()
         {
             // Arrange
-            var handler = new GetSubtitlesByStreetcodeIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetSubtitlesByStreetcodeIdHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
             int invalidId = 10;
             var request = new GetSubtitlesByStreetcodeIdQuery(invalidId);
 
