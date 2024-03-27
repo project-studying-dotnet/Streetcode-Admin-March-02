@@ -74,10 +74,18 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
         {
             var audios = new List<Audio>()
             {
-               new Audio { Id = 1, Title = "First audio", BlobName = "First blob name", MimeType = "First mime type", Base64 = "First base 64", Streetcode = null },
+               new Audio { Id = 1, Title = "First audio", BlobName = "First blob name", MimeType = "First mime type", Base64 = "First base 64", Streetcode = null, },
                new Audio { Id = 2, Title = "Second audio", BlobName = "Second blob name", MimeType = "Second mime type", Base64 = "Second base 64", Streetcode = null },
                new Audio { Id = 3, Title = "Third audio", BlobName = "Third blob name", MimeType = "Third mime type", Base64 = "Third base 64", Streetcode = null },
                new Audio { Id = 4, Title = "Fourth audio", BlobName = "Fourth blob name", MimeType = "Fourth mime type", Base64 = "Fourth base 64", Streetcode = null },
+            };
+
+            var streetCodes = new List<StreetcodeContent>
+            {
+                new StreetcodeContent() { Id = 1, Title = "First streetcode content title", AudioId = 1, Audio = audios[0] },
+                new StreetcodeContent() { Id = 2, Title = "Second streetcode content title", AudioId = 2 },
+                new StreetcodeContent() { Id = 3, Title = "Third streetcode content title", AudioId = 3 },
+                new StreetcodeContent() { Id = 4, Title = "Fourth streetcode content title", AudioId = 4 },
             };
 
             var mockRepo = new Mock<IRepositoryWrapper>();
@@ -90,6 +98,17 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                 {
                     return audios.FirstOrDefault(predicate.Compile());
                 });
+
+            mockRepo.Setup(x => x.StreetcodeRepository.GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<StreetcodeContent, bool>>>(),
+                It.IsAny<Func<IQueryable<StreetcodeContent>, IIncludableQueryable<StreetcodeContent, object>>>()))
+                .ReturnsAsync((Expression<Func<StreetcodeContent, bool>> predicate, Func<IQueryable<StreetcodeContent>,
+                IIncludableQueryable<StreetcodeContent, object>> include) =>
+                {
+                    return streetCodes.FirstOrDefault(predicate.Compile());
+                });
+
+            mockRepo.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
 
             return mockRepo;
         }

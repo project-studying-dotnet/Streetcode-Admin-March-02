@@ -52,6 +52,8 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.GetByStreetcodeId
         public async Task GetByIdNotNullTest()
         {
             // Arrange
+            MemoryStream memory = new MemoryStream();
+            _mockBlob.Setup(x => x.FindFileInStorageAsMemoryStream(It.IsAny<string>())).Returns(memory);
             var handler = new GetAudioByStreetcodeIdQueryHandler(_mockRepository.Object, _mapper, _mockBlob.Object, _mockLogger.Object);
 
             // Act
