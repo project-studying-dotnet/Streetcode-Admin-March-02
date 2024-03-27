@@ -44,6 +44,9 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Images.GetBaseImage
         public async Task GetByIdNotNullTest()
         {
             // Arrange
+            MemoryStream memory = new MemoryStream();
+            _mockBlob.Setup(x => x.FindFileInStorageAsMemoryStream(It.IsAny<string>())).Returns(memory);
+
             var handler = new GetBaseImageHandler(_mockBlob.Object, _mockRepository.Object, _mockLogger.Object);
 
             // Act

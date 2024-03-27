@@ -72,7 +72,7 @@
         }
 
         [Fact]
-        public async Task Handler_GetAll_CountShouldBeThree()
+        public async Task Handler_GetAll_CountShouldBeFour()
         {
             // Arrange
             var handler = new GetAllNewsHandler(_mockRepository.Object, _mapper, _blobService.Object, _mockLogger.Object);
@@ -82,7 +82,7 @@
             var result = await handler.Handle(request, CancellationToken.None);
 
             // Assert
-            result.Value.Count().Should().Be(3);
+            result.Value.Count().Should().Be(4);
         }
     }
 }

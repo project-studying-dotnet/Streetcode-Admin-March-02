@@ -190,6 +190,8 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                     return images.FirstOrDefault(predicate.Compile());
                 });
 
+            mockRepo.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
+
             return mockRepo;
         }
 
