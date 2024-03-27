@@ -37,7 +37,7 @@ public class PartnersController : BaseApiController
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreatePartnerDto partner)
     {
-        return HandleResult(await Mediator.Send(new CreatePartnerQuery(partner)));
+        return HandleResult(await Mediator.Send(new CreatePartnerCommand(partner)));
     }
 
     [HttpPut]
