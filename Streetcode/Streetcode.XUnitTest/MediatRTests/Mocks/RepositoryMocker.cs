@@ -386,11 +386,30 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
 
         public static Mock<IRepositoryWrapper> GetTimelineRepositoryMock()
         {
+            var historicalTimelines = new List<HistoricalContextTimeline>()
+            {
+                new HistoricalContextTimeline()
+                {
+                    HistoricalContextId = 1,
+                    TimelineId = 1,
+                },
+                new HistoricalContextTimeline()
+                {
+                    HistoricalContextId = 2,
+                    TimelineId = 1,
+                },
+                new HistoricalContextTimeline()
+                {
+                    HistoricalContextId = 3,
+                    TimelineId = 2,
+                },
+            };
+
             var timeline_items = new List<TimelineItem>()
             {
-                 new TimelineItem { Id = 1, Title = "TimelineItem 1", Description = "First description", Date = DateTime.Now, DateViewPattern = DateViewPattern.DateMonthYear },
-                 new TimelineItem { Id = 2, Title = "TimelineItem 2", Description = "Second description", Date = DateTime.Now, DateViewPattern = DateViewPattern.DateMonthYear },
-                 new TimelineItem { Id = 3, Title = "TimelineItem 3", Description = "Third description", Date = DateTime.Now, DateViewPattern = DateViewPattern.DateMonthYear }
+                 new TimelineItem { Id = 1, Title = "TimelineItem 1", Description = "First description", Date = DateTime.Now, DateViewPattern = DateViewPattern.DateMonthYear, HistoricalContextTimelines = historicalTimelines },
+                 new TimelineItem { Id = 2, Title = "TimelineItem 2", Description = "Second description", Date = DateTime.Now, DateViewPattern = DateViewPattern.DateMonthYear, HistoricalContextTimelines = historicalTimelines },
+                 new TimelineItem { Id = 3, Title = "TimelineItem 3", Description = "Third description", Date = DateTime.Now, DateViewPattern = DateViewPattern.DateMonthYear, HistoricalContextTimelines = historicalTimelines }
             };
 
             var mockRepo = new Mock<IRepositoryWrapper>();
@@ -407,6 +426,8 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                      return timeline_items.FirstOrDefault(predicate.Compile());
                  });
 
+            mockRepo.Setup(x => x.TimelineRepository.Create(It.IsAny<TimelineItem>())).Returns(timeline_items[0]);
+            mockRepo.Setup(x => x.HistoricalContextTimelineRepository.CreateAsync(It.IsAny<HistoricalContextTimeline>())).ReturnsAsync(historicalTimelines[0]);
             mockRepo.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
 
             return mockRepo;
@@ -415,11 +436,11 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
         public static Mock<IRepositoryWrapper> GetHistoricalContextRepositoryMock()
         {
             var historical_contexts = new List<HistoricalContext>()
-        {
-            new HistoricalContext { Id = 1, Title = "TimelineItem 1" },
-            new HistoricalContext { Id = 2, Title = "TimelineItem 2" },
-            new HistoricalContext { Id = 3, Title = "TimelineItem 3" }
-        };
+            {
+                new HistoricalContext { Id = 1, Title = "TimelineItem 1" },
+                new HistoricalContext { Id = 2, Title = "TimelineItem 2" },
+                new HistoricalContext { Id = 3, Title = "TimelineItem 3" }
+            };
 
             var mockRepo = new Mock<IRepositoryWrapper>();
 
@@ -432,6 +453,9 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                         return historical_contexts.FirstOrDefault(predicate.Compile());
                     });
 
+            mockRepo.Setup(x => x.HistoricalContextRepository.Create(It.IsAny<HistoricalContext>())).Returns(historical_contexts[0]);
+            mockRepo.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
+
             return mockRepo;
         }
 
@@ -439,10 +463,10 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
         {
             var sources = new List<SourceLinkCategory>()
             {
-                new SourceLinkCategory { Id = 1, Title = "First title", ImageId = 1, Image = null },
-                new SourceLinkCategory { Id = 2, Title = "Second title", ImageId = 2, Image = null },
-                new SourceLinkCategory { Id = 3, Title = "Third title", ImageId = 3, Image = null },
-                new SourceLinkCategory { Id = 4, Title = "Fourth title", ImageId = 4, Image = null },
+                new SourceLinkCategory { Id = 1, Title = "First title", ImageId = 1, Image = new Image() { Id = 1, Base64 = "Test1", } },
+                new SourceLinkCategory { Id = 2, Title = "Second title", ImageId = 2, Image = new Image() { Id = 2, Base64 = "Test2", } },
+                new SourceLinkCategory { Id = 3, Title = "Third title", ImageId = 3, Image = new Image() { Id = 3, Base64 = "Test3", } },
+                new SourceLinkCategory { Id = 4, Title = "Fourth title", ImageId = 4, Image = new Image() { Id = 4, Base64 = "Test4", } },
             };
 
             var mockRepo = new Mock<IRepositoryWrapper>();

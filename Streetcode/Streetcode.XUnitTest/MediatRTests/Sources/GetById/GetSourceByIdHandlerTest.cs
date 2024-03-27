@@ -7,10 +7,14 @@ namespace Streetcode.XUnitTest.MediatRTests.Sources.GetById
     using AutoMapper;
     using FluentAssertions;
     using Moq;
+    using Streetcode.BLL.Dto.Media.Images;
+    using Streetcode.BLL.Dto.Sources;
     using Streetcode.BLL.Interfaces.BlobStorage;
     using Streetcode.BLL.Interfaces.Logging;
     using Streetcode.BLL.Mapping.Sources;
     using Streetcode.BLL.MediatR.Sources.SourceLink.GetCategoryById;
+    using Streetcode.DAL.Entities.Media.Images;
+    using Streetcode.DAL.Entities.Sources;
     using Streetcode.DAL.Repositories.Interfaces.Base;
     using Streetcode.XUnitTest.MediatRTests.Mocks;
     using Xunit;
@@ -35,6 +39,12 @@ namespace Streetcode.XUnitTest.MediatRTests.Sources.GetById
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<SourceLinkCategoryProfile>();
+                c.CreateMap<SourceLinkCategory, SourceLinkCategoryDto>()
+            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image != null ? new ImageDto { Base64 = src.Image.Base64 } : null))
+            .ReverseMap()
+            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image != null ? new Image { Base64 = src.Image.Base64 } : null));
+
+                c.CreateMap<Image, ImageDto>().ReverseMap();
             });
 
             _mapper = mapperConfig.CreateMapper();
@@ -69,6 +79,9 @@ namespace Streetcode.XUnitTest.MediatRTests.Sources.GetById
         public async Task GetByIdFirstShouldBeFirstTest()
         {
             // Arrange
+            string base64 = "base64Test";
+            _mockBlob.Setup(x => x.FindFileInStorageAsBase64(It.IsAny<string>())).Returns(base64);
+
             var handler = new GetCategoryByIdHandler(_mockRepository.Object, _mapper, _mockBlob.Object, _mockLogger.Object);
 
             // Act

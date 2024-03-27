@@ -4,9 +4,11 @@
     using AutoMapper;
     using FluentAssertions;
     using Moq;
+    using Streetcode.BLL.Dto.Timeline;
     using Streetcode.BLL.Interfaces.Logging;
     using Streetcode.BLL.Mapping.Timeline;
     using Streetcode.BLL.MediatR.Timeline.TimelineItem.Create;
+    using Streetcode.DAL.Entities.Timeline;
     using Streetcode.DAL.Repositories.Interfaces.Base;
     using Streetcode.XUnitTest.MediatRTests.Mocks;
     using Xunit;
@@ -45,10 +47,32 @@
         public async Task CreatedTimelineItemShouldNotBeNull()
         {
             // Arrange
+            var historicalTimelines = new List<HistoricalContextDto>()
+            {
+                new HistoricalContextDto()
+                {
+                    Id = 1,
+                },
+                new HistoricalContextDto()
+                {
+                    Id = 2,
+                },
+                new HistoricalContextDto()
+                {
+                    Id = 3,
+                },
+            };
+
             var handler = new CreateTimelineItemHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
-            var result = await handler.Handle(new CreateTimelineItemCommand(new BLL.Dto.Timeline.TimelineItemDto() { Title = "TEST" }), CancellationToken.None);
+            var result = await handler.Handle(
+                new CreateTimelineItemCommand(
+                new BLL.Dto.Timeline.TimelineItemDto()
+                {
+                    Title = "TEST",
+                    HistoricalContexts = historicalTimelines,
+                }), CancellationToken.None);
 
             // Assert
             result.Value.Should().NotBeNull();
@@ -62,10 +86,32 @@
         public async Task CreatedTimelineItemTitleShouldBeTest()
         {
             // Arrange
+            var historicalTimelines = new List<HistoricalContextDto>()
+            {
+                new HistoricalContextDto()
+                {
+                    Id = 1,
+                },
+                new HistoricalContextDto()
+                {
+                    Id = 2,
+                },
+                new HistoricalContextDto()
+                {
+                    Id = 3,
+                },
+            };
+
             var handler = new CreateTimelineItemHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
-            var result = await handler.Handle(new CreateTimelineItemCommand(new BLL.Dto.Timeline.TimelineItemDto() { Title = "TEST" }), CancellationToken.None);
+            var result = await handler.Handle(
+                new CreateTimelineItemCommand(
+                new BLL.Dto.Timeline.TimelineItemDto()
+                {
+                    Title = "TEST",
+                    HistoricalContexts = historicalTimelines,
+                }), CancellationToken.None);
 
             // Assert
             result.Value.Title.Should().Equals("TEST");
