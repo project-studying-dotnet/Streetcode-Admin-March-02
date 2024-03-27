@@ -450,6 +450,19 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
             mockRepo.Setup(x => x.SourceCategoryRepository.GetAllAsync(It.IsAny<Expression<Func<SourceLinkCategory, bool>>>(), It.IsAny<Func<IQueryable<SourceLinkCategory>, IIncludableQueryable<SourceLinkCategory, object>>>()))
                 .ReturnsAsync(sources);
 
+            mockRepo.Setup(repo => repo.SourceCategoryRepository.GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<SourceLinkCategory, bool>>>(),
+                It.IsAny<Func<IQueryable<SourceLinkCategory>,
+                IIncludableQueryable<SourceLinkCategory, object>>>()))
+                .ReturnsAsync(
+                (
+                    Expression<Func<SourceLinkCategory, bool>> predicate,
+                    Func<IQueryable<SourceLinkCategory>,
+                    IIncludableQueryable<SourceLinkCategory, object>> include) =>
+                    {
+                        return sources.FirstOrDefault(predicate.Compile());
+                    });
+
             return mockRepo;
         }
 
@@ -496,6 +509,14 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                 new Partner { Id = 4, Title = "Fourth Title", LogoId = 4, IsKeyPartner = true, IsVisibleEverywhere = true, TargetUrl = "Fourth Url", UrlTitle = "Fourth Url Title", Description = "Fourth Description", Logo = null },
             };
 
+            var streetCodes = new List<StreetcodeContent>
+            {
+                new StreetcodeContent() { Id = 1, Title = "First streetcode content title", AudioId = 1 },
+                new StreetcodeContent() { Id = 2, Title = "Second streetcode content title", AudioId = 2 },
+                new StreetcodeContent() { Id = 3, Title = "Third streetcode content title", AudioId = 3 },
+                new StreetcodeContent() { Id = 4, Title = "Fourth streetcode content title", AudioId = 4 },
+            };
+
             mockRepo.Setup(x => x.PartnersRepository.GetAllAsync(It.IsAny<Expression<Func<Partner, bool>>>(), It.IsAny<Func<IQueryable<Partner>, IIncludableQueryable<Partner, object>>>()))
                 .ReturnsAsync(partners);
 
@@ -510,6 +531,23 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                 {
                     return partners.FirstOrDefault(predicate.Compile());
                 });
+
+            mockRepo.Setup(x => x.StreetcodeRepository.GetSingleOrDefaultAsync(
+                It.IsAny<Expression<Func<StreetcodeContent, bool>>>(),
+                It.IsAny<Func<IQueryable<StreetcodeContent>,
+                IIncludableQueryable<StreetcodeContent, object>>>()))
+                .ReturnsAsync(
+                (Expression<Func<StreetcodeContent, bool>> predicate,
+                Func<IQueryable<Partner>, IIncludableQueryable<StreetcodeContent, object>> include) =>
+                {
+                    return streetCodes.FirstOrDefault(predicate.Compile());
+                });
+
+            mockRepo.Setup(x => x.StreetcodeRepository.GetAllAsync(
+                It.IsAny<Expression<Func<StreetcodeContent, bool>>>(),
+                It.IsAny<Func<IQueryable<StreetcodeContent>,
+                IIncludableQueryable<StreetcodeContent, object>>>()))
+                .ReturnsAsync(streetCodes);
 
             mockRepo.Setup(x => x.PartnersRepository.CreateAsync(It.IsAny<Partner>()))
                 .ReturnsAsync(createdPartner);

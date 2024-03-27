@@ -8,9 +8,11 @@ namespace Streetcode.XUnitTest.MediatRTests.Partners.Create
     using FluentAssertions;
     using Moq;
     using Streetcode.BLL.Dto.Partners;
+    using Streetcode.BLL.Dto.Streetcode;
     using Streetcode.BLL.Interfaces.Logging;
     using Streetcode.BLL.Mapping.Partners;
     using Streetcode.BLL.MediatR.Partners.Create;
+    using Streetcode.DAL.Entities.Streetcode;
     using Streetcode.DAL.Repositories.Interfaces.Base;
     using Streetcode.XUnitTest.MediatRTests.Mocks;
     using Xunit;
@@ -34,6 +36,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Partners.Create
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<PartnerProfile>();
+                c.CreateMap<StreetcodeShortDto, StreetcodeContent>().ReverseMap();
             });
 
             _mapper = mapperConfig.CreateMapper();
