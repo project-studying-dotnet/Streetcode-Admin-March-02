@@ -56,7 +56,7 @@ namespace Streetcode.BLL.MediatR.Timeline.TimelineItem.Update
             }
         }
 
-        //Need bug fixes
+        // Need bug fixes
         private async Task UpdateTimeline(DAL.Entities.Timeline.TimelineItem timelineToUpdate, TimelineItemDto timelineThatUpdate)
         {
             timelineToUpdate.Title = timelineThatUpdate.Title;
