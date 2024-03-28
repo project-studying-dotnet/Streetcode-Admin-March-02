@@ -24,7 +24,7 @@ namespace Streetcode.BLL.MediatR.Sources.SourceLinkCategory.Create
 
         public async Task<Result<SourceLinkCategoryDto>> Handle(CreateSourceLinkCategoryCommand request, CancellationToken cancellationToken)
         {
-            var newSourceLinkCategory = _mapper.Map<DAL.Entities.Sources.SourceLinkCategory>(request);
+            var newSourceLinkCategory = _mapper.Map<DAL.Entities.Sources.SourceLinkCategory>(request.sourceLinkCategoryDto);
             if (newSourceLinkCategory is null)
             {
                 const string errorMsg = "Cannot convert null to a source link category";
