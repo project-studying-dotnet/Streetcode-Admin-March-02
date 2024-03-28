@@ -489,6 +489,9 @@ namespace Streetcode.XUnitTest.MediatRTests.Mocks
                         return sources.FirstOrDefault(predicate.Compile());
                     });
 
+            mockRepo.Setup(x => x.SourceCategoryRepository.Create(It.IsAny<SourceLinkCategory>())).Returns(sources[0]);
+            mockRepo.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
+
             return mockRepo;
         }
 
