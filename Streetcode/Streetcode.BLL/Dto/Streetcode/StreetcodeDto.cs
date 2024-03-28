@@ -19,5 +19,9 @@ public class StreetcodeDto
     public DateTime UpdatedAt { get; set; }
     public IEnumerable<StreetcodeTagDto> Tags { get; set; }
     public string Teaser { get; set; }
+    public string SmallDescription { get; set; }
+    public string URL { get; set; }
+    public string Name { get; set; }
+    public string Surname { get; set; }
     public StreetcodeType StreetcodeType { get; set; }
 }

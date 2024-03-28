@@ -24,27 +24,23 @@ public class StreetcodeContent
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
+    public string SmallDescription { get; set; }
+    public string URL { get; set; }
+    public string Name { get; set; }
+    public string Surname { get; set; }
 
-    [Required]
     public int Index { get; set; }
 
-    [MaxLength(650)]
     public string? Teaser { get; set; }
 
-    [Required]
-    [MaxLength(50)]
     public string? DateString { get; set; }
 
-    [MaxLength(50)]
     public string? Alias { get; set; }
 
     public StreetcodeStatus Status { get; set; }
 
-    [Required]
-    [MaxLength(100)]
     public string? Title { get; set; }
-    [Required]
-    [MaxLength(150)]
+
     public string? TransliterationUrl { get; set; }
 
     public int ViewCount { get; set; }
@@ -53,7 +49,6 @@ public class StreetcodeContent
 
     public DateTime UpdatedAt { get; set; }
 
-    [Required]
     public DateTime EventStartOrPersonBirthDate { get; set; }
 
     public DateTime? EventEndOrPersonDeathDate { get; set; }
