@@ -18,6 +18,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{95E863CE-C3B4-4DBC-8C15-957E63BA45B6}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		settings.ruleset = settings.ruleset
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Streetcode.XUnitTest", "Streetcode.XUnitTest\Streetcode.XUnitTest.csproj", "{16574E1D-35D9-425E-B30B-81550F75A465}"

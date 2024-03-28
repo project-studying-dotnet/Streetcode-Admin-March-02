@@ -24,16 +24,20 @@ namespace Streetcode.BLL.MediatR.Timeline.TimelineItem.Update
 
         public async Task<Result<TimelineItemDto>> Handle(UpdateTimelineItemCommand request, CancellationToken cancellationToken)
         {
-            var timelineToUpdate = await _repositoryWrapper.TimelineRepository
-            .GetFirstOrDefaultAsync(
-                ti => ti.Id == request.TimelineItem.Id,
-                ti => ti
-                    .Include(til => til.HistoricalContextTimelines)
-                        .ThenInclude(x => x.HistoricalContext)!);
+            DAL.Entities.Timeline.TimelineItem? timelineToUpdate = null;
+            if (request.TimelineItem is not null)
+            {
+                timelineToUpdate = await _repositoryWrapper.TimelineRepository
+                .GetFirstOrDefaultAsync(
+                    ti => ti.Id == request.TimelineItem.Id,
+                    ti => ti
+                        .Include(til => til.HistoricalContextTimelines)
+                            .ThenInclude(x => x.HistoricalContext)!);
+            }
 
             if (timelineToUpdate == null)
             {
-                string errorMsg = $"Cannot find a timeline with corresponding id: {request.TimelineItem.Id}";
+                string errorMsg = $"Cannot find a timeline with corresponding id: {request.TimelineItem?.Id}";
                 _logger.LogError(request, errorMsg);
                 return Result.Fail(new Error(errorMsg));
             }
@@ -56,7 +60,7 @@ namespace Streetcode.BLL.MediatR.Timeline.TimelineItem.Update
             }
         }
 
-        //Need bug fixes
+        // Need bug fixes
         private async Task UpdateTimeline(DAL.Entities.Timeline.TimelineItem timelineToUpdate, TimelineItemDto timelineThatUpdate)
         {
             timelineToUpdate.Title = timelineThatUpdate.Title;

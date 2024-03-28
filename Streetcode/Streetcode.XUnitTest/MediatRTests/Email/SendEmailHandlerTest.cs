@@ -11,22 +11,22 @@ using Xunit;
 
 public class SendEmailHandlerTest
 {
-    private readonly IMapper mapper;
-    private readonly Mock<IEmailService> mockRepository;
-    private readonly Mock<ILoggerService> mockLogger;
+    private readonly IMapper _mapper;
+    private readonly Mock<IEmailService> _mockRepository;
+    private readonly Mock<ILoggerService> _mockLogger;
 
     public SendEmailHandlerTest()
     {
-        this.mockRepository = RepositoryMocker.GetEmailMock(true);
+        _mockRepository = RepositoryMocker.GetEmailMock(true);
 
-        this.mockLogger = new Mock<ILoggerService>();
+        _mockLogger = new Mock<ILoggerService>();
     }
 
     [Fact]
     public async Task Handle_SendEmail_Success()
     {
         // Arrange
-        var handler = new SendEmailHandler(this.mockRepository.Object, this.mockLogger.Object);
+        var handler = new SendEmailHandler(_mockRepository.Object, _mockLogger.Object);
         var emailDto = new EmailDto
         {
             From = "sender@example.com",
@@ -35,7 +35,7 @@ public class SendEmailHandlerTest
         var sendEmailCommand = new SendEmailCommand(emailDto);
 
         // Setup mock behavior
-        this.mockRepository.Setup(x => x.SendEmailAsync(It.IsAny<Streetcode.DAL.Entities.AdditionalContent.Email.Message>())).ReturnsAsync(true);
+        _mockRepository.Setup(x => x.SendEmailAsync(It.IsAny<Streetcode.DAL.Entities.AdditionalContent.Email.Message>())).ReturnsAsync(true);
 
         // Act
         var result = await handler.Handle(sendEmailCommand, CancellationToken.None);
@@ -45,10 +45,10 @@ public class SendEmailHandlerTest
     }
 
     [Fact]
-    public async Task Handle_SendEmail_Failed ()
+    public async Task Handle_SendEmail_Failed()
     {
         // Arrange
-        var handler = new SendEmailHandler(this.mockRepository.Object, this.mockLogger.Object);
+        var handler = new SendEmailHandler(_mockRepository.Object, _mockLogger.Object);
         var emailDto = new EmailDto
         {
             From = "sender@example.com",
@@ -57,7 +57,7 @@ public class SendEmailHandlerTest
         var sendEmailCommand = new SendEmailCommand(emailDto);
 
         // Setup mock behavior
-        this.mockRepository.Setup(x => x.SendEmailAsync(It.IsAny<Streetcode.DAL.Entities.AdditionalContent.Email.Message>())).ReturnsAsync(false);
+        _mockRepository.Setup(x => x.SendEmailAsync(It.IsAny<Streetcode.DAL.Entities.AdditionalContent.Email.Message>())).ReturnsAsync(false);
 
         // Act
         var result = await handler.Handle(sendEmailCommand, CancellationToken.None);

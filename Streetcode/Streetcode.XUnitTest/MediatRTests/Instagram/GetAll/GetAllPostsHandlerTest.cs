@@ -13,20 +13,20 @@
 
     public class GetAllPostsHandlerTest
     {
-        private readonly Mock<IInstagramService> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly Mock<IInstagramService> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         public GetAllPostsHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetInstagramPostsMock();
+            _mockRepository = RepositoryMocker.GetInstagramPostsMock();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         [Fact]
         public async Task Get_All_Not_Null_Or_Empty_Test()
         {
-            var handler = new GetAllPostsHandler(this.mockRepository.Object, this.mockLogger.Object);
+            var handler = new GetAllPostsHandler(_mockRepository.Object, _mockLogger.Object);
 
             var result = await handler.Handle(new GetAllPostsQuery(), CancellationToken.None);
 
@@ -36,7 +36,7 @@
         [Fact]
         public async Task Get_All_Count_Should_Be_Four()
         {
-            var handler = new GetAllPostsHandler(this.mockRepository.Object, this.mockLogger.Object);
+            var handler = new GetAllPostsHandler(_mockRepository.Object, _mockLogger.Object);
 
             var result = await handler.Handle(new GetAllPostsQuery(), CancellationToken.None);
 

@@ -11,8 +11,6 @@ public class Tag
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
-    [Required]
-    [MaxLength(50)]
     public string Title { get; set; }
 
     public IEnumerable<StreetcodeTagIndex> StreetcodeTagIndices { get; set; }

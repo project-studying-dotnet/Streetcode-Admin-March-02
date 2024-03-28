@@ -16,14 +16,14 @@ using Streetcode.BLL.Dto.Timeline;
 
 namespace Streetcode.XUnitTest.MediatRTests.Timeline.Timelineitem.GetByStreetCodeId
 {
-    public class GetByStreetCodeIdHandlerTest
+    public class GetTimelineItemsByStreet
     {
         private readonly IMapper _mapper;
         private readonly Mock<IRepositoryWrapper> _mockRepository;
         private readonly Mock<ILoggerService> _mockLogger;
 
 
-        public GetByStreetCodeIdHandlerTest()
+        public GetTimelineItemsByStreet()
         {
             _mockRepository = RepositoryMocker.GetTimelineRepositoryMock();
 

@@ -17,25 +17,25 @@
     /// </summary>
     public class DeleteTimelineItemHandlerTest
     {
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<IBlobService> mockBlob;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<IBlobService> _mockBlob;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeleteTimelineItemHandlerTest"/> class.
         /// </summary>
         public DeleteTimelineItemHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetTimelineRepositoryMock();
+            _mockRepository = RepositoryMocker.GetTimelineRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<TimelineItemProfile>();
             });
 
-            this.mockBlob = new Mock<IBlobService>();
+            _mockBlob = new Mock<IBlobService>();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         /// <summary>
@@ -46,7 +46,7 @@
         public async Task DeleteWithFirstIdShouldNotBeNull()
         {
             // Arrange
-            var handler = new DeleteTimelineItemHandler(this.mockRepository.Object, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new DeleteTimelineItemHandler(_mockRepository.Object, _mockBlob.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new DeleteTimelineItemCommand(1), CancellationToken.None);

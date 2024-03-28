@@ -20,20 +20,20 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Images.GetBaseImage
     /// </summary>
     public class GetBaseImageHandlerTest
     {
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
-        private readonly Mock<IBlobService> mockBlob;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
+        private readonly Mock<IBlobService> _mockBlob;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetBaseImageHandlerTest"/> class.
         /// </summary>
         public GetBaseImageHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetImagesRepositoryMock();
+            _mockRepository = RepositoryMocker.GetImagesRepositoryMock();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
 
-            this.mockBlob = new Mock<IBlobService>();
+            _mockBlob = new Mock<IBlobService>();
         }
 
         /// <summary>
@@ -44,7 +44,10 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Images.GetBaseImage
         public async Task GetByIdNotNullTest()
         {
             // Arrange
-            var handler = new GetBaseImageHandler(this.mockBlob.Object, this.mockRepository.Object, this.mockLogger.Object);
+            MemoryStream memory = new MemoryStream();
+            _mockBlob.Setup(x => x.FindFileInStorageAsMemoryStream(It.IsAny<string>())).Returns(memory);
+
+            var handler = new GetBaseImageHandler(_mockBlob.Object, _mockRepository.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetBaseImageQuery(1), CancellationToken.None);

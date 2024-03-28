@@ -21,28 +21,28 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Images.GetById
     /// </summary>
     public class GetImageByIdHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
-        private readonly Mock<IBlobService> mockBlob;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
+        private readonly Mock<IBlobService> _mockBlob;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetImageByIdHandlerTest"/> class.
         /// </summary>
         public GetImageByIdHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetImagesRepositoryMock();
+            _mockRepository = RepositoryMocker.GetImagesRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<ImageProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
 
-            this.mockBlob = new Mock<IBlobService>();
+            _mockBlob = new Mock<IBlobService>();
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Images.GetById
         public async Task GetByIdNotNullTest()
         {
             // Arrange
-            var handler = new GetImageByIdHandler(this.mockRepository.Object, this.mapper, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new GetImageByIdHandler(_mockRepository.Object, _mapper, _mockBlob.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetImageByIdQuery(1), CancellationToken.None);
@@ -70,7 +70,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Images.GetById
         public async Task GetByIdFirstShouldBeFirstTest()
         {
             // Arrange
-            var handler = new GetImageByIdHandler(this.mockRepository.Object, this.mapper, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new GetImageByIdHandler(_mockRepository.Object, _mapper, _mockBlob.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetImageByIdQuery(1), CancellationToken.None);
@@ -87,7 +87,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Images.GetById
         public async Task GetByIdSecondShouldNotBeFourthTest()
         {
             // Arrange
-            var handler = new GetImageByIdHandler(this.mockRepository.Object, this.mapper, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new GetImageByIdHandler(_mockRepository.Object, _mapper, _mockBlob.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetImageByIdQuery(2), CancellationToken.None);

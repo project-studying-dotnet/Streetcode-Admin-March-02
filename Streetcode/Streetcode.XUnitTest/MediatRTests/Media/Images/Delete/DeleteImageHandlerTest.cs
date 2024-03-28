@@ -18,20 +18,20 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Images.Delete
     /// </summary>
     public class DeleteImageHandlerTest
     {
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
-        private readonly Mock<IBlobService> mockBlob;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
+        private readonly Mock<IBlobService> _mockBlob;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeleteImageHandlerTest"/> class.
         /// </summary>
         public DeleteImageHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetImagesRepositoryMock();
+            _mockRepository = RepositoryMocker.GetImagesRepositoryMock();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
 
-            this.mockBlob = new Mock<IBlobService>();
+            _mockBlob = new Mock<IBlobService>();
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Images.Delete
         public async Task DeleteWithFirstIdShouldNotBeNull()
         {
             // Arrange
-            var handler = new DeleteImageHandler(this.mockRepository.Object, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new DeleteImageHandler(_mockRepository.Object, _mockBlob.Object, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new DeleteImageCommand(1), CancellationToken.None);

@@ -23,9 +23,9 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Video.GetAll
     /// </summary>
     public class GetAllVideosHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
 
         /// <summary>
@@ -33,16 +33,16 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Video.GetAll
         /// </summary>
         public GetAllVideosHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetVideosRepositoryMock();
+            _mockRepository = RepositoryMocker.GetVideosRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<VideoProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Video.GetAll
         public async Task GetAllNotNullOrEmptyTest()
         {
             // Arrange
-            var handler = new GetAllVideosHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetAllVideosHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetAllVideosQuery(), CancellationToken.None);
@@ -70,7 +70,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Video.GetAll
         public async Task GetAllCountShouldBeFour()
         {
             // Arrange
-            var handler = new GetAllVideosHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetAllVideosHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetAllVideosQuery(), CancellationToken.None);
@@ -87,7 +87,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Media.Video.GetAll
         public async Task GetAllShouldBeTypeListAudioDTO()
         {
             // Arrange
-            var handler = new GetAllVideosHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetAllVideosHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetAllVideosQuery(), CancellationToken.None);

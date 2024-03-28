@@ -20,25 +20,25 @@ namespace Streetcode.XUnitTest.MediatRTests.Timeline.HistoricalContext.Create
     /// </summary>
     public class CreateHistoricalContextHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateHistoricalContextHandlerTest"/> class.
         /// </summary>
         public CreateHistoricalContextHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetHistoricalContextRepositoryMock();
+            _mockRepository = RepositoryMocker.GetHistoricalContextRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<HistoricalContextProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Timeline.HistoricalContext.Create
         {
             // Arrange
 
-            var handler = new CreateHistoricalContextHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new CreateHistoricalContextHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new CreateHistoricalContextCommand(new BLL.Dto.Timeline.HistoricalContextDto() { Title = "TEST" }), CancellationToken.None);
@@ -68,7 +68,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Timeline.HistoricalContext.Create
         {
             // Arrange
 
-            var handler = new CreateHistoricalContextHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new CreateHistoricalContextHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new CreateHistoricalContextCommand(new BLL.Dto.Timeline.HistoricalContextDto() { Title = "TEST" }), CancellationToken.None);

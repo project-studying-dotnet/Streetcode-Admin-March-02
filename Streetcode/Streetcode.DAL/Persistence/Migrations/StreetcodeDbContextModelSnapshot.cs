@@ -621,6 +621,9 @@ namespace Streetcode.DAL.Persistence.Migrations
                     b.Property<int?>("ImageId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("OrderNumber")
+                        .HasColumnType("int");
+
                     b.Property<int>("StreetcodeId")
                         .HasColumnType("int");
 
@@ -633,7 +636,9 @@ namespace Streetcode.DAL.Persistence.Migrations
 
                     b.HasIndex("ImageId");
 
-                    b.HasIndex("StreetcodeId");
+                    b.HasIndex("StreetcodeId", "OrderNumber")
+                        .IsUnique()
+                        .HasFilter("[OrderNumber] IS NOT NULL");
 
                     b.ToTable("facts", "streetcode");
                 });

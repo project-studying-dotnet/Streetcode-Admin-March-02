@@ -20,29 +20,29 @@
 
     public class GetAllTagHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         public GetAllTagHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetTagRepositoryMock();
+            _mockRepository = RepositoryMocker.GetTagRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<TagProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         [Fact]
         public async Task Handler_GetAll_ResultShouldNotBeNullOrEmpty()
         {
             // Arrange
-            var handler = new GetAllTagsHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetAllTagsHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
             var request = new GetAllTagsQuery();
 
             // Act
@@ -56,7 +56,7 @@
         public async Task Handler_GetAll_ResultShouldBeOfTypeSubtitleDto()
         {
             // Arrange
-            var handler = new GetAllTagsHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetAllTagsHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
             var request = new GetAllTagsQuery();
 
             // Act
@@ -70,7 +70,7 @@
         public async Task Handler_GetAll_CountShouldBeTwo()
         {
             // Arrange
-            var handler = new GetAllTagsHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetAllTagsHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
             var request = new GetAllTagsQuery();
             int expectedCount = 2;
 
@@ -85,13 +85,13 @@
         public async Task Handler_TagRepositoryIsEmpty_IsFailedShouldBeTrue()
         {
             // Arrange
-            this.mockRepository.Setup(x => x.TagRepository.GetAllAsync(
+            _mockRepository.Setup(x => x.TagRepository.GetAllAsync(
                 It.IsAny<Expression<Func<Tag, bool>>>(),
                 It.IsAny<Func<IQueryable<Tag>,
                 IIncludableQueryable<Tag, object>>>()))
                 .Returns(Task.FromResult<IEnumerable<Tag>>(null));
 
-            var handler = new GetAllTagsHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetAllTagsHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
             var request = new GetAllTagsQuery();
 
             // Act

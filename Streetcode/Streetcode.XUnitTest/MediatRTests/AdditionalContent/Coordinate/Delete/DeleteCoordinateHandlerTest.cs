@@ -13,21 +13,21 @@
 
     public class DeleteCoordinateHandlerTest
     {
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         public DeleteCoordinateHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetCoordinateRepositoryMock();
+            _mockRepository = RepositoryMocker.GetCoordinateRepositoryMock();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         [Fact]
         public async Task Handler_WrongId_IsFailedShouldBeTrue()
         {
             // Arrange
-            var handler = new DeleteCoordinateHandler(this.mockRepository.Object);
+            var handler = new DeleteCoordinateHandler(_mockRepository.Object);
 
             int wrongId = 10;
             DeleteCoordinateCommand request = new DeleteCoordinateCommand(wrongId);
@@ -43,7 +43,7 @@
         public async Task Handler_CorrectId_IsSuccessShouldBeTrue()
         {
             // Arrange
-            var handler = new DeleteCoordinateHandler(this.mockRepository.Object);
+            var handler = new DeleteCoordinateHandler(_mockRepository.Object);
 
             int correctId = 1;
             DeleteCoordinateCommand request = new DeleteCoordinateCommand(correctId);

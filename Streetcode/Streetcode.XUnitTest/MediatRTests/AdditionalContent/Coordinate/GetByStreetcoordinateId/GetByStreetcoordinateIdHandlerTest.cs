@@ -20,9 +20,9 @@
 
     public class GetByStreetcoordinateIdHandlerTest
     {
-        private readonly IMapper mapper;
-        private readonly Mock<IRepositoryWrapper> mockRepository;
-        private readonly Mock<ILoggerService> mockLogger;
+        private readonly IMapper _mapper;
+        private readonly Mock<IRepositoryWrapper> _mockRepository;
+        private readonly Mock<ILoggerService> _mockLogger;
 
         private readonly List<StreetcodeCoordinate> _coordinates = new List<StreetcodeCoordinate>
         {
@@ -40,16 +40,16 @@
 
         public GetByStreetcoordinateIdHandlerTest()
         {
-            this.mockRepository = new Mock<IRepositoryWrapper>();
+            _mockRepository = new Mock<IRepositoryWrapper>();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<StreetcodeCoordinateProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            _mockLogger = new Mock<ILoggerService>();
         }
 
         [Fact]
@@ -58,7 +58,7 @@
             // Arrange
             await SetupRepository(_coordinates, new StreetcodeContent());
 
-            var handler = new GetCoordinatesByStreetcodeIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetCoordinatesByStreetcodeIdHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
             int streetCodeid = 1;
             var getCoordinatesByStreetcodeIdQuery = new GetCoordinatesByStreetcodeIdQuery(streetCodeid);
 
@@ -75,7 +75,7 @@
             // Arrange
             await SetupRepository(new List<StreetcodeCoordinate>(), new StreetcodeContent());
 
-            var handler = new GetCoordinatesByStreetcodeIdHandler(this.mockRepository.Object, this.mapper, this.mockLogger.Object);
+            var handler = new GetCoordinatesByStreetcodeIdHandler(_mockRepository.Object, _mapper, _mockLogger.Object);
             int streetCodeid = 1;
             var getCoordinatesByStreetcodeIdQuery = new GetCoordinatesByStreetcodeIdQuery(streetCodeid);
 
@@ -88,12 +88,12 @@
 
         private async Task SetupRepository(List<StreetcodeCoordinate> coordinates, StreetcodeContent streetcode)
         {
-            this.mockRepository.Setup(x => x.StreetcodeCoordinateRepository.GetAllAsync(
+            _mockRepository.Setup(x => x.StreetcodeCoordinateRepository.GetAllAsync(
                 It.IsAny<Expression<Func<StreetcodeCoordinate, bool>>>(),
                 It.IsAny<Func<IQueryable<StreetcodeCoordinate>,
                 IIncludableQueryable<StreetcodeCoordinate, object>>>())).ReturnsAsync(coordinates);
 
-            this.mockRepository.Setup(x => x.StreetcodeRepository
+            _mockRepository.Setup(x => x.StreetcodeRepository
                 .GetFirstOrDefaultAsync(
                    It.IsAny<Expression<Func<StreetcodeContent, bool>>>(),
                    It.IsAny<Func<IQueryable<StreetcodeContent>,

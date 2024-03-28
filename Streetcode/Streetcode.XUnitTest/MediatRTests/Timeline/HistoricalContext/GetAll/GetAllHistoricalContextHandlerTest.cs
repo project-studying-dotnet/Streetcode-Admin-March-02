@@ -25,14 +25,13 @@ namespace Streetcode.XUnitTest.MediatRTests.Timeline.HistoricalContext.GetAll
 
             var mapperConfig = new MapperConfiguration(c =>
             {
-                c.AddProfile<HistoricalContextProfile> ();
+                c.AddProfile<HistoricalContextProfile>();
             });
 
             _mapper = mapperConfig.CreateMapper();
 
             _mockLogger = new Mock<ILoggerService>();
         }
-
 
         [Fact]
         public async Task Get_All_Not_Null_Or_Empty_Test()
@@ -73,5 +72,4 @@ namespace Streetcode.XUnitTest.MediatRTests.Timeline.HistoricalContext.GetAll
             result.Value.Should().BeOfType<List<HistoricalContextDto>>();
         }
     }
-
 }

@@ -12,22 +12,22 @@ using Xunit;
 
 public class CreateInvoiceHandlerTest
 {
-    private readonly IMapper mapper;
-    private readonly Mock<IPaymentService> mockRepository;
-    private readonly Mock<ILoggerService> mockLogger;
+    private readonly IMapper _mapper;
+    private readonly Mock<IPaymentService> _mockRepository;
+    private readonly Mock<ILoggerService> _mockLogger;
 
     public CreateInvoiceHandlerTest()
     {
-        this.mockRepository = RepositoryMocker.GetPaymentMock();
+        _mockRepository = RepositoryMocker.GetPaymentMock();
 
         var mapperConfig = new MapperConfiguration(c =>
         {
             c.AddProfile<Streetcode.BLL.Mapping.Payment.PaymentProfile>();
         });
 
-        this.mapper = mapperConfig.CreateMapper();
+        _mapper = mapperConfig.CreateMapper();
 
-        this.mockLogger = new Mock<ILoggerService>();
+        _mockLogger = new Mock<ILoggerService>();
     }
 
     [Fact]
@@ -42,7 +42,7 @@ public class CreateInvoiceHandlerTest
         };
 
         var request = new CreateInvoiceCommand(paymentDto);
-        var handler = new CreateInvoiceHandler(this.mockRepository.Object, this.mockLogger.Object);
+        var handler = new CreateInvoiceHandler(_mockRepository.Object, _mockLogger.Object);
 
         // Act
         var result = await handler.Handle(request, CancellationToken.None);

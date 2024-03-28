@@ -23,7 +23,12 @@ namespace Streetcode.BLL.MediatR.Timeline.TimelineItem.Create
 
         public async Task<Result<TimelineItemDto>> Handle(CreateTimelineItemCommand request, CancellationToken cancellationToken)
         {
-            var newTimelineItem = _mapper.Map<DAL.Entities.Timeline.TimelineItem>(request.TimelineItem);
+            DAL.Entities.Timeline.TimelineItem? newTimelineItem = null;
+
+            if (request.TimelineItem is not null)
+            {
+                newTimelineItem = _mapper.Map<DAL.Entities.Timeline.TimelineItem>(request.TimelineItem);
+            }
 
             if (newTimelineItem == null)
             {
@@ -31,7 +36,6 @@ namespace Streetcode.BLL.MediatR.Timeline.TimelineItem.Create
                 _logger.LogError(request, errorMsg);
                 return Result.Fail(errorMsg);
             }
-
 
             var newHistoricalContextTimeline = new HistoricalContextTimeline() { HistoricalContextId = request.TimelineItem.HistoricalContexts.FirstOrDefault().Id, TimelineId = newTimelineItem.Id };
 
