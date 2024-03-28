@@ -2,7 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace Streetcode.XUnitTest.MediatRTests.Sources.GetByStreetcodeId
+namespace Streetcode.XUnitTest.MediatRTests.Sources.SourceLinkCategory.GetByStreetcodeId
 {
     using AutoMapper;
     using FluentAssertions;
@@ -30,18 +30,18 @@ namespace Streetcode.XUnitTest.MediatRTests.Sources.GetByStreetcodeId
         /// </summary>
         public GetSourceByStreetcodeIdHandlerTest()
         {
-            this.mockRepository = RepositoryMocker.GetSourceRepositoryMock();
+            mockRepository = RepositoryMocker.GetSourceRepositoryMock();
 
             var mapperConfig = new MapperConfiguration(c =>
             {
                 c.AddProfile<SourceLinkCategoryProfile>();
             });
 
-            this.mapper = mapperConfig.CreateMapper();
+            mapper = mapperConfig.CreateMapper();
 
-            this.mockLogger = new Mock<ILoggerService>();
+            mockLogger = new Mock<ILoggerService>();
 
-            this.mockBlob = new Mock<IBlobService>();
+            mockBlob = new Mock<IBlobService>();
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Sources.GetByStreetcodeId
         public async Task GetByIdNotNullTest()
         {
             // Arrange
-            var handler = new GetCategoriesByStreetcodeIdHandler(this.mockRepository.Object, this.mapper, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new GetCategoriesByStreetcodeIdHandler(mockRepository.Object, mapper, mockBlob.Object, mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetCategoriesByStreetcodeIdQuery(1), CancellationToken.None);
@@ -69,7 +69,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Sources.GetByStreetcodeId
         public async Task GetByIdSecondBlobNameShouldBeSecond()
         {
             // Arrange
-            var handler = new GetCategoriesByStreetcodeIdHandler(this.mockRepository.Object, this.mapper, this.mockBlob.Object, this.mockLogger.Object);
+            var handler = new GetCategoriesByStreetcodeIdHandler(mockRepository.Object, mapper, mockBlob.Object, mockLogger.Object);
 
             // Act
             var result = await handler.Handle(new GetCategoriesByStreetcodeIdQuery(1), CancellationToken.None);
